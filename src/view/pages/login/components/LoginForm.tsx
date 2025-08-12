@@ -1,17 +1,46 @@
-import React from 'react'
+import React from "react";
 
 const LoginForm: React.FC = () => {
-    return(
-        <form className='flex flex-col w-full max-w-sm'>
-            <h2 className='text-2xl font-bold mb-2'>Sign in with password</h2>
-            <p className='text-sm mb-4'>Dont have an account? <a href='#' className='text-blue-600 hover:underline'>Sign up</a></p>
+  return (
+    <section className="w-full">
+      <h1 className="text-3xl md:text-7xl font-extrabold text-gray-800 leading-tight mb-3">
+        Sign in with <br /> password
+      </h1>
+      <p className="text-1xl text-gray-500 mb-6">
+        Don't have an account?{" "}
+        <a className="text-blue-400 hover:underline" href="#">
+          Sign up
+        </a>
+      </p>
 
-            <input type='email' placeholder='Email' className='border border-gray-300 rounded px-3 py-2 mb-3 focus:outline-none focus:ring-blue-500' />
-            <input type='password' placeholder='Password' className='border border-gray-300 rounded px-3 py-2 mb-3 focus:outline-none focus:ring-blue-500' />
-            <a href='#' className='text-sm text-blue-600 hover:underline mb-4'>Reset Password</a>
-            <button type='submit' className='bg-[#001838] cursor-pointer text-white py-2 rounded hover:bg-blue-900 transition'>SIGN IN</button>
-        </form>
-    )
-}
+      <form className="space-y-4">
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-150 h-15 rounded border border-gray-300 px-4 py-3 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-150 h-15 mt-3 rounded border border-gray-300 px-4 py-3 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200"
+        />
+
+        <div className="flex justify-center ml-39">
+          <a href="#" className="text-sm border-none rounded border text-[#001838] bg-gray-200 px-2 py-2">
+            Reset password
+          </a>
+        </div>
+
+        <button
+          type="submit"
+          className="w-150 mt-2 bg-[#001838] md:text-2xl cursor-pointer text-white py-3 rounded text-sm font-semibold hover:opacity-90 transition"
+        >
+          SIGN IN
+        </button>
+      </form>
+      <div className="mt-6"></div>
+    </section>
+  );
+};
 
 export default LoginForm;
