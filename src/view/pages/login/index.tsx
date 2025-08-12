@@ -1,9 +1,8 @@
-import LoginForm from "./components/LoginForm";
-import SocialLoginIcons from "./components/SocialLoginIcons";
-import TradeWolfLogo from "../../../assets/img/Logo-removebg.png";
-import React from "react";
+import { LoginForm } from "./components/LoginForm";
+import { SocialLoginIcons } from "./components/SocialLoginIcons";
+import TradeWolfLogo from "../../../assets/img/LogoBG.png";
 
-const LoginPage: React.FC = () => {
+export function LoginPage () {
   return (
     <div className="flex h-screen overflow-hidden">
       <div className="hidden md:flex bg-[#001838] text-white flex-col items-center justify-center w-160">
@@ -25,4 +24,3 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
