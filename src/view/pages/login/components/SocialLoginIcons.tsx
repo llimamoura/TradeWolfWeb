@@ -1,10 +1,9 @@
-import React from "react";
 import facebook from "../../../../assets/icons/facebook.png";
 import google from "../../../../assets/icons/google.png";
 import apple from "../../../../assets/icons/apple.png";
 import Email from "../../../../assets/icons/email.png";
 
-const SocialLoginIcons: React.FC = () => {
+export function SocialLoginIcons () {
   return (
     <div className="flex flex-col">
       <div className="flex items-center w-150 my-6">
@@ -30,5 +29,3 @@ const SocialLoginIcons: React.FC = () => {
     </div>
   );
 };
-
-export default SocialLoginIcons;
