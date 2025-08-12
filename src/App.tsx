@@ -1,11 +1,10 @@
 import './App.css'
-import LoginRoute from './routes/LoginRoute';
 
 const App: React.FC = () => {
   return(
-      <div>
-        <LoginRoute />
-      </div>
+    <div>
+      <h1>hello world</h1>
+    </div>
   )
 }
 
