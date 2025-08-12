@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { toast } from "sonner"
 
 export function LoginForm () {
+
+  function handleSubmit (e) {
+    e.preventDefault()
+  }
   return (
     <section className="w-full">
       <h1 className="text-4xl md:text-7xl font-extrabold text-gray-800 leading-tight mb-3">
@@ -14,16 +19,16 @@ export function LoginForm () {
         </a>
       </p>
 
-      <form className="space-y-4 flex flex-col">
+      <form className="space-y-2 flex flex-col" onSubmit={handleSubmit}>
         <Input
           type="email"
           placeholder="Email"
-          className="w-150 h-15 rounded border border-gray-300 px-4 py-3 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          className="w-150 h-15 rounded-xl border border-gray-300 px-4 py-3 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200"
         />
         <Input
           type="password"
           placeholder="Password"
-          className="w-150 h-15 mt-3 rounded border border-gray-300 px-4 py-3 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          className="w-150 h-15 mt-3 rounded-xl border border-gray-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200"
         />
 
         <div className="flex flex-col ml-120">
@@ -33,8 +38,18 @@ export function LoginForm () {
         </div>
 
         <Button
+         variant="outline"
+         onClick={() =>
+           toast("Login successfully!", {
+             description: "We're carrying your credentials...",
+             action: {
+               label: "X",
+               onClick: () => console.log("X"),
+             },
+           })
+         }
           type="submit"
-          className="w-150 h-15 gap-10 mt-2 bg-[#001838] md:text-xl cursor-pointer text-white py-3 rounded-xl text-sm font-semibold hover:opacity-90 transition"
+          className="w-150 h-15 gap-10 mt-2 bg-[#001838] md:text-xl cursor-pointer text-white py-3 rounded-xl text-sm font-semibold hover:bg-[#000e21] hover:text-white transition"
         >
           SIGN IN
         </Button>
