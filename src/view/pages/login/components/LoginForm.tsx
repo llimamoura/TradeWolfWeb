@@ -9,7 +9,7 @@ export function LoginForm () {
   }
   return (
     <section className="w-full">
-      <h1 className="text-4xl md:text-7xl font-extrabold text-gray-800 leading-tight mb-3">
+      <h1 className="text-4xl break-words w-120 md:text-7xl font-extrabold text-gray-800 leading-tight mb-3">
         Sign in with <br /> password
       </h1>
       <p className="text-1xl text-gray-500 mb-6">
@@ -59,3 +59,4 @@ export function LoginForm () {
     </section>
   );
 };
+
