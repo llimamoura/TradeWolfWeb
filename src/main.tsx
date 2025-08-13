@@ -11,7 +11,6 @@ if (root) {
     <StrictMode>
       <BrowserRouter>
         <App />
-        to escutando nnn ta falando?
       </BrowserRouter>
     </StrictMode>
   );
