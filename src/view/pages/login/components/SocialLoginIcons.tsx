@@ -13,16 +13,16 @@ export function SocialLoginIcons () {
       </div>
 
       <div className="flex gap-5 ml-0">
-        <button className="cursor-pointer pl-12 pr-12 pt-3 pb-4 border rounded bg-gray-100 hover:bg-gray-300 border-none">
+        <button className="cursor-pointer pl-12 pr-12 pt-1 pb-1 border rounded bg-gray-100 hover:bg-gray-300 border-none transition">
           <img src={facebook} alt="Facebook" className="w-10 h-10" />
         </button>
-        <button className="cursor-pointer pl-12 pr-12 pt-3 pb-4 border rounded bg-gray-100 hover:bg-gray-300 border-none">
+        <button className="cursor-pointer pl-12 pr-12 pt-1 pb-1 border rounded bg-gray-100 hover:bg-gray-300 border-none transition">
           <img src={google} alt="Google" className="w-10 h-10" />
         </button>
-        <button className="cursor-pointer pl-12 pr-12 pt-3 pb-4 border rounded bg-gray-100 hover:bg-gray-300 border-none">
+        <button className="cursor-pointer pl-12 pr-12 pt-1 pb-1 border rounded bg-gray-100 hover:bg-gray-300 border-none transition">
           <img src={apple} alt="Apple" className="w-10 h-10" />
         </button>
-        <button className="cursor-pointer pl-12 pr-12 pt-3 pb-4 border rounded bg-gray-100 hover:bg-gray-300 border-none">
+        <button className="cursor-pointer pl-12 pr-12 pt-1 pb-1 border rounded bg-gray-100 hover:bg-gray-300 border-none ">
           <img src={Email} alt="Email" className="w-10 h-10" />
         </button>
       </div>

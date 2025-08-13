@@ -31,20 +31,21 @@ export function LoginForm () {
           className="w-150 h-15 mt-3 rounded-xl border border-gray-300 px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200"
         />
 
-        <div className="flex flex-col ml-120">
+        <div className="flex flex-col ml-120 mt-2 mb-2">
           <a href="#" className="text-sm text-center border-none rounded border text-[#001838] bg-gray-200 px-2 py-2 w-30">
             Reset password
           </a>
         </div>
 
+
         <Button
          variant="outline"
          onClick={() =>
-           toast("Login successfully!", {
-             description: "We're carrying your credentials...",
+           toast.success("Login successfully!", {
+             description: "We're carrying your credentials...", 
              action: {
                label: "X",
-               onClick: () => console.log("X"),
+               onClick: () =>  console.log("X"),
              },
            })
          }
