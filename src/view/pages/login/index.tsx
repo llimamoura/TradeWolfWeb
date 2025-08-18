@@ -5,7 +5,7 @@ import TradeWolfLogo from "../../../assets/img/LogoBG.png";
 export function LoginPage() {
 	return (
 		<div className="flex h-screen overflow-hidden ">
-			<div className="hidden md:flex bg-[#001838] text-white flex-col items-center justify-center w-160">
+			<div className="hidden md:flex bg-[#001838] text-white flex-col items-center justify-center w-140">
 				<img
 					src={TradeWolfLogo}
 					alt="TradeWolfLogo"
