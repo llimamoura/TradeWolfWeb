@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button";
-import apple from "../../../../assets/icons/apple.png";
-import facebook from "../../../../assets/icons/facebook.png";
 import google from "../../../../assets/icons/google.png";
 
 export function SocialLoginIcons() {
@@ -15,21 +13,18 @@ export function SocialLoginIcons() {
       <div className="flex gap-4 w-full justify-center">
         <Button
           type="button"
-          className="bg-gray-100 hover:bg-gray-300 flex-1 h-fit"
-        >
-          <img src={facebook} alt="Facebook" className="size-8" />
-        </Button>
-        <Button
-          type="button"
-          className="bg-gray-100 hover:bg-gray-300 flex-1 h-fit"
+          className="hidden md:flex bg-gray-100 hover:bg-gray-300 flex-1 h-fit p-2 gap-3" 
         >
           <img src={google} alt="Google" className="size-8" />
+          <p className="text-black">Sign in with Google</p>
         </Button>
+
         <Button
-          type="button"
-          className="bg-gray-100 hover:bg-gray-300 flex-1 h-fit"
+          variant="outline"
+          type="submit"
+          className="flex md:hidden w-full max-w-4xl h-12 mt-2 bg-[#001838] md:text-xl cursor-pointer text-white py-3 rounded-b-md text-sm font-semibold hover:bg-[#000e21] hover:text-white transition "
         >
-          <img src={apple} alt="Apple" className="size-8"/>
+          Sign in
         </Button>
       </div>
     </div>

@@ -1,14 +1,8 @@
 import "./App.css";
-import { Toaster } from "sonner";
-import { LoginRoute } from "./routes/LoginRoute";
+import { AppRoutes } from "./routes/AppRoutes";
 
 export function App() {
-	return (
-		<>
-			<LoginRoute />
-			<Toaster position="top-right" richColors />
-		</>
-	);
+  return <AppRoutes />;
 }
 
 export default App;
