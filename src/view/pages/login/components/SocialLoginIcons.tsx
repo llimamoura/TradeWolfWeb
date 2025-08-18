@@ -20,7 +20,7 @@ export function SocialLoginIcons() {
         </Button>
       </div>
 
-      <p className="block md:hidden text-xs text-gray-500 mb-6 mt-4 text-center">
+      <p className="block lg:hidden text-xs text-gray-500 mb-6 mt-4 text-center">
         Don't have an account?{" "}
         <a
           className="text-blue-500 hover:text-blue-600 hover:underline transition-colors"
