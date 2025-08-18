@@ -13,20 +13,22 @@ export function SocialLoginIcons() {
       <div className="flex gap-4 w-full justify-center">
         <Button
           type="button"
-          className="hidden md:flex bg-gray-100 hover:bg-gray-300 flex-1 h-fit p-2 gap-3" 
+          className=" bg-gray-100 hover:bg-gray-300 border border-gray-500 flex-1 h-fit p-3 gap-3"
         >
-          <img src={google} alt="Google" className="size-8" />
+          <img src={google} alt="Google" className="size-6" />
           <p className="text-black">Sign in with Google</p>
         </Button>
-
-        <Button
-          variant="outline"
-          type="submit"
-          className="flex md:hidden w-full max-w-4xl h-12 mt-2 bg-[#001838] md:text-xl cursor-pointer text-white py-3 rounded-b-md text-sm font-semibold hover:bg-[#000e21] hover:text-white transition "
-        >
-          Sign in
-        </Button>
       </div>
+
+      <p className="block md:hidden text-xs text-gray-500 mb-6 mt-4 text-center">
+        Don't have an account?{" "}
+        <a
+          className="text-blue-500 hover:text-blue-600 hover:underline transition-colors"
+          href="#"
+        >
+          Sign up
+        </a>
+      </p>
     </div>
   );
 }
