@@ -8,7 +8,7 @@ export function LoginPage() {
       <div className="hidden lg:flex bg-[var(--primary-blue)] text-white flex-col items-center justify-center w-140">
         <img
           src={TradeWolfLogo}
-          alt="TradeWolfLogo"
+          alt="TradeWolf logo"
           className="w-96 h-96 mb-3"
         />
         <h1 className="text-4xl font-bold">TradeWolf</h1>
