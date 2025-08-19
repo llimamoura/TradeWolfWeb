@@ -4,11 +4,12 @@ import { SocialLoginIcons } from "./components/SocialLoginIcons";
 
 export function LoginPage() {
   return (
-    <div className="flex h-screen overflow-hidden ">
-      <div className="hidden lg:flex bg-[var(--primary-blue)] text-white flex-col items-center justify-center w-140">
+    <div className="flex h-screen overflow-hidden">
+      <div className="hidden lg:flex bg-primary text-primary-foreground flex-col items-center justify-center w-140">
         <img
           src={TradeWolfLogo}
           alt="TradeWolf logo"
+          aria-label="TradeWolf logo"
           className="w-96 h-96 mb-3"
         />
         <h1 className="text-4xl font-bold">TradeWolf</h1>

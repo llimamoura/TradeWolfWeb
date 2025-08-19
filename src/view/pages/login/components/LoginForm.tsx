@@ -8,17 +8,14 @@ export function LoginForm() {
   }
 
   return (
-    <section className="w-full mt-20 ">
-      <h1 className="text-5xl hidden lg:block lg:text-3xl font-extrabold text-gray-900 leading-tight mb-3">
-        Sign in with password
-      </h1>
-      <h1 className="text-4xl block lg:hidden  font-extrabold text-gray-900 leading-tight mb-14">
+    <section className="w-full mt-20">
+      <h1 className="text-4xl font-extrabold text-foreground leading-tight mb-10">
         Let's log you in
       </h1>
-      <p className="hidden lg:block text-sm text-gray-500 mb-6">
+      <p className="hidden lg:block text-sm text-muted-foreground mb-6">
         Don't have an account?{" "}
         <a
-          className="text-blue-500 hover:text-blue-600 hover:underline transition-colors"
+          className="text-primary hover:text-primary hover:underline transition-colors"
           href="#"
         >
           Sign up
@@ -26,26 +23,23 @@ export function LoginForm() {
       </p>
 
       <form className="space-y-4 flex flex-col lg:ml-0" onSubmit={handleSubmit}>
+        <label htmlFor="email" className="sr-only">Email</label>
         <Input type="email" placeholder="Email" className="h-12" />
+
+        <label htmlFor="password" className="sr-only" >Password</label>
         <Input type="password" placeholder="Password" className="h-12" />
 
-        <div className="justify-end mt-2 mb-2 hidden lg:flex text-blue-950">
+        <div className="justify-end mt-2 mb-2 hidden lg:flex text-primary">
           <a href="#">
             <Button
-              variant="ghost"
-              className="bg-gray-200 hover:bg-gray-300 hover:text-blue-950"
+              variant="link"
             >
               Reset password
             </Button>
           </a>
         </div>
 
-        <Button
-          variant="outline"
-          type="submit"
-          onClick={handleSubmit}
-          className="text-center w-full max-w-4xl h-12 mt-2 bg-[var(--primary-blue)] cursor-pointer text-white py-3 rounded-b-md text-sm lg:text-xl font-semibold hover:bg-[var(--primary-blue-hover)] hover:text-white transition "
-        >
+        <Button type="submit" onClick={handleSubmit}>
           Sign in
         </Button>
       </form>
