@@ -12,7 +12,7 @@ export function LoginPage() {
           aria-label="TradeWolf logo"
           className="w-96 h-96 mb-3"
         />
-        <h1 className="text-4xl font-bold">TradeWolf</h1>
+        <h2 className="text-4xl font-bold">TradeWolf</h2>
       </div>
 
       <div className="flex flex-col justify-start items-center lg:items-start flex-1 -mr-5 mt-7 px-6 pr-13 md:px-16 lg:ml-0">
