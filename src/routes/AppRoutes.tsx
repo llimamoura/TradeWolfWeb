@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import { LoginPage } from "../view/pages/login";
-import { ForgotPasswordPage } from "@/view/pages/ForgotPassword";
-import { VerifyCodePage } from "@/view/pages/ForgotPassword/VerifyCode";
-import { ResetPasswordPage } from "@/view/pages/ForgotPassword/ResetPassword";
+import { ForgotPasswordPage } from "@/view/pages/forgotPassword";
+import { VerifyCodePage } from "@/view/pages/forgotPassword/VerifyCode";
+import { ResetPasswordPage } from "@/view/pages/forgotPassword/ResetPassword";
 
 export function AppRoutes() {
   return (
