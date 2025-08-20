@@ -8,7 +8,7 @@ export function LoginForm() {
   }
 
   return (
-    <section className="w-full mt-20">
+    <section className="w-full lg:mt-20">
       <h1 className="text-4xl font-extrabold text-foreground leading-tight mb-10">
         Let's log you in
       </h1>
