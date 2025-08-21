@@ -6,10 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 
 const CodeValidationSchema = z.object({
-  code1: z.string().min(1, "Campo obrigatório"),
-  code2: z.string().min(1, "Campo obrigatório"),
-  code3: z.string().min(1, "Campo obrigatório"),
-  code4: z.string().min(1, "Campo obrigatório"),
+  code1: z.string().min(1, {message: "Campo obrigatório"}),
+  code2: z.string().min(1, {message: "Campo obrigatório"}),
+  code3: z.string().min(1, {message: "Campo obrigatório"}),
+  code4: z.string().min(1, {message: "Campo obrigatório"}),
 });
 
 type CodeFormData = z.infer<typeof CodeValidationSchema>;
@@ -31,11 +31,11 @@ export function VerifyCodeComponent() {
   const hasAnyError = errors.code1 || errors.code2 || errors.code3 || errors.code4;
 
   return (
-    <section className="w-full lg:mt-45">
-      <h1 className="text-4xl font-extrabold text-foreground leading-tight mb-6">
+    <section className="w-full">
+      <h1 className="flex justify-center text-4xl font-extrabold text-foreground leading-tight mb-6">
         Enter verification code
       </h1>
-      <p className="hidden lg:block text-sm text-muted-foreground mb-8">
+      <p className="hidden lg:block text-center text-sm text-muted-foreground mb-8">
         Enter code that we have sent to your email your...@domain.com
       </p>
 
@@ -45,7 +45,7 @@ export function VerifyCodeComponent() {
             type="text" 
             maxLength={1} 
             className={cn(
-              "w-20 h-13 text-center md:text-3xl text-3xl font-bold border-2 transition-colors",
+              "w-20 h-20 text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
               errors.code1 
                 ? "border-red-500 focus:border-red-500 focus:ring-red-500" 
                 : "border-gray-300 focus:border-primary focus:ring-primary"
@@ -56,7 +56,7 @@ export function VerifyCodeComponent() {
             type="text" 
             maxLength={1} 
             className={cn(
-              "w-20 h-13 text-center md:text-3xl text-3xl font-bold border-2 transition-colors",
+              "w-20 h-20 text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
               errors.code2 
                 ? "border-red-500 focus:border-red-500 focus:ring-red-500" 
                 : "border-gray-300 focus:border-primary focus:ring-primary"
@@ -67,7 +67,7 @@ export function VerifyCodeComponent() {
             type="text" 
             maxLength={1} 
             className={cn(
-              "w-20 h-13 text-center md:text-3xl text-3xl font-bold border-2 transition-colors",
+              "w-20 h-20 text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
               errors.code3 
                 ? "border-red-500 focus:border-red-500 focus:ring-red-500" 
                 : "border-gray-300 focus:border-primary focus:ring-primary"
@@ -78,7 +78,7 @@ export function VerifyCodeComponent() {
             type="text" 
             maxLength={1} 
             className={cn(
-              "w-20 h-13 text-center md:text-3xl text-3xl font-bold border-2 transition-colors",
+              "w-20 h-20 text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
               errors.code4 
                 ? "border-red-500 focus:border-red-500 focus:ring-red-500" 
                 : "border-gray-300 focus:border-primary focus:ring-primary"
