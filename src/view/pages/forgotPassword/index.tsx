@@ -4,7 +4,12 @@ import { ForgotPasswordForm } from "./components/ForgotPasswordComponent";
 export function ForgotPasswordPage() {
   return (
     <div className="flex h-screen overflow-hidden">
-      <div className="hidden lg:flex bg-primary text-primary-foreground flex-col items-center justify-center w-140">
+      <div
+        className="
+          hidden lg:flex flex-col items-center justify-center w-140
+          bg-gradient-to-b from-primary to-[#004EB5]
+          text-primary-foreground"
+      >
         <img
           src={TradeWolfLogo}
           alt="TradeWolf logo"
@@ -14,9 +19,9 @@ export function ForgotPasswordPage() {
         <h2 className="text-4xl font-bold">TradeWolf</h2>
       </div>
 
-      <div className="flex flex-col justify-center lg:justify-start items-center lg:items-start flex-1 -mr-5 mt-7 px-6 pr-13 md:px-16 lg:ml-0">
-        <div className="w-full max-w-xl flex flex-col lg:mt-20">
-        <ForgotPasswordForm />
+      <div className="flex flex-col justify-center items-center flex-1 px-6 md:px-16">
+        <div className="w-full max-w-xl flex flex-col">
+          <ForgotPasswordForm />
         </div>
       </div>
     </div>
