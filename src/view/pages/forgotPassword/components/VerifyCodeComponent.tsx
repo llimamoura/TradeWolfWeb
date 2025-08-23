@@ -32,11 +32,11 @@ export function VerifyCodeComponent() {
     errors.code1 || errors.code2 || errors.code3 || errors.code4;
 
   return (
-    <section className="w-full">
-      <h1 className="flex justify-center text-4xl font-extrabold text-foreground leading-tight mb-6">
-        Enter verification code
+    <section className="w-full font-manrope lg:mb-0 lg:justify-center">
+      <h1 className="flex justify-center text-4xl lg:text-center text-center font-extrabold text-foreground leading-tight mb-6">
+        Verify Code
       </h1>
-      <p className="hidden lg:block text-center text-sm text-muted-foreground mb-8">
+      <p className="font-medium text-center text-sm text-muted-foreground mb-8">
         Enter code that we have sent to your email your...@domain.com
       </p>
 
@@ -48,67 +48,71 @@ export function VerifyCodeComponent() {
           <Input
             type="text"
             maxLength={1}
+            placeholder="-"
             className={cn(
-              "w-20 h-20 text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
+              "w-15 h-15 lg:w-20 lg:h-20 bg-border text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
               errors.code1
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                : "border-gray-300 focus:border-primary focus:ring-primary"
+                ? "border-error focus:border-error focus:ring-error"
+                : "border-border focus:border-primary focus:ring-primary"
             )}
             {...register("code1")}
           />
           <Input
             type="text"
             maxLength={1}
+            placeholder="-"
             className={cn(
-              "w-20 h-20 text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
+              "w-15 h-15 lg:w-20 lg:h-20 bg-border text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
               errors.code2
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                : "border-gray-300 focus:border-primary focus:ring-primary"
+                ? "border-error focus:border-error focus:ring-error"
+                : "border-border focus:border-primary focus:ring-primary"
             )}
             {...register("code2")}
           />
           <Input
             type="text"
             maxLength={1}
+            placeholder="-"
             className={cn(
-              "w-20 h-20 text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
+              "w-15 h-15 lg:w-20 lg:h-20 bg-border text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
               errors.code3
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                : "border-gray-300 focus:border-primary focus:ring-primary"
+                ? "border-error focus:border-error focus:ring-error"
+                : "border-border focus:border-primary focus:ring-primary"
             )}
             {...register("code3")}
           />
           <Input
             type="text"
             maxLength={1}
+            placeholder="-"
             className={cn(
-              "w-20 h-20 text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
+              "w-15 h-15 lg:w-20 lg:h-20 bg-border text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
               errors.code4
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                : "border-gray-300 focus:border-primary focus:ring-primary"
+                ? "border-error focus:border-error focus:ring-error"
+                : "border-border focus:border-primary focus:ring-primary"
             )}
             {...register("code4")}
           />
         </div>
 
         {hasAnyError && (
-          <p className="text-red-500 text-sm text-center">
+          <p className="text-error text-sm text-center">
             Please, fill in all fields of the verification code
           </p>
         )}
 
-        <Button type="submit" className="mt-8" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Submit"}
-        </Button>
-
         <div className="text-center">
           <a
             href="#"
-            className="text-primary hover:text-primary hover:underline transition-colors text-sm"
+            className="text-primary hover:text-primary font-bold underline underline-offset-2 transition-colors mt-10 text-sm"
           >
             Resend code
           </a>
         </div>
+
+        <Button type="submit" className="mt-1" disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </Button>
       </form>
     </section>
   );

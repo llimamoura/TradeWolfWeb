@@ -27,11 +27,11 @@ export function ForgotPasswordForm() {
   };
 
   return (
-    <section className="w-full">
-      <h1 className="flex justify-center text-4xl font-extrabold text-foreground leading-tight mb-6">
+    <section className="w-full font-manrope lg:mb-0 lg:justify-center">
+      <h1 className="flex justify-center lg:mb-6 text-3xl lg:text-4xl lg:text-center text-center font-extrabold text-foreground leading-tight mb-8">
         Forgot your Password?
       </h1>
-      <p className="hidden lg:block text-center text-sm text-muted-foreground mb-8">
+      <p className="font-medium text-center text-sm text-muted-foreground mb-8">
         No worries, you just need to type your email address and we will send
         the verification code.
       </p>
@@ -50,7 +50,7 @@ export function ForgotPasswordForm() {
           {...register("email")}
         />
         {errors.email && (
-          <span className="text-red-500">{errors.email.message}</span>
+          <span className="text-error">{errors.email.message}</span>
         )}
 
         <Button type="submit" disabled={isSubmitting}>

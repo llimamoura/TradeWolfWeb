@@ -53,11 +53,11 @@ export function ResetPasswordComponent() {
   };
 
   return (
-    <section className="w-full">
+    <section className="w-full font-manrope lg:mb-0 lg:justify-center">
       <h1 className="flex justify-center text-4xl font-extrabold text-foreground leading-tight mb-6">
         Create Password
       </h1>
-      <p className="hidden lg:block text-center text-sm text-muted-foreground mb-8">
+      <p className="text-center text-sm text-muted-foreground mb-9">
         Create your new password to login.
       </p>
 
@@ -74,13 +74,13 @@ export function ResetPasswordComponent() {
           className={cn(
             "h-15 mb-7 transition-colors",
             errors.password
-              ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+              ? "border-error focus:border-error focus:ring-error"
               : "focus:border-primary focus:ring-primary"
           )}
           {...register("password")}
         />
         {errors.password && (
-          <span className="text-red-500 text-sm">
+          <span className="text-error text-sm">
             {errors.password.message}
           </span>
         )}
@@ -92,15 +92,15 @@ export function ResetPasswordComponent() {
           type="password"
           placeholder="Repeat Password"
           className={cn(
-            "h-15 mb-7 transition-colors",
+            "h-15 mb-10 transition-colors",
             errors.confirmPassword
-              ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+              ? "border-error focus:border-error focus:ring-error"
               : "focus:border-primary focus:ring-primary"
           )}
           {...register("confirmPassword")}
         />
         {errors.confirmPassword && (
-          <span className="text-red-500 text-sm">
+          <span className="text-error text-sm">
             {errors.confirmPassword.message}
           </span>
         )}
