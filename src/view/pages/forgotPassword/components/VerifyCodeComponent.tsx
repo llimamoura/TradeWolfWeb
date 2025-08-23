@@ -1,15 +1,15 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 
 const CodeValidationSchema = z.object({
-  code1: z.string().min(1, {message: "Campo obrigatório"}),
-  code2: z.string().min(1, {message: "Campo obrigatório"}),
-  code3: z.string().min(1, {message: "Campo obrigatório"}),
-  code4: z.string().min(1, {message: "Campo obrigatório"}),
+  code1: z.string().min(1, { message: "Campo obrigatório" }),
+  code2: z.string().min(1, { message: "Campo obrigatório" }),
+  code3: z.string().min(1, { message: "Campo obrigatório" }),
+  code4: z.string().min(1, { message: "Campo obrigatório" }),
 });
 
 type CodeFormData = z.infer<typeof CodeValidationSchema>;
@@ -28,7 +28,8 @@ export function VerifyCodeComponent() {
     console.log("Código completo:", fullCode);
   };
 
-  const hasAnyError = errors.code1 || errors.code2 || errors.code3 || errors.code4;
+  const hasAnyError =
+    errors.code1 || errors.code2 || errors.code3 || errors.code4;
 
   return (
     <section className="w-full">
@@ -39,51 +40,54 @@ export function VerifyCodeComponent() {
         Enter code that we have sent to your email your...@domain.com
       </p>
 
-      <form className="space-y-6 flex flex-col lg:ml-0" onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className="space-y-6 flex flex-col lg:ml-0"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className="flex gap-4 justify-center">
-          <Input 
-            type="text" 
-            maxLength={1} 
+          <Input
+            type="text"
+            maxLength={1}
             className={cn(
               "w-20 h-20 text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
-              errors.code1 
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500" 
+              errors.code1
+                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                 : "border-gray-300 focus:border-primary focus:ring-primary"
             )}
-            {...register("code1")} 
+            {...register("code1")}
           />
-          <Input 
-            type="text" 
-            maxLength={1} 
+          <Input
+            type="text"
+            maxLength={1}
             className={cn(
               "w-20 h-20 text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
-              errors.code2 
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500" 
+              errors.code2
+                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                 : "border-gray-300 focus:border-primary focus:ring-primary"
             )}
-            {...register("code2")} 
+            {...register("code2")}
           />
-          <Input 
-            type="text" 
-            maxLength={1} 
+          <Input
+            type="text"
+            maxLength={1}
             className={cn(
               "w-20 h-20 text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
-              errors.code3 
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500" 
+              errors.code3
+                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                 : "border-gray-300 focus:border-primary focus:ring-primary"
             )}
-            {...register("code3")} 
+            {...register("code3")}
           />
-          <Input 
-            type="text" 
-            maxLength={1} 
+          <Input
+            type="text"
+            maxLength={1}
             className={cn(
               "w-20 h-20 text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
-              errors.code4 
-                ? "border-red-500 focus:border-red-500 focus:ring-red-500" 
+              errors.code4
+                ? "border-red-500 focus:border-red-500 focus:ring-red-500"
                 : "border-gray-300 focus:border-primary focus:ring-primary"
             )}
-            {...register("code4")} 
+            {...register("code4")}
           />
         </div>
 

@@ -9,16 +9,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-gradient-to-r from-primary to-[#004EB5] text-center w-full max-w-4xl h-20 mt-2 text-primary-foreground py-3 text-sm lg:text-xl font-semibold transition hover:bg-primary/90",
+          "bg-linear-to-r from-primary to-[#004EB5] from-35% to-100% text-center w-full max-w-4xl h-20 mt-2 text-primary-foreground py-3 text-sm lg:text-xl font-extrabold transition hover:bg-primary/90 font-manrope",
         destructive:
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
-          "w-full border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          "w-full border font-manrope font-ligth bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
         secondary:
           "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
+        link: "font-manrope !font-semibold text-primary shadow-md !h-10 underline-offset-4 hover:underline bg-gradient-to-br from-[#014DB366] via-white to-white from-0% via-55% to-100%",
       },
       size: {
         default: "h-12 px-4 py-2 has-[>svg]:px-3",
@@ -34,7 +34,6 @@ const buttonVariants = cva(
     },
   }
 );
-
 
 function Button({
   className,

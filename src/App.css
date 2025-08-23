@@ -1,7 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Reem+Kufi:wght@400..700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-manrope: "Manrope", sans-serif;
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -15,6 +20,7 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-tertiary: var(--tertiary);
   --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
@@ -51,6 +57,7 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.2603 0.0917 256.81);
+  --tertiary: oklch(0.4519 0.1764 259.15);
   --primary-hover: oklch(0.18 0.05 249.6);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
