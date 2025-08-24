@@ -3,20 +3,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const ResetPasswordValidationSchema = z
-  .object({
-    password: z
-      .string()
+const ResetPasswordValidationSchema = z.object({
+    password: z.string()
       .min(8, { message: "Your password must be at least 8 characters long" })
       .max(64, { message: "Your password must be a maximum of 64 characters" })
       .regex(/[A-Z]/, {
@@ -77,15 +68,14 @@ export function ResetPasswordComponent() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="sr-only">Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Password"
-                    className="h-15 mb-2"
-                    {...field}
-                  />
-                </FormControl>
+                <div className="relative">
+                  <FormLabel className="absolute -top-3 left-3 bg-white px-2 text-primary text-sm font-medium z-10">
+                    Password
+                  </FormLabel>
+                  <FormControl>
+                    <Input type="password" className="h-15 mb-2" {...field} />
+                  </FormControl>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -96,15 +86,14 @@ export function ResetPasswordComponent() {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="sr-only">Repeat Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Repeat Password"
-                    className="h-15 mb-4"
-                    {...field}
-                  />
-                </FormControl>
+                <div className="relative">
+                  <FormLabel className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
+                    Repeat Password
+                  </FormLabel>
+                  <FormControl>
+                    <Input type="password" className="h-15 mb-4" {...field} />
+                  </FormControl>
+                </div>
                 <FormMessage />
               </FormItem>
             )}

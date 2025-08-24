@@ -1,21 +1,13 @@
-import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 const EmailValidationSchema = z.object({
   email: z
-    .string()
     .email({ message: "Invalid email!" })
     .min(1, { message: "The email field cannot be empty" })
     .max(255, { message: "Very long email" }),
@@ -58,15 +50,14 @@ export function ForgotPasswordForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="sr-only">Email</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Email"
-                    type="email"
-                    className="h-15 mb-2"
-                    {...field}
-                  />
-                </FormControl>
+                <div className="relative">
+                  <FormLabel className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
+                    Email
+                  </FormLabel>
+                  <FormControl>
+                    <Input type="email" className="h-15 mb-2" {...field} />
+                  </FormControl>
+                </div>
                 <FormMessage />
               </FormItem>
             )}

@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -60,9 +59,15 @@ export function VerifyCodeComponent() {
                   <FormControl>
                     <Input
                       type="text"
+                      inputMode="numeric"
                       maxLength={1}
                       placeholder="-"
-                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border border-none text-center md:text-3xl rounded-full text-3xl font-bold"
+                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border text-center lg:text-3xl rounded-full text-3xl font-bold"
+                      onKeyDown={(e) => {
+                        if (!/[0-9]/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                       {...field}
                     />
                   </FormControl>
@@ -78,9 +83,15 @@ export function VerifyCodeComponent() {
                   <FormControl>
                     <Input
                       type="text"
+                      inputMode="numeric"
                       maxLength={1}
                       placeholder="-"
-                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border border-none text-center md:text-3xl rounded-full text-3xl font-bold"
+                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border text-center lg:text-3xl rounded-full text-3xl font-bold"
+                      onKeyDown={(e) => {
+                        if (!/[0-9]/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                       {...field}
                     />
                   </FormControl>
@@ -96,9 +107,15 @@ export function VerifyCodeComponent() {
                   <FormControl>
                     <Input
                       type="text"
+                      inputMode="numeric"
                       maxLength={1}
                       placeholder="-"
-                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border border-none text-center md:text-3xl rounded-full text-3xl font-bold"
+                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border text-center lg:text-3xl rounded-full text-3xl font-bold"
+                      onKeyDown={(e) => {
+                        if (!/[0-9]/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                       {...field}
                     />
                   </FormControl>
@@ -114,9 +131,15 @@ export function VerifyCodeComponent() {
                   <FormControl>
                     <Input
                       type="text"
+                      inputMode="numeric"
                       maxLength={1}
                       placeholder="-"
-                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border border-none text-center md:text-3xl rounded-full text-3xl font-bold"
+                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border text-center lg:text-3xl rounded-full text-3xl font-bold"
+                      onKeyDown={(e) => {
+                        if (!/[0-9]/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
                       {...field}
                     />
                   </FormControl>
