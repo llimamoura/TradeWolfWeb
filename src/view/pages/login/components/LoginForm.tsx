@@ -3,19 +3,11 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 const LoginSchema = z.object({
-  email: z
-    .email({ message: "Invalid email address" })
+  email: z.email({ message: "Invalid email address" })
     .min(1, { message: "Email is required" }),
   password: z
     .string()
@@ -44,12 +36,12 @@ export function LoginForm() {
       </h1>
       <p className="hidden font-medium lg:block text-center text-sm text-muted-foreground mb-8">
         Don't have an account?{" "}
-        <Link
+        <a
+          href="#"
           className="text-primary font-bold hover:text-primary hover:underline transition-colors"
-          to="/signup"
         >
           Sign up
-        </Link>
+        </a>
       </p>
 
       <Form {...form}>
@@ -62,10 +54,14 @@ export function LoginForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="sr-only">Email</FormLabel>
-                <FormControl>
-                  <Input type="email" placeholder="Email" {...field} />
-                </FormControl>
+                <div className="relative">
+                  <FormLabel className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
+                    Email
+                  </FormLabel>
+                  <FormControl>
+                    <Input type="email" {...field} />
+                  </FormControl>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -76,10 +72,14 @@ export function LoginForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="sr-only">Password</FormLabel>
-                <FormControl>
-                  <Input type="password" placeholder="Password" {...field} />
-                </FormControl>
+                <div className="relative">
+                  <FormLabel className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
+                    Password
+                  </FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
