@@ -3,8 +3,15 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 
 const ResetPasswordValidationSchema = z
   .object({
@@ -24,7 +31,6 @@ const ResetPasswordValidationSchema = z
       .regex(/[!@#$%^&*()]/, {
         message: "Your password must contain at least one special character",
       }),
-
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -35,16 +41,16 @@ const ResetPasswordValidationSchema = z
 type ResetPasswordData = z.infer<typeof ResetPasswordValidationSchema>;
 
 export function ResetPasswordComponent() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<ResetPasswordData>({
+  const form = useForm<ResetPasswordData>({
     resolver: zodResolver(ResetPasswordValidationSchema),
+    defaultValues: {
+      password: "",
+      confirmPassword: "",
+    },
   });
 
   const onSubmit = async (data: ResetPasswordData) => {
-    console.log("Sending password... ", data.password);
+    console.log("Sending password...", data.password);
     toast.success("Password has been reset.");
   };
 
@@ -61,54 +67,54 @@ export function ResetPasswordComponent() {
         Create your new password to login.
       </p>
 
-      <form
-        className="space-y-5 flex flex-col lg:ml-0"
-        onSubmit={handleSubmit(onSubmit, onError)}
-      >
-        <label htmlFor="password" className="sr-only">
-          Password
-        </label>
-        <Input
-          type="password"
-          placeholder="Password"
-          className={cn(
-            "h-15 mb-7 transition-colors",
-            errors.password
-              ? "border-error focus:border-error focus:ring-error"
-              : "focus:border-primary focus:ring-primary"
-          )}
-          {...register("password")}
-        />
-        {errors.password && (
-          <span className="text-error text-sm">
-            {errors.password.message}
-          </span>
-        )}
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit, onError)}
+          className="space-y-5 flex flex-col lg:ml-0"
+        >
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="sr-only">Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Password"
+                    className="h-15 mb-2"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <label htmlFor="confirmPassword" className="sr-only">
-          Confirm Password
-        </label>
-        <Input
-          type="password"
-          placeholder="Repeat Password"
-          className={cn(
-            "h-15 mb-10 transition-colors",
-            errors.confirmPassword
-              ? "border-error focus:border-error focus:ring-error"
-              : "focus:border-primary focus:ring-primary"
-          )}
-          {...register("confirmPassword")}
-        />
-        {errors.confirmPassword && (
-          <span className="text-error text-sm">
-            {errors.confirmPassword.message}
-          </span>
-        )}
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="sr-only">Repeat Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Repeat Password"
+                    className="h-15 mb-4"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Submit"}
-        </Button>
-      </form>
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            Submit
+          </Button>
+        </form>
+      </Form>
     </section>
   );
 }

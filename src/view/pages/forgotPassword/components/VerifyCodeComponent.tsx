@@ -1,9 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 
 const CodeValidationSchema = z.object({
   code1: z.string().min(1, { message: "Campo obrigatório" }),
@@ -15,21 +17,25 @@ const CodeValidationSchema = z.object({
 type CodeFormData = z.infer<typeof CodeValidationSchema>;
 
 export function VerifyCodeComponent() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<CodeFormData>({
+  const navigate = useNavigate()
+  
+  const form = useForm<CodeFormData>({
     resolver: zodResolver(CodeValidationSchema),
+    defaultValues: {
+      code1: "",
+      code2: "",
+      code3: "",
+      code4: "",
+    },
   });
 
   const onSubmit = async (data: CodeFormData) => {
     const fullCode = data.code1 + data.code2 + data.code3 + data.code4;
     console.log("Código completo:", fullCode);
+    navigate("/forgot-password/reset-password");
   };
 
-  const hasAnyError =
-    errors.code1 || errors.code2 || errors.code3 || errors.code4;
+  const hasAnyError = Object.values(form.formState.errors).length > 0;
 
   return (
     <section className="w-full font-manrope lg:mb-0 lg:justify-center">
@@ -40,80 +46,105 @@ export function VerifyCodeComponent() {
         Enter code that we have sent to your email your...@domain.com
       </p>
 
-      <form
-        className="space-y-6 flex flex-col lg:ml-0"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="flex gap-4 justify-center">
-          <Input
-            type="text"
-            maxLength={1}
-            placeholder="-"
-            className={cn(
-              "w-15 h-15 lg:w-20 lg:h-20 bg-border text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
-              errors.code1
-                ? "border-error focus:border-error focus:ring-error"
-                : "border-border focus:border-primary focus:ring-primary"
-            )}
-            {...register("code1")}
-          />
-          <Input
-            type="text"
-            maxLength={1}
-            placeholder="-"
-            className={cn(
-              "w-15 h-15 lg:w-20 lg:h-20 bg-border text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
-              errors.code2
-                ? "border-error focus:border-error focus:ring-error"
-                : "border-border focus:border-primary focus:ring-primary"
-            )}
-            {...register("code2")}
-          />
-          <Input
-            type="text"
-            maxLength={1}
-            placeholder="-"
-            className={cn(
-              "w-15 h-15 lg:w-20 lg:h-20 bg-border text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
-              errors.code3
-                ? "border-error focus:border-error focus:ring-error"
-                : "border-border focus:border-primary focus:ring-primary"
-            )}
-            {...register("code3")}
-          />
-          <Input
-            type="text"
-            maxLength={1}
-            placeholder="-"
-            className={cn(
-              "w-15 h-15 lg:w-20 lg:h-20 bg-border text-center md:text-3xl rounded-full text-3xl font-bold border-2 transition-colors",
-              errors.code4
-                ? "border-error focus:border-error focus:ring-error"
-                : "border-border focus:border-primary focus:ring-primary"
-            )}
-            {...register("code4")}
-          />
-        </div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6 flex flex-col lg:ml-0"
+        >
+          <div className="flex gap-4 justify-center">
+            <FormField
+              control={form.control}
+              name="code1"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      maxLength={1}
+                      placeholder="-"
+                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border border-none text-center md:text-3xl rounded-full text-3xl font-bold"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
-        {hasAnyError && (
-          <p className="text-error text-sm text-center">
-            Please, fill in all fields of the verification code
-          </p>
-        )}
+            <FormField
+              control={form.control}
+              name="code2"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      maxLength={1}
+                      placeholder="-"
+                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border border-none text-center md:text-3xl rounded-full text-3xl font-bold"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
-        <div className="text-center">
-          <a
-            href="#"
-            className="text-primary hover:text-primary font-bold underline underline-offset-2 transition-colors mt-10 text-sm"
-          >
-            Resend code
-          </a>
-        </div>
+            <FormField
+              control={form.control}
+              name="code3"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      maxLength={1}
+                      placeholder="-"
+                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border border-none text-center md:text-3xl rounded-full text-3xl font-bold"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
-        <Button type="submit" className="mt-1" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Submit"}
-        </Button>
-      </form>
+            <FormField
+              control={form.control}
+              name="code4"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      maxLength={1}
+                      placeholder="-"
+                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border border-none text-center md:text-3xl rounded-full text-3xl font-bold"
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
+
+          {hasAnyError && (
+            <p className="text-error text-sm text-center">
+              Please, fill in all fields of the verification code
+            </p>
+          )}
+
+          <div className="text-center">
+            <a
+              href="#"
+              className="text-primary hover:text-primary font-bold underline underline-offset-2 transition-colors mt-10 text-sm"
+            >
+              Resend code
+            </a>
+          </div>
+
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            Submit
+          </Button>
+        </form>
+      </Form>
     </section>
   );
 }
