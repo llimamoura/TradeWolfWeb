@@ -1,11 +1,21 @@
+import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 const EmailValidationSchema = z.object({
   email: z
+    .string()
     .email({ message: "Invalid email!" })
     .min(1, { message: "The email field cannot be empty" })
     .max(255, { message: "Very long email" }),
@@ -14,16 +24,18 @@ const EmailValidationSchema = z.object({
 type EmailFormData = z.infer<typeof EmailValidationSchema>;
 
 export function ForgotPasswordForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<EmailFormData>({
+  const navigate = useNavigate();
+
+  const form = useForm<EmailFormData>({
     resolver: zodResolver(EmailValidationSchema),
+    defaultValues: {
+      email: "",
+    },
   });
 
-  const onSubmit = async (data: EmailFormData) => {
+  const onSubmit = (data: EmailFormData) => {
     console.log("Sending email...", data.email);
+    navigate("/forgot-password/verification");
   };
 
   return (
@@ -36,27 +48,35 @@ export function ForgotPasswordForm() {
         the verification code.
       </p>
 
-      <form
-        className="space-y-5 flex flex-col lg:ml-0"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <label htmlFor="email" className="sr-only">
-          Email
-        </label>
-        <Input
-          type="email"
-          placeholder="Email"
-          className="h-15 mb-7"
-          {...register("email")}
-        />
-        {errors.email && (
-          <span className="text-error">{errors.email.message}</span>
-        )}
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-5 flex flex-col lg:ml-0"
+        >
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="sr-only">Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Email"
+                    type="email"
+                    className="h-15 mb-2"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Submit"}
-        </Button>
-      </form>
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            Submit
+          </Button>
+        </form>
+      </Form>
     </section>
   );
 }
