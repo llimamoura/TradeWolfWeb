@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -17,8 +17,8 @@ const CodeValidationSchema = z.object({
 type CodeFormData = z.infer<typeof CodeValidationSchema>;
 
 export function VerifyCodeComponent() {
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+
   const form = useForm<CodeFormData>({
     resolver: zodResolver(CodeValidationSchema),
     defaultValues: {

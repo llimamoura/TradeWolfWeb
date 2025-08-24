@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -43,12 +44,12 @@ export function LoginForm() {
       </h1>
       <p className="hidden font-medium lg:block text-center text-sm text-muted-foreground mb-8">
         Don't have an account?{" "}
-        <a
+        <Link
           className="text-primary font-bold hover:text-primary hover:underline transition-colors"
-          href="#"
+          to="/signup"
         >
           Sign up
-        </a>
+        </Link>
       </p>
 
       <Form {...form}>
@@ -85,11 +86,11 @@ export function LoginForm() {
           />
 
           <div className="flex justify-end mb-4 text-primary">
-            <a href="/forgot-password">
+            <Link to="/forgot-password">
               <Button variant="link" type="button">
                 Reset password
               </Button>
-            </a>
+            </Link>
           </div>
 
           <Button type="submit" disabled={form.formState.isSubmitting}>
