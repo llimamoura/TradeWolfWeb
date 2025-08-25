@@ -86,7 +86,7 @@ export function VerifyCodeComponent() {
         Verify Code
       </h1>
       <p className="font-medium text-center text-sm text-muted-foreground mb-8">
-        Enter the code we sent to your email your...@domain.com
+        Enter the code that we have sent to your email your...@domain.com
       </p>
 
       <Form {...form}>
@@ -194,7 +194,7 @@ export function VerifyCodeComponent() {
 
           {hasAnyError && (
             <p className="text-error text-sm text-center">
-              Please fill in all the fields of the verification code
+              Please, fill in all fields of the verification code
             </p>
           )}
 
