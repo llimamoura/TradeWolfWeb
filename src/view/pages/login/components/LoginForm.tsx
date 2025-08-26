@@ -87,7 +87,7 @@ export function LoginForm() {
 
           <div className="flex justify-end mb-4 text-primary">
             <Link to="/forgot-password">
-              <Button variant="link" type="button">
+              <Button variant="secondary" type="button">
                 Reset password
               </Button>
             </Link>
