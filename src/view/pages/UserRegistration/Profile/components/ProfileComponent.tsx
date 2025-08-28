@@ -28,7 +28,7 @@ const ProfileSchema = z.object({
     .min(1, { message: "Email is required" }),
   phoneNumber: z
     .string()
-    .min(10, { message: "Phone number must be at least 10 characters" })
+    .min(11, { message: "Phone number must be at least 11 characters" })
     .regex(/^\(?[1-9]{2}\)?[\s-]?9\d{4}-?\d{4}$/, "Invalid phone number"),
 });
 
@@ -63,15 +63,9 @@ export function ProfileComponent() {
   const formatPhone = (value: string) => {
     const numbers = value.replace(/\D/g, "").slice(0, 11);
     if (numbers.length <= 2) return numbers;
-    if (numbers.length <= 6)
+    if (numbers.length <= 7)
       return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
-    if (numbers.length <= 10)
-      return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 6)}-${numbers.slice(
-        6
-      )}`;
-    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(
-      7
-    )}`;
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7)}`;
   };
 
   const onSubmit = async (data: ProfileFormData) => {
@@ -104,11 +98,19 @@ export function ProfileComponent() {
             render={({ field }) => (
               <FormItem>
                 <div className="relative">
-                  <FormLabel className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
+                  <FormLabel
+                    htmlFor="fullName"
+                    className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10"
+                  >
                     Full Name
                   </FormLabel>
                   <FormControl>
-                    <Input type="text" placeholder="Jonh Doe" {...field} />
+                    <Input
+                      type="text"
+                      id="fullName"
+                      placeholder="Jonh Doe"
+                      {...field}
+                    />
                   </FormControl>
                 </div>
                 <FormMessage />
@@ -122,17 +124,22 @@ export function ProfileComponent() {
             render={({ field }) => (
               <FormItem>
                 <div className="relative">
-                  <FormLabel className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
+                  <FormLabel
+                    htmlFor="cpf"
+                    className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10"
+                  >
                     CPF
                   </FormLabel>
                   <FormControl>
                     <Input
                       type="text"
+                      id="cpf"
+                      inputMode="numeric"
                       placeholder="000.000.000-00"
                       {...field}
-                      onChange={(e) =>
-                        field.onChange(formatCPF(e.target.value))
-                      }
+                      onChange={(e) => {
+                        field.onChange(formatCPF(e.target.value));
+                      }}
                     />
                   </FormControl>
                 </div>
@@ -147,12 +154,16 @@ export function ProfileComponent() {
             render={({ field }) => (
               <FormItem>
                 <div className="relative">
-                  <FormLabel className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
+                  <FormLabel
+                    htmlFor="email"
+                    className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10"
+                  >
                     Email
                   </FormLabel>
                   <FormControl>
                     <Input
                       type="email"
+                      id="email"
                       placeholder="@domain.com"
                       {...field}
                     />
@@ -169,17 +180,21 @@ export function ProfileComponent() {
             render={({ field }) => (
               <FormItem>
                 <div className="relative">
-                  <FormLabel className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
+                  <FormLabel
+                    htmlFor="phoneNumber"
+                    className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10"
+                  >
                     Phone Number
                   </FormLabel>
                   <FormControl>
                     <Input
-                      type="text"
+                      id="phoneNumber"
+                      type="tel"
                       placeholder="(00) 90000-0000"
                       {...field}
-                      onChange={(e) =>
-                        field.onChange(formatPhone(e.target.value))
-                      }
+                      onChange={(e) => {
+                        field.onChange(formatPhone(e.target.value));
+                      }}
                     />
                   </FormControl>
                 </div>

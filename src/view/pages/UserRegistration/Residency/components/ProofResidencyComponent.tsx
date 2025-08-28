@@ -105,7 +105,7 @@ export function ProofResidencyComponent() {
                       </SelectContent>
                     </Select>
                   </FormControl>
-                  <FormMessage />
+                <FormMessage />
                 </FormItem>
               )}
             />
