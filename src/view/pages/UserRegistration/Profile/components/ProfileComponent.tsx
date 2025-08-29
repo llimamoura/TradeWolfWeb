@@ -1,4 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { ChangeEvent } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -35,6 +37,9 @@ const ProfileSchema = z.object({
 type ProfileFormData = z.infer<typeof ProfileSchema>;
 
 export function ProfileComponent() {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
@@ -65,7 +70,20 @@ export function ProfileComponent() {
     if (numbers.length <= 2) return numbers;
     if (numbers.length <= 7)
       return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
-    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7)}`;
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(
+      7
+    )}`;
+  };
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const onSubmit = async (data: ProfileFormData) => {
@@ -87,6 +105,29 @@ export function ProfileComponent() {
         Don´t worry, you can always change it later
       </p>
 
+      <div className="flex flex-col items-center justify-center w-full mb-8">
+        <label
+          htmlFor="fileUpload"
+          className="flex flex-col items-center justify-center w-20 max-w-md h-20 border-2 rounded-full border-gray-300 bg-gray-50 hover:bg-gray-100 transition"
+        >
+          {imagePreview && (
+            <img
+              src={imagePreview}
+              alt="Preview"
+              className="object-fill h-full w-full rounded-full"
+            />
+          )}
+        </label>
+        <Input
+          ref={fileInputRef}
+          id="fileUpload"
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="hidden"
+        />
+      </div>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -105,12 +146,7 @@ export function ProfileComponent() {
                     Full Name
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      id="fullName"
-                      placeholder="Jonh Doe"
-                      {...field}
-                    />
+                    <Input type="text" id="fullName" {...field} />
                   </FormControl>
                 </div>
                 <FormMessage />
@@ -135,7 +171,6 @@ export function ProfileComponent() {
                       type="text"
                       id="cpf"
                       inputMode="numeric"
-                      placeholder="000.000.000-00"
                       {...field}
                       onChange={(e) => {
                         field.onChange(formatCPF(e.target.value));
@@ -161,12 +196,7 @@ export function ProfileComponent() {
                     Email
                   </FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      id="email"
-                      placeholder="@domain.com"
-                      {...field}
-                    />
+                    <Input type="email" id="email" {...field} />
                   </FormControl>
                 </div>
                 <FormMessage />
@@ -190,7 +220,6 @@ export function ProfileComponent() {
                     <Input
                       id="phoneNumber"
                       type="tel"
-                      placeholder="(00) 90000-0000"
                       {...field}
                       onChange={(e) => {
                         field.onChange(formatPhone(e.target.value));

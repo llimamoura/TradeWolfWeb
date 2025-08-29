@@ -48,7 +48,7 @@ export function ProofResidencyComponent() {
 
   const onSubmit = (data: ProofResidencyForm) => {
     console.log("Form data:", data);
-    navigate("/create-user/proof-residency");
+    navigate("/create-user/identify");
   };
 
   return (
