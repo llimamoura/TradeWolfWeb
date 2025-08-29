@@ -98,23 +98,23 @@ export function ProfileComponent() {
 
   return (
     <section className="w-full font-manrope">
-      <h1 className="flex justify-center sm:text-5xl text-3xl font-extrabold text-foreground leading-tight lg:mb-6 mb-10">
+      <h1 className="flex justify-center sm:text-5xl text-3xl font-extrabold text-background leading-tight lg:mb-6 mb-10">
         Fill Your Profile
       </h1>
-      <p className="hidden font-medium lg:block text-center text-sm text-muted-foreground mb-8">
+      <p className="hidden font-medium lg:block text-center text-sm text-background mb-8">
         Don´t worry, you can always change it later
       </p>
 
       <div className="flex flex-col items-center justify-center w-full mb-8">
         <label
           htmlFor="fileUpload"
-          className="flex flex-col items-center justify-center w-20 max-w-md h-20 border-2 rounded-full border-gray-300 bg-gray-50 hover:bg-gray-100 transition"
+          className="flex flex-col items-center justify-center w-25 max-w-md h-25 rounded-full bg-primary icon-user-round"
         >
           {imagePreview && (
             <img
               src={imagePreview}
               alt="Preview"
-              className="object-fill h-full w-full rounded-full"
+              className="object-cover h-full w-full rounded-full"
             />
           )}
         </label>
@@ -146,7 +146,12 @@ export function ProfileComponent() {
                     Full Name
                   </FormLabel>
                   <FormControl>
-                    <Input type="text" id="fullName" {...field} />
+                    <Input
+                      type="text"
+                      id="fullName"
+                      className="border-background"
+                      {...field}
+                    />
                   </FormControl>
                 </div>
                 <FormMessage />
@@ -171,6 +176,7 @@ export function ProfileComponent() {
                       type="text"
                       id="cpf"
                       inputMode="numeric"
+                      className="border-background"
                       {...field}
                       onChange={(e) => {
                         field.onChange(formatCPF(e.target.value));
@@ -196,7 +202,12 @@ export function ProfileComponent() {
                     Email
                   </FormLabel>
                   <FormControl>
-                    <Input type="email" id="email" {...field} />
+                    <Input
+                      type="email"
+                      id="email"
+                      className="border-background"
+                      {...field}
+                    />
                   </FormControl>
                 </div>
                 <FormMessage />
@@ -220,6 +231,7 @@ export function ProfileComponent() {
                     <Input
                       id="phoneNumber"
                       type="tel"
+                      className="border-background"
                       {...field}
                       onChange={(e) => {
                         field.onChange(formatPhone(e.target.value));
@@ -232,7 +244,10 @@ export function ProfileComponent() {
             )}
           />
 
-          <Button type="submit" disabled={form.formState.isSubmitting}>
+          <Button
+            type="submit"
+            className="bg-gradient-to-r from-[#898989] to-[#546B89]"
+          >
             Submit
           </Button>
         </form>

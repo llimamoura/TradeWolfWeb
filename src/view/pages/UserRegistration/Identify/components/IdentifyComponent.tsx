@@ -36,18 +36,18 @@ export function IdentifyComponent() {
   };
 
   return (
-    <section className="w-full font-manrope mb-12 lg:mb-0 lg:justify-center">
+    <section className="w-full font-manrope lg:mb-0 lg:justify-center">
       <h1 className="flex justify-center lg:mb-10 text-3xl lg:text-4xl lg:text-center text-start font-extrabold text-foreground leading-tight mb-5">
         Photo ID Card
       </h1>
-      <p className="font-medium lg:text-center text-start text-sm text-muted-foreground mb-8">
-        Please point the camera at the ID card or upload a photo
+      <p className="font-medium text-center text-sm text-muted-foreground lg:mb-8">
+        Please point the camera at the ID card
       </p>
 
-      <div className="flex flex-col items-center justify-center w-full mb-8">
+      <div className="flex flex-col items-center justify-center w-full mb-8 lg:mt-0 mt-20">
         <label
           htmlFor="fileUpload"
-          className="flex flex-col items-center justify-center w-screen max-w-md h-50 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
+          className="flex flex-col items-center justify-center w-full h-50 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition lg:mb-0 mb-16"
         >
           {imagePreview ? (
             <img
@@ -80,18 +80,18 @@ export function IdentifyComponent() {
         />
       </div>
 
-      <div className="flex gap-10 mt-10 justify-center">
+      <div className="flex gap-5 lg:gap-10 mt-10 items-center justify-center">
         {imagePreview ? (
           <>
             <Button
               type="button"
               variant="outline"
               onClick={handleTryAgain}
-              className="w-70 text-primary border border-primary mt-auto font-bold"
+              className="w-40 lg:w-70 text-primary border border-primary mt-auto font-bold"
             >
               Try Again
             </Button>
-            <Button type="submit" onClick={onSubmit} className="w-70">
+            <Button type="submit" onClick={onSubmit} className="w-40 lg:w-70">
               Continue
             </Button>
           </>
