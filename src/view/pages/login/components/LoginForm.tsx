@@ -3,11 +3,19 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 const LoginSchema = z.object({
-  email: z.email({ message: "Invalid email address" })
+  email: z
+    .email({ message: "Invalid email address" })
     .min(1, { message: "Email is required" }),
   password: z
     .string()
@@ -93,9 +101,11 @@ export function LoginForm() {
             </Link>
           </div>
 
-          <Button type="submit" disabled={form.formState.isSubmitting}>
-            Sign in
-          </Button>
+          <Link to="/create-user">
+            <Button type="submit" disabled={form.formState.isSubmitting}>
+              Sign in
+            </Button>
+          </Link>
         </form>
       </Form>
     </section>
