@@ -24,6 +24,13 @@ export function IdentifyComponent() {
     fileInputRef.current?.click();
   };
 
+  const handleTryAgain = () => {
+    setImagePreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const onSubmit = () => {
     navigate("/create-user/profile");
   };
@@ -40,7 +47,7 @@ export function IdentifyComponent() {
       <div className="flex flex-col items-center justify-center w-full mb-8">
         <label
           htmlFor="fileUpload"
-          className="flex flex-col items-center justify-center w-full max-w-md h-60 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
+          className="flex flex-col items-center justify-center w-screen max-w-md h-50 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
         >
           {imagePreview ? (
             <img
@@ -50,11 +57,15 @@ export function IdentifyComponent() {
             />
           ) : (
             <div className="flex flex-col items-center justify-center text-center px-4">
-              <Button type="button" onClick={handleButtonClick}>
+              <Button
+                type="button"
+                className="mb-5 mt-5 w-80"
+                onClick={handleButtonClick}
+              >
                 Click here
               </Button>
-              <p className="text-sm text-muted-foreground">
-                Click to upload or drag and drop an image
+              <p className="text-sm text-primary font-semibold">
+                Max file size: 10MB
               </p>
             </div>
           )}
@@ -69,9 +80,27 @@ export function IdentifyComponent() {
         />
       </div>
 
-      <Button type="submit" onClick={onSubmit}>
-        Continue
-      </Button>
+      <div className="flex gap-10 mt-10 justify-center">
+        {imagePreview ? (
+          <>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleTryAgain}
+              className="w-70 text-primary border border-primary mt-auto font-bold"
+            >
+              Try Again
+            </Button>
+            <Button type="submit" onClick={onSubmit} className="w-70">
+              Continue
+            </Button>
+          </>
+        ) : (
+          <Button type="submit" onClick={onSubmit}>
+            Continue
+          </Button>
+        )}
+      </div>
     </section>
   );
 }
