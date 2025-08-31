@@ -1,8 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import {
   Form,
   FormControl,
@@ -11,18 +20,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import countriesData from "@/data/countries-flags.json";
+import { cn } from "@/lib/utils";
 
 const proofResidencySchema = z.object({
   nationality: z.string().min(1, "Please select a nationality"),
@@ -62,50 +68,107 @@ export function ProofResidencyComponent() {
         application. Your information will be encrypted and stored securely.
       </p>
 
-      <p></p>
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="relative mb-8 w-full">
             <p className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
-              Nacionality
+              Nationality
             </p>
 
             <FormField
               control={form.control}
               name="nationality"
               render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="w-full font-manrope">
-                        <SelectValue placeholder="Select a Nacionality" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Nationality</SelectLabel>
-                          {countriesData.map((country) => (
-                            <SelectItem
-                              key={country.code}
-                              value={country.code.toUpperCase()}
-                            >
-                              <div className="flex items-center gap-2">
-                                <img
-                                  src={country.flag}
-                                  width="20"
-                                  height="15"
-                                  alt={`${country.country} flag`}
-                                  aria-label={`${country.country} flag`}
+                <FormItem className="flex flex-col">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "w-full justify-between font-manrope",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            <div className="flex items-center gap-2">
+                              <img
+                                src={
+                                  countriesData.find(
+                                    (c) =>
+                                      c.code.toUpperCase() ===
+                                      field.value.toUpperCase()
+                                  )?.flag
+                                }
+                                alt="flag"
+                                width="20"
+                                height="15"
+                              />
+                              {
+                                countriesData.find(
+                                  (c) =>
+                                    c.code.toUpperCase() ===
+                                    field.value.toUpperCase()
+                                )?.country
+                              }{" "}
+                              ({field.value})
+                            </div>
+                          ) : (
+                            "Select a Nationality"
+                          )}
+                          <ChevronsUpDown className="opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-full lg:w-145 p-0">
+                      <Command>
+                        <CommandInput
+                          placeholder="Search nationality..."
+                          className="h-9"
+                        />
+                        <CommandList>
+                          <CommandEmpty>No nationality found.</CommandEmpty>
+                          <CommandGroup>
+                            {countriesData.map((country) => (
+                              <CommandItem
+                                key={country.code}
+                                value={country.country}
+                                onSelect={() => {
+                                  form.setValue(
+                                    "nationality",
+                                    country.code.toUpperCase(),
+                                    { shouldValidate: true }
+                                  );
+                                }}
+                              >
+                                <div className="flex items-center gap-2">
+                                  <img
+                                    src={country.flag}
+                                    width="20"
+                                    height="15"
+                                    alt={`${country.country} flag`}
+                                    aria-label={`${country.country} flag`}
+                                  />
+                                  {country.country} (
+                                  {country.code.toUpperCase()})
+                                </div>
+                                <Check
+                                  className={cn(
+                                    "ml-auto",
+                                    country.code.toUpperCase() === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
                                 />
-                                {country.country} ({country.code.toUpperCase()})
-                              </div>
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                <FormMessage />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
                 </FormItem>
               )}
             />
