@@ -1,3 +1,4 @@
+import { ChevronDown, PackagePlus } from "lucide-react";
 import type { ChangeEvent } from "react";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +48,7 @@ export function IdentifyComponent() {
       <div className="flex flex-col items-center justify-center w-full mb-8 lg:mt-0 mt-20">
         <label
           htmlFor="fileUpload"
-          className="flex flex-col items-center justify-center w-full h-50 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition lg:mb-0 mb-16"
+          className="flex flex-col items-center justify-center w-full h-50 border-2 border-dashed border-gray-300 rounded-lg bg-primary-foreground hover:bg-secondary transition lg:mb-0 mb-16"
         >
           {imagePreview ? (
             <img
@@ -59,10 +60,12 @@ export function IdentifyComponent() {
             <div className="flex flex-col items-center justify-center text-center px-4">
               <Button
                 type="button"
-                className="mb-5 mt-5 w-80"
+                className="mb-5 mt-5 w-80 flex items-center justify-start gap-25 lg:gap-21"
                 onClick={handleButtonClick}
               >
-                Click here
+                <PackagePlus className="!w-fit !h-fit" />
+                Add file
+                <ChevronDown className="ml-auto !w-fit !h-fit" />
               </Button>
               <p className="text-sm text-primary font-semibold">
                 Max file size: 10MB
@@ -92,12 +95,12 @@ export function IdentifyComponent() {
               Try Again
             </Button>
             <Button type="submit" onClick={onSubmit} className="w-40 lg:w-70">
-              Continue
+              Sign in
             </Button>
           </>
         ) : (
           <Button type="submit" onClick={onSubmit}>
-            Continue
+            Sign in
           </Button>
         )}
       </div>
