@@ -19,7 +19,7 @@ export function ConfirmResidencyComponent() {
       </p>
 
       <Button type="submit" onClick={onSubmit}>
-        Verify indentity
+        Verify identity
       </Button>
     </section>
   );
