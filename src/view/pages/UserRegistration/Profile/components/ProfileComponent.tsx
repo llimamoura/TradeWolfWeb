@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Form,
   FormControl,
@@ -99,6 +100,8 @@ export function ProfileComponent() {
     );
   };
 
+  const isFormValid = form.formState.isValid;
+
   return (
     <section className="w-full font-manrope">
       <h1 className="flex justify-center sm:text-5xl text-3xl font-extrabold text-background leading-tight lg:mb-6 mb-10">
@@ -109,7 +112,7 @@ export function ProfileComponent() {
       </p>
 
       <div className="flex flex-col items-center justify-center w-full mb-8">
-        <label
+        <Label
           htmlFor="fileUpload"
           className="grid w-24 h-24 max-w-md rounded-full bg-primary"
         >
@@ -124,14 +127,13 @@ export function ProfileComponent() {
               <FontAwesomeIcon
                 icon={faUser}
                 size="4x"
-                style={{ color: "#ffffff" }}
-                className="justify-self-center self-center mt-3"
+                className="text-background justify-self-center self-center mt-4"
               />
 
               <PencilLine className="justify-self-end self-end h-6 w-6 mr-1 border-2 border-background rounded-full p-1 text-background" />
             </>
           )}
-        </label>
+        </Label>
         <Input
           ref={fileInputRef}
           id="fileUpload"
@@ -155,7 +157,7 @@ export function ProfileComponent() {
                 <div className="relative">
                   <FormLabel
                     htmlFor="fullName"
-                    className="absolute -top-3 left-3 bg-muted px-2 text-primary text-sm font-medium z-10"
+                    className="absolute -top-3 left-3 bg-primary-light rounded-full px-2 text-backgound text-sm font-medium z-10"
                   >
                     Full Name
                   </FormLabel>
@@ -181,7 +183,7 @@ export function ProfileComponent() {
                 <div className="relative">
                   <FormLabel
                     htmlFor="cpf"
-                    className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10"
+                    className="absolute -top-3 left-3 bg-primary-light rounded-full px-2 text-background text-sm font-medium z-10"
                   >
                     CPF
                   </FormLabel>
@@ -211,7 +213,7 @@ export function ProfileComponent() {
                 <div className="relative">
                   <FormLabel
                     htmlFor="email"
-                    className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10"
+                    className="absolute -top-3 left-3 bg-primary-light rounded-full px-2 text-background text-sm font-medium z-10"
                   >
                     Email
                   </FormLabel>
@@ -237,7 +239,7 @@ export function ProfileComponent() {
                 <div className="relative">
                   <FormLabel
                     htmlFor="phoneNumber"
-                    className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10"
+                    className="absolute -top-3 left-3 bg-primary-light rounded-full px-2 text-background text-sm font-medium z-10"
                   >
                     Phone Number
                   </FormLabel>
@@ -260,7 +262,12 @@ export function ProfileComponent() {
 
           <Button
             type="submit"
-            className="bg-gradient-to-r from-[#898989] to-[#3f4e61]"
+            className={`${
+              isFormValid
+                ? "bg-primary hover:bg-primary"
+                : "bg-gradient-to-r from-[#898989] to-[#3f4e61] opacity-50"
+            }`}
+            disabled={!isFormValid}
           >
             Submit
           </Button>
