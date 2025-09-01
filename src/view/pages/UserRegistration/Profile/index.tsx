@@ -14,7 +14,7 @@ export function ProfilePage() {
         <h2 className="text-5xl font-bold">TradeWolf</h2>
       </div>
 
-      <div className="h-screen flex flex-col justify-center items-center flex-1 px-6 md:px-16 bg-linear-to-r from-[#dddddd] via-[#004eb59f] to-primary from-1% via-30% to-100% rounded-l-4xl -ml-0 lg:-ml-7">
+      <div className="h-screen flex flex-col justify-center items-center flex-1 px-6 md:px-16 bg-linear-to-r from-primary-medium to-primary from-1% to-100% border-none lg:rounded-l-4xl -ml-0 lg:-ml-7">
         <div className="w-full max-w-xl flex flex-col">
           <ProfileComponent />
         </div>
