@@ -1,4 +1,7 @@
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { PencilLine } from "lucide-react";
 import type { ChangeEvent } from "react";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -108,14 +111,25 @@ export function ProfileComponent() {
       <div className="flex flex-col items-center justify-center w-full mb-8">
         <label
           htmlFor="fileUpload"
-          className="flex flex-col items-center justify-center w-25 max-w-md h-25 rounded-full bg-primary icon-user-round"
+          className="grid w-24 h-24 max-w-md rounded-full bg-primary"
         >
-          {imagePreview && (
+          {imagePreview ? (
             <img
               src={imagePreview}
               alt="Preview"
               className="object-cover h-full w-full rounded-full"
             />
+          ) : (
+            <>
+              <FontAwesomeIcon
+                icon={faUser}
+                size="4x"
+                style={{ color: "#ffffff" }}
+                className="justify-self-center self-center mt-3"
+              />
+
+              <PencilLine className="justify-self-end self-end h-6 w-6 mr-1 border-2 border-background rounded-full p-1 text-background" />
+            </>
           )}
         </label>
         <Input
@@ -137,11 +151,11 @@ export function ProfileComponent() {
             control={form.control}
             name="fullName"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="text-background">
                 <div className="relative">
                   <FormLabel
                     htmlFor="fullName"
-                    className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10"
+                    className="absolute -top-3 left-3 bg-muted px-2 text-primary text-sm font-medium z-10"
                   >
                     Full Name
                   </FormLabel>
@@ -149,7 +163,7 @@ export function ProfileComponent() {
                     <Input
                       type="text"
                       id="fullName"
-                      className="border-background"
+                      className="border-background "
                       {...field}
                     />
                   </FormControl>
@@ -163,7 +177,7 @@ export function ProfileComponent() {
             control={form.control}
             name="cpf"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="text-background">
                 <div className="relative">
                   <FormLabel
                     htmlFor="cpf"
@@ -193,7 +207,7 @@ export function ProfileComponent() {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="text-background">
                 <div className="relative">
                   <FormLabel
                     htmlFor="email"
@@ -219,7 +233,7 @@ export function ProfileComponent() {
             control={form.control}
             name="phoneNumber"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="text-background">
                 <div className="relative">
                   <FormLabel
                     htmlFor="phoneNumber"
@@ -246,7 +260,7 @@ export function ProfileComponent() {
 
           <Button
             type="submit"
-            className="bg-gradient-to-r from-[#898989] to-[#546B89]"
+            className="bg-gradient-to-r from-[#898989] to-[#3f4e61]"
           >
             Submit
           </Button>
