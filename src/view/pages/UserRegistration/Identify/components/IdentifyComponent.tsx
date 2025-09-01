@@ -4,18 +4,32 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export function IdentifyComponent() {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isValidFile, setIsValidFile] = useState(false);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const maxSize = 10 * 1024 * 1024;
+      
+      if (file.size > maxSize) {
+        setImagePreview(null);
+        setIsValidFile(false);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
+        setIsValidFile(true);
       };
       reader.readAsDataURL(file);
     }
@@ -27,6 +41,7 @@ export function IdentifyComponent() {
 
   const handleTryAgain = () => {
     setImagePreview(null);
+    setIsValidFile(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -46,7 +61,7 @@ export function IdentifyComponent() {
       </p>
 
       <div className="flex flex-col items-center justify-center w-full mb-8 lg:mt-0 mt-20">
-        <label
+        <Label
           htmlFor="fileUpload"
           className="flex flex-col items-center justify-center w-full h-50 border-2 border-dashed border-gray-300 rounded-lg bg-primary-foreground hover:bg-secondary transition lg:mb-0 mb-16"
         >
@@ -72,7 +87,7 @@ export function IdentifyComponent() {
               </p>
             </div>
           )}
-        </label>
+        </Label>
         <Input
           ref={fileInputRef}
           id="fileUpload"
@@ -94,12 +109,22 @@ export function IdentifyComponent() {
             >
               Try Again
             </Button>
-            <Button type="submit" onClick={onSubmit} className="w-40 lg:w-70">
+            <Button 
+              type="submit" 
+              onClick={onSubmit} 
+              className="w-40 lg:w-70"
+              disabled={!isValidFile}
+            >
               Sign in
             </Button>
           </>
         ) : (
-          <Button type="submit" onClick={onSubmit}>
+          <Button 
+            type="submit" 
+            onClick={onSubmit}
+            disabled={!isValidFile}
+            className="bg-gradient-to-r from-[#898989] to-[#3f4e61] opacity-50"
+          >
             Sign in
           </Button>
         )}
