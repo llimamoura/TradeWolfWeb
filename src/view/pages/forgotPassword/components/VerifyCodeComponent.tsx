@@ -1,13 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { KeyboardEvent } from "react";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRef } from "react";
-import type { KeyboardEvent } from "react";
-import { CodeValidationSchema, type CodeFormData } from "../schema";
-
+import { type CodeFormData, CodeValidationSchema } from "../schema";
 
 export function VerifyCodeComponent() {
   const navigate = useNavigate();
@@ -73,7 +72,7 @@ export function VerifyCodeComponent() {
   const hasAnyError = Object.values(form.formState.errors).length > 0;
 
   return (
-    <section className="w-full lg:mb-0 lg:justify-center">
+    <section className="w-full">
       <h1 className="flex justify-center text-4xl font-extrabold text-foreground leading-tight mb-6">
         Verify Code
       </h1>
@@ -100,7 +99,7 @@ export function VerifyCodeComponent() {
                       inputMode="numeric"
                       maxLength={1}
                       placeholder="-"
-                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border text-center lg:text-3xl text-3xl font-bold rounded-full"
+                      className="size-15 lg:size-20 bg-border text-center lg:text-3xl text-3xl font-bold rounded-full"
                       onChange={(e) =>
                         handleInputChange("code1", e.target.value)
                       }
@@ -124,7 +123,7 @@ export function VerifyCodeComponent() {
                       inputMode="numeric"
                       maxLength={1}
                       placeholder="-"
-                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border text-center lg:text-3xl text-3xl font-bold rounded-full"
+                      className="size-15 lg:size-20 bg-border text-center lg:text-3xl text-3xl font-bold rounded-full"
                       onChange={(e) =>
                         handleInputChange("code2", e.target.value)
                       }
@@ -148,7 +147,7 @@ export function VerifyCodeComponent() {
                       inputMode="numeric"
                       maxLength={1}
                       placeholder="-"
-                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border text-center lg:text-3xl text-3xl font-bold rounded-full"
+                      className="size-15 lg:size-20 bg-border text-center lg:text-3xl text-3xl font-bold rounded-full"
                       onChange={(e) =>
                         handleInputChange("code3", e.target.value)
                       }
@@ -172,7 +171,7 @@ export function VerifyCodeComponent() {
                       inputMode="numeric"
                       maxLength={1}
                       placeholder="-"
-                      className="w-15 h-15 lg:w-20 lg:h-20 bg-border text-center lg:text-3xl text-3xl font-bold rounded-full"
+                      className="size-15 lg:size-20 bg-border text-center lg:text-3xl text-3xl font-bold rounded-full"
                       onChange={(e) =>
                         handleInputChange("code4", e.target.value)
                       }

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-export const PasswordSchema = z.string()
+export const PasswordSchema = z
+  .string()
   .min(8, { message: "Your password must be at least 8 characters long" })
   .max(64, { message: "Your password must be a maximum of 64 characters" })
   .regex(/[A-Z]/, {
@@ -16,13 +17,14 @@ export const PasswordSchema = z.string()
     message: "Your password must contain at least one special character",
   });
 
-export const ResetPasswordValidationSchema = z.object({
-  password: PasswordSchema,
-  confirmPassword: z.string(),
-})
-.refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
+export const ResetPasswordValidationSchema = z
+  .object({
+    password: PasswordSchema,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 export type ResetPasswordData = z.infer<typeof ResetPasswordValidationSchema>;

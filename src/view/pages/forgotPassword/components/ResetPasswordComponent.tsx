@@ -1,12 +1,21 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { FloatingLabelInput } from "@/components/floating-label-input";
 import { useNavigate } from "react-router-dom";
-import { ResetPasswordValidationSchema, type ResetPasswordData } from "@/validations/auth";
+import { toast } from "sonner";
+import { FloatingLabelInput } from "@/components/floating-label-input";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  type ResetPasswordData,
+  ResetPasswordValidationSchema,
+} from "@/validations/auth";
 
 export function ResetPasswordComponent() {
   const navigate = useNavigate();
@@ -20,7 +29,6 @@ export function ResetPasswordComponent() {
   });
 
   const onSubmit = async (data: ResetPasswordData) => {
-    console.log("Sending password...", data.password);
     toast.success("Password has been reset.");
     navigate("/");
   };
@@ -30,7 +38,7 @@ export function ResetPasswordComponent() {
   };
 
   return (
-    <section className="w-full lg:mb-0 lg:justify-center">
+    <section className="w-full">
       <h1 className="flex justify-center text-4xl font-extrabold text-foreground leading-tight mb-6">
         Create Password
       </h1>
@@ -65,7 +73,7 @@ export function ResetPasswordComponent() {
               <FormItem>
                 <FloatingLabelInput label="Repeat Password">
                   <FormControl>
-                    <Input type="password" className="h-15 mb-4" {...field} />
+                    <Input type="password" className="mb-4" {...field} />
                   </FormControl>
                 </FloatingLabelInput>
                 <FormMessage />
