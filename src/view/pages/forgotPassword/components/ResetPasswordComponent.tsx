@@ -28,7 +28,7 @@ export function ResetPasswordComponent() {
     },
   });
 
-  const onSubmit = async (data: ResetPasswordData) => {
+  const onSubmit = async () => {
     toast.success("Password has been reset.");
     navigate("/");
   };
