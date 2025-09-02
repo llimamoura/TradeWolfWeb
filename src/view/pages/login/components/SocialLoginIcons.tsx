@@ -3,7 +3,7 @@ import google from "../../../../assets/icons/google.png";
 
 export function SocialLoginIcons() {
   return (
-    <div className="flex flex-col w-full font-manrope">
+    <div className="flex flex-col w-full">
       <div className="flex items-center my-7">
         <hr className="flex-grow border-border" />
         <span className="mx-3 text-muted-foreground text-sm">

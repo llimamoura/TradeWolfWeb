@@ -1,37 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-const ResetPasswordValidationSchema = z.object({
-    password: z.string()
-      .min(8, { message: "Your password must be at least 8 characters long" })
-      .max(64, { message: "Your password must be a maximum of 64 characters" })
-      .regex(/[A-Z]/, {
-        message: "Your password must contain at least one capital letter",
-      })
-      .regex(/[a-z]/, {
-        message: "Your password must contain at least one minuscule letter",
-      })
-      .regex(/[0-9]/, {
-        message: "Your password must contain at least one number",
-      })
-      .regex(/[!@#$%^&*()]/, {
-        message: "Your password must contain at least one special character",
-      }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
-
-type ResetPasswordData = z.infer<typeof ResetPasswordValidationSchema>;
+import { FloatingLabelInput } from "@/components/floating-label-input";
+import { useNavigate } from "react-router-dom";
+import { ResetPasswordValidationSchema, type ResetPasswordData } from "@/validations/auth";
 
 export function ResetPasswordComponent() {
+  const navigate = useNavigate();
+
   const form = useForm<ResetPasswordData>({
     resolver: zodResolver(ResetPasswordValidationSchema),
     defaultValues: {
@@ -43,6 +22,7 @@ export function ResetPasswordComponent() {
   const onSubmit = async (data: ResetPasswordData) => {
     console.log("Sending password...", data.password);
     toast.success("Password has been reset.");
+    navigate("/");
   };
 
   const onError = () => {
@@ -50,7 +30,7 @@ export function ResetPasswordComponent() {
   };
 
   return (
-    <section className="w-full font-manrope lg:mb-0 lg:justify-center">
+    <section className="w-full lg:mb-0 lg:justify-center">
       <h1 className="flex justify-center text-4xl font-extrabold text-foreground leading-tight mb-6">
         Create Password
       </h1>
@@ -61,21 +41,18 @@ export function ResetPasswordComponent() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit, onError)}
-          className="space-y-5 flex flex-col lg:ml-0"
+          className="space-y-5 flex flex-col"
         >
           <FormField
             control={form.control}
             name="password"
             render={({ field }) => (
               <FormItem>
-                <div className="relative">
-                  <FormLabel className="absolute -top-3 left-3 bg-white px-2 text-primary text-sm font-medium z-10">
-                    Password
-                  </FormLabel>
+                <FloatingLabelInput label="Password">
                   <FormControl>
-                    <Input type="password" className="h-15 mb-2" {...field} />
+                    <Input type="password" className="mb-2" {...field} />
                   </FormControl>
-                </div>
+                </FloatingLabelInput>
                 <FormMessage />
               </FormItem>
             )}
@@ -86,14 +63,11 @@ export function ResetPasswordComponent() {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <div className="relative">
-                  <FormLabel className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
-                    Repeat Password
-                  </FormLabel>
+                <FloatingLabelInput label="Repeat Password">
                   <FormControl>
                     <Input type="password" className="h-15 mb-4" {...field} />
                   </FormControl>
-                </div>
+                </FloatingLabelInput>
                 <FormMessage />
               </FormItem>
             )}

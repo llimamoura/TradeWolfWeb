@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { TradeWolfDefaultLayout } from "@/view/layouts/TradeWolfDefaultLayout";
+import { AuthLayout } from "@/view/layouts/AuthLayout";
 import { ForgotPasswordPage } from "@/view/pages/forgotPassword";
 import { ResetPasswordPage } from "@/view/pages/forgotPassword/ResetPassword";
 import { VerifyCodePage } from "@/view/pages/forgotPassword/VerifyCode";
@@ -8,7 +8,7 @@ import { LoginPage } from "../view/pages/login";
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<TradeWolfDefaultLayout />}>
+      <Route path="/" element={<AuthLayout />}>
         <Route index element={<LoginPage />} />
         <Route path="forgot-password" element={<ForgotPasswordPage />} />
         <Route

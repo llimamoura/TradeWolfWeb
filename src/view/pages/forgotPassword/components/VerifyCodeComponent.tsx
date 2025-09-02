@@ -1,21 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRef } from "react";
 import type { KeyboardEvent } from "react";
+import { CodeValidationSchema, type CodeFormData } from "../schema";
 
-const CodeValidationSchema = z.object({
-  code1: z.string().min(1, { message: "Campo obrigatório" }),
-  code2: z.string().min(1, { message: "Campo obrigatório" }),
-  code3: z.string().min(1, { message: "Campo obrigatório" }),
-  code4: z.string().min(1, { message: "Campo obrigatório" }),
-});
-
-type CodeFormData = z.infer<typeof CodeValidationSchema>;
 
 export function VerifyCodeComponent() {
   const navigate = useNavigate();
@@ -81,7 +73,7 @@ export function VerifyCodeComponent() {
   const hasAnyError = Object.values(form.formState.errors).length > 0;
 
   return (
-    <section className="w-full font-manrope lg:mb-0 lg:justify-center">
+    <section className="w-full lg:mb-0 lg:justify-center">
       <h1 className="flex justify-center text-4xl font-extrabold text-foreground leading-tight mb-6">
         Verify Code
       </h1>
