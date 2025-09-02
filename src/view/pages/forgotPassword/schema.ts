@@ -8,7 +8,6 @@ export const EmailValidationSchema = z.object({
 
 export type EmailFormData = z.infer<typeof EmailValidationSchema>;
 
-
 export const CodeValidationSchema = z.object({
   code1: z.string().min(1, { message: "Required field" }),
   code2: z.string().min(1, { message: "Required field" }),
