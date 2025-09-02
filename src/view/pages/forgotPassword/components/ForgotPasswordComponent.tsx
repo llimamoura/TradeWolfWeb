@@ -1,19 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-const EmailValidationSchema = z.object({
-  email: z
-    .email({ message: "Invalid email!" })
-    .min(1, { message: "The email field cannot be empty" })
-    .max(255, { message: "Very long email" }),
-});
-
-type EmailFormData = z.infer<typeof EmailValidationSchema>;
+import { FloatingLabelInput } from "@/components/floating-label-input";
+import { EmailValidationSchema, type EmailFormData } from "../schema";
 
 export function ForgotPasswordForm() {
   const navigate = useNavigate();
@@ -25,13 +17,13 @@ export function ForgotPasswordForm() {
     },
   });
 
-  const onSubmit = (data: EmailFormData) => {
+  const onSubmit = async (data: EmailFormData) => {
     console.log("Sending email...", data.email);
     navigate("/forgot-password/verification");
   };
 
   return (
-    <section className="w-full font-manrope lg:mb-0 lg:justify-center">
+    <section className="w-full lg:mb-0 lg:justify-center">
       <h1 className="flex justify-center lg:mb-6 text-3xl lg:text-4xl lg:text-center text-center font-extrabold text-foreground leading-tight mb-8">
         Forgot your Password?
       </h1>
@@ -43,21 +35,18 @@ export function ForgotPasswordForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-5 flex flex-col lg:ml-0"
+          className="space-y-5 flex flex-col"
         >
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <div className="relative">
-                  <FormLabel className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
-                    Email
-                  </FormLabel>
+                <FloatingLabelInput label="Email">
                   <FormControl>
-                    <Input type="email" className="h-15 mb-2" {...field} />
+                    <Input type="email" className="mb-2" {...field} />
                   </FormControl>
-                </div>
+                </FloatingLabelInput>
                 <FormMessage />
               </FormItem>
             )}
