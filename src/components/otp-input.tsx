@@ -1,4 +1,4 @@
-import { OTPInput, type SlotProps } from 'input-otp'
+import { OTPInput as OTPInputComponent, type SlotProps } from 'input-otp'
 import { cn } from '@/lib/utils'
 
 interface OTPInputProps {
@@ -38,7 +38,7 @@ function FakeCaret() {
     )
   }
 
-export function OTPInputC({ value, onChange, maxLength = 4}: OTPInputProps) {
+export function OTPInput({ value, onChange, maxLength = 4}: OTPInputProps) {
   
     const handleChange = (newValue: string) => {
     const numericValue = newValue.replace(/\D/g, '')
@@ -46,7 +46,7 @@ export function OTPInputC({ value, onChange, maxLength = 4}: OTPInputProps) {
   }
 
   return (
-    <OTPInput
+    <OTPInputComponent
       maxLength={maxLength}
       value={value}
       onChange={handleChange}
