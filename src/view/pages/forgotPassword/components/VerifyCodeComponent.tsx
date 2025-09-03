@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { OTPInputC } from "@/components/otp-input";
+import { OTPInput } from "@/components/otp-input";
 import { type CodeFormData, CodeValidationSchema } from "../schema";
 
 export function VerifyCodeComponent() {
@@ -43,7 +43,7 @@ export function VerifyCodeComponent() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <OTPInputC
+                  <OTPInput
                     value={field.value}
                     onChange={field.onChange}
                     maxLength={4}
