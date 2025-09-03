@@ -9,10 +9,7 @@ export const EmailValidationSchema = z.object({
 export type EmailFormData = z.infer<typeof EmailValidationSchema>;
 
 export const CodeValidationSchema = z.object({
-  code1: z.string().min(1, { message: "Required field" }),
-  code2: z.string().min(1, { message: "Required field" }),
-  code3: z.string().min(1, { message: "Required field" }),
-  code4: z.string().min(1, { message: "Required field" }),
+  code: z.string().min(1, { message: "Code must be 4 digits" }),
 });
 
 export type CodeFormData = z.infer<typeof CodeValidationSchema>;
