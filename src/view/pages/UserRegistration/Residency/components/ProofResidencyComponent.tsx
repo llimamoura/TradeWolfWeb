@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -29,17 +28,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import countriesData from "@/data/countries-flags.json";
 import { cn } from "@/lib/utils";
-
-const proofResidencySchema = z.object({
-  nationality: z.string().min(1, "Please select a nationality"),
-  verificationMethod: z.enum([
-    "National-identity-card",
-    "Passport",
-    "Driver-license",
-  ]),
-});
-
-type ProofResidencyForm = z.infer<typeof proofResidencySchema>;
+import { type ProofResidencyForm, proofResidencySchema } from "../schema";
 
 export function ProofResidencyComponent() {
   const navigate = useNavigate();
