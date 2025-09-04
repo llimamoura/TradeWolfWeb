@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { OTPInput } from "@/components/otp-input";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { OTPInput } from "@/components/otp-input";
 import { type CodeFormData, CodeValidationSchema } from "../schema";
 
 export function VerifyCodeComponent() {

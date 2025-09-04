@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FloatingLabelInput } from "@/components/floating-label-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,18 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { type LoginFormData, LoginSchema } from "../schema";
 
-const LoginSchema = z.object({
-  email: z
-    .email({ message: "Invalid email address" })
-    .min(1, { message: "Email is required" }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters" }),
-});
-
-type LoginFormData = z.infer<typeof LoginSchema>;
-
 export function LoginForm() {
+  const navigate = useNavigate();
   const form = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -35,6 +25,7 @@ export function LoginForm() {
 
   const onSubmit = async (data: LoginFormData) => {
     console.log("Logging in with:", data.email, data.password);
+    navigate("/create-user");
   };
 
   return (
