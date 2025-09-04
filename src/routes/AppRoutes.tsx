@@ -25,12 +25,10 @@ export function AppRoutes() {
         />
 
         <Route path="/create-user" element={<ConfirmResidencyPage />} />
-
         <Route
           path="/create-user/proof-residency"
           element={<ProofResidencyPage />}
         />
-
         <Route path="/create-user/profile" element={<ProfilePage />} />
         <Route path="/create-user/identify" element={<IdentifyPage />} />
       </Route>

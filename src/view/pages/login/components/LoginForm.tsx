@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FloatingLabelInput } from "@/components/floating-label-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { type LoginFormData, LoginSchema } from "../schema";
-import { useNavigate } from "react-router-dom";
 
 export function LoginForm() {
   const navigate = useNavigate();
