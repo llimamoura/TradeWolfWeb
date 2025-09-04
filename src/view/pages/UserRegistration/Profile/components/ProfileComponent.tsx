@@ -5,7 +5,6 @@ import { PencilLine } from "lucide-react";
 import type { ChangeEvent } from "react";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,29 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-
-const ProfileSchema = z.object({
-  fullName: z
-    .string({ message: "Fill the field with your complete name" })
-    .min(1, { message: "Your full name is requiered" }),
-  cpf: z
-    .string({ message: "Fill the field with yout complete CPF" })
-    .min(11, { message: "The CPF's must be at least 11 characters long" })
-    .regex(
-      /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
-      "CPF must be in the format 000.000.000-00"
-    ),
-  email: z
-    .email({ message: "Invalid email address" })
-    .min(1, { message: "Email is required" }),
-  phoneNumber: z
-    .string()
-    .min(11, { message: "Phone number must be at least 11 characters" })
-    .regex(/^\(?[1-9]{2}\)?[\s-]?9\d{4}-?\d{4}$/, "Invalid phone number"),
-});
-
-type ProfileFormData = z.infer<typeof ProfileSchema>;
+import { type ProfileFormData, ProfileSchema } from "../schema";
+import { toast } from "sonner";
 
 export function ProfileComponent() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -47,6 +25,7 @@ export function ProfileComponent() {
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
+      image: "",
       fullName: "",
       cpf: "",
       email: "",
@@ -79,7 +58,10 @@ export function ProfileComponent() {
     )}`;
   };
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    onChange: (file: File | null) => void
+  ) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -87,17 +69,22 @@ export function ProfileComponent() {
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
+      onChange(file);
+    } else {
+      onChange(null);
     }
   };
 
   const onSubmit = async (data: ProfileFormData) => {
     console.log(
       "Your Profile:",
+      data.image,
       data.fullName,
       data.cpf,
       data.email,
       data.phoneNumber
     );
+    toast.success("Password has been reset.");
   };
 
   const isFormValid = form.formState.isValid;
@@ -111,44 +98,53 @@ export function ProfileComponent() {
         Don´t worry, you can always change it later
       </p>
 
-      <div className="flex flex-col items-center justify-center w-full mb-8">
-        <Label
-          htmlFor="fileUpload"
-          className="grid w-24 h-24 max-w-md rounded-full bg-primary"
-        >
-          {imagePreview ? (
-            <img
-              src={imagePreview}
-              alt="Preview"
-              className="object-cover h-full w-full rounded-full"
-            />
-          ) : (
-            <>
-              <FontAwesomeIcon
-                icon={faUser}
-                size="4x"
-                className="text-background justify-self-center self-center mt-4"
-              />
-
-              <PencilLine className="justify-self-end self-end h-6 w-6 mr-1 border-2 border-background rounded-full p-1 text-background" />
-            </>
-          )}
-        </Label>
-        <Input
-          ref={fileInputRef}
-          id="fileUpload"
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="hidden"
-        />
-      </div>
-
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6 flex flex-col lg:ml-0"
         >
+          <FormField
+            control={form.control}
+            name="image"
+            render={({ field }) => (
+              <FormItem className="text-background">
+                <div className="flex flex-col items-center justify-center w-full mb-8">
+                  <FormLabel
+                    htmlFor="fileUpload"
+                    className="grid w-24 h-24 max-w-md rounded-full bg-primary cursor-pointer"
+                  >
+                    {imagePreview ? (
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        className="object-cover h-full w-full rounded-full"
+                      />
+                    ) : (
+                      <>
+                        <FontAwesomeIcon
+                          icon={faUser}
+                          size="4x"
+                          className="text-background justify-self-center self-center mt-4"
+                        />
+                        <PencilLine className="justify-self-end self-end h-6 w-6 mr-1 border-2 border-background rounded-full p-1 text-background" />
+                      </>
+                    )}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      ref={fileInputRef}
+                      id="fileUpload"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleImageChange(e, field.onChange)}
+                      className="hidden"
+                    />
+                  </FormControl>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="fullName"
@@ -165,7 +161,7 @@ export function ProfileComponent() {
                     <Input
                       type="text"
                       id="fullName"
-                      className="border-background "
+                      className="border-background"
                       {...field}
                     />
                   </FormControl>
@@ -265,7 +261,7 @@ export function ProfileComponent() {
             className={`${
               isFormValid
                 ? "bg-primary hover:bg-primary"
-                : "bg-gradient-to-r from-[#898989] to-[#3f4e61] opacity-50"
+                : "bg-gradient-to-r from-muted-secondary to-[#3f4e61] opacity-50"
             }`}
             disabled={!isFormValid}
           >

@@ -8,6 +8,7 @@ import { ProfilePage } from "@/view/pages/UserRegistration/Profile";
 import { ConfirmResidencyPage } from "@/view/pages/UserRegistration/Residency";
 import { ProofResidencyPage } from "@/view/pages/UserRegistration/Residency/ProofResidency";
 import { LoginPage } from "../view/pages/login";
+import { ProfileLayout } from "@/view/layouts/ProfileLayout";
 
 export function AppRoutes() {
   return (
@@ -29,8 +30,10 @@ export function AppRoutes() {
           path="/create-user/proof-residency"
           element={<ProofResidencyPage />}
         />
-        <Route path="/create-user/profile" element={<ProfilePage />} />
         <Route path="/create-user/identify" element={<IdentifyPage />} />
+      </Route>
+      <Route path="/" element={<ProfileLayout />}>
+        <Route path="/create-user/profile" element={<ProfilePage />} />
       </Route>
     </Routes>
   );

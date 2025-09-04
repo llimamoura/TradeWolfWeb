@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -14,37 +13,15 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
-const ACCEPTED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-];
-
-const formSchema = z.object({
-  image: z
-    .any()
-    .refine(
-      (file) => file && file.size <= MAX_FILE_SIZE,
-      "Max image size is 10MB."
-    )
-    .refine(
-      (file) => file && ACCEPTED_IMAGE_TYPES.includes(file.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
-    ),
-});
-
-type FormData = z.infer<typeof formSchema>;
+import {type ImageFormData  ,imageSchema} from "../schema"
 
 export function IdentifyComponent() {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<ImageFormData>({
+    resolver: zodResolver(imageSchema),
     defaultValues: {
       image: undefined,
     },
@@ -77,7 +54,7 @@ export function IdentifyComponent() {
     }
   };
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: ImageFormData) => {
     console.log("Form data:", data);
     navigate("/create-user/profile");
   };
@@ -167,7 +144,7 @@ export function IdentifyComponent() {
             ) : (
               <Button
                 type="submit"
-                className="bg-gradient-to-r from-[#898989] to-[#3f4e61] opacity-50"
+                className="bg-gradient-to-r from--muted-secondary to-border-light opacity-50"
                 disabled
               >
                 Sign in
