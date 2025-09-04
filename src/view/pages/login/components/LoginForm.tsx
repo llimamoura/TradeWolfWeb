@@ -1,30 +1,21 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { z } from "zod";
+import { FloatingLabelInput } from "@/components/floating-label-input";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-const LoginSchema = z.object({
-  email: z
-    .email({ message: "Invalid email address" })
-    .min(1, { message: "Email is required" }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters" }),
-});
-
-type LoginFormData = z.infer<typeof LoginSchema>;
+import { type LoginFormData, LoginSchema } from "../schema";
+import { useNavigate } from "react-router-dom";
 
 export function LoginForm() {
+  const navigate = useNavigate();
   const form = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -35,10 +26,11 @@ export function LoginForm() {
 
   const onSubmit = async (data: LoginFormData) => {
     console.log("Logging in with:", data.email, data.password);
+    navigate("/create-user");
   };
 
   return (
-    <section className="w-full lg:mt-20 font-manrope">
+    <section className="w-full lg:mt-20">
       <h1 className="flex justify-center sm:text-5xl text-3xl font-extrabold text-foreground leading-tight lg:mb-6 mb-10">
         Let's log you in
       </h1>
@@ -62,32 +54,25 @@ export function LoginForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <div className="relative">
-                  <FormLabel className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
-                    Email
-                  </FormLabel>
+                <FloatingLabelInput label="Email">
                   <FormControl>
                     <Input type="email" {...field} />
                   </FormControl>
-                </div>
+                </FloatingLabelInput>
                 <FormMessage />
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="password"
             render={({ field }) => (
               <FormItem>
-                <div className="relative">
-                  <FormLabel className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
-                    Password
-                  </FormLabel>
+                <FloatingLabelInput label="Password">
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
-                </div>
+                </FloatingLabelInput>
                 <FormMessage />
               </FormItem>
             )}
@@ -101,11 +86,9 @@ export function LoginForm() {
             </Link>
           </div>
 
-          <Link to="/create-user">
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              Sign in
-            </Button>
-          </Link>
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            Sign in
+          </Button>
         </form>
       </Form>
     </section>
