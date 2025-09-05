@@ -19,6 +19,7 @@ import { type ProfileFormData, ProfileSchema } from "../schema";
 import { toast } from "sonner";
 import { FormatCPF } from "@/utils/FormatCPF";
 import { FormatPhone } from "@/utils/FormatPhone";
+import { FloatingProfileLabelInput } from "@/components/floating-label-input";
 
 export function ProfileComponent() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -61,13 +62,13 @@ export function ProfileComponent() {
       data.email,
       data.phoneNumber
     );
-    toast.success("Password has been reset.");
+    toast.success("Your Profile has been created with success.");
   };
 
   const isFormValid = form.formState.isValid;
 
   return (
-    <section className="w-full font-manrope">
+    <section className="w-full">
       <h1 className="flex justify-center sm:text-5xl text-3xl font-extrabold text-background leading-tight lg:mb-6 mb-10">
         Fill Your Profile
       </h1>
@@ -78,7 +79,7 @@ export function ProfileComponent() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 flex flex-col lg:ml-0"
+          className="space-y-6 flex flex-col"
         >
           <FormField
             control={form.control}
@@ -88,22 +89,22 @@ export function ProfileComponent() {
                 <div className="flex flex-col items-center justify-center w-full mb-8">
                   <FormLabel
                     htmlFor="fileUpload"
-                    className="grid w-24 h-24 max-w-md rounded-full bg-primary cursor-pointer"
+                    className="grid size-24 rounded-full bg-primary cursor-pointer"
                   >
                     {imagePreview ? (
                       <img
                         src={imagePreview}
                         alt="Preview"
-                        className="object-cover h-full w-full rounded-full"
+                        className="w-full h-full object-cover object-center rounded-full overflow-hidden"
                       />
                     ) : (
                       <>
                         <FontAwesomeIcon
                           icon={faUser}
                           size="4x"
-                          className="text-background justify-self-center self-center mt-4"
+                          className="text-background justify-self-center self-center mt-4 overflow"
                         />
-                        <PencilLine className="justify-self-end self-end h-6 w-6 mr-1 border-2 border-background rounded-full p-1 text-background" />
+                        <PencilLine className="justify-self-end self-end size-6 mr-1 border-2 border-background rounded-full p-1 text-background" />
                       </>
                     )}
                   </FormLabel>
@@ -126,23 +127,16 @@ export function ProfileComponent() {
             control={form.control}
             name="fullName"
             render={({ field }) => (
-              <FormItem className="text-background">
-                <div className="relative">
-                  <FormLabel
-                    htmlFor="fullName"
-                    className="absolute -top-3 left-3 bg-primary-light rounded-full px-2 text-backgound text-sm font-medium z-10"
-                  >
-                    Full Name
-                  </FormLabel>
+              <FormItem>
+                <FloatingProfileLabelInput label="Full Name">
                   <FormControl>
                     <Input
-                      type="text"
-                      id="fullName"
+                      type="fullName"
                       className="border-background"
                       {...field}
                     />
                   </FormControl>
-                </div>
+                </FloatingProfileLabelInput>
                 <FormMessage />
               </FormItem>
             )}
@@ -152,14 +146,8 @@ export function ProfileComponent() {
             control={form.control}
             name="cpf"
             render={({ field }) => (
-              <FormItem className="text-background">
-                <div className="relative">
-                  <FormLabel
-                    htmlFor="cpf"
-                    className="absolute -top-3 left-3 bg-primary-light rounded-full px-2 text-background text-sm font-medium z-10"
-                  >
-                    CPF
-                  </FormLabel>
+              <FormItem>
+                <FloatingProfileLabelInput label="CPF">
                   <FormControl>
                     <Input
                       type="text"
@@ -172,7 +160,7 @@ export function ProfileComponent() {
                       }}
                     />
                   </FormControl>
-                </div>
+                </FloatingProfileLabelInput>
                 <FormMessage />
               </FormItem>
             )}
@@ -182,23 +170,16 @@ export function ProfileComponent() {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="text-background">
-                <div className="relative">
-                  <FormLabel
-                    htmlFor="email"
-                    className="absolute -top-3 left-3 bg-primary-light rounded-full px-2 text-background text-sm font-medium z-10"
-                  >
-                    Email
-                  </FormLabel>
+              <FormItem>
+                <FloatingProfileLabelInput label="Email">
                   <FormControl>
                     <Input
                       type="email"
-                      id="email"
                       className="border-background"
                       {...field}
                     />
                   </FormControl>
-                </div>
+                </FloatingProfileLabelInput>
                 <FormMessage />
               </FormItem>
             )}
@@ -208,14 +189,8 @@ export function ProfileComponent() {
             control={form.control}
             name="phoneNumber"
             render={({ field }) => (
-              <FormItem className="text-background">
-                <div className="relative">
-                  <FormLabel
-                    htmlFor="phoneNumber"
-                    className="absolute -top-3 left-3 bg-primary-light rounded-full px-2 text-background text-sm font-medium z-10"
-                  >
-                    Phone Number
-                  </FormLabel>
+              <FormItem>
+                <FloatingProfileLabelInput label="Phone Number">
                   <FormControl>
                     <Input
                       id="phoneNumber"
@@ -227,7 +202,7 @@ export function ProfileComponent() {
                       }}
                     />
                   </FormControl>
-                </div>
+                </FloatingProfileLabelInput>
                 <FormMessage />
               </FormItem>
             )}
@@ -238,7 +213,7 @@ export function ProfileComponent() {
             className={`${
               isFormValid
                 ? "bg-primary hover:bg-primary"
-                : "bg-gradient-to-r from-muted-secondary to-[#3f4e61] opacity-50"
+                : "bg-gradient-to-r from-muted-secondary to-border-light"
             }`}
             disabled={!isFormValid}
           >

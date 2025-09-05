@@ -47,12 +47,12 @@ export function ProofResidencyComponent() {
   };
 
   return (
-    <section className="w-full font-manrope mb-12 lg:mb-0 lg:justify-center">
-      <h1 className="flex justify-center lg:mb-10 text-3xl lg:text-4xl lg:text-center text-center font-extrabold text-foreground leading-tight mb-5">
+    <section className="w-full mb-12 lg:mb-0">
+      <h1 className="flex justify-center lg:mb-10 text-3xl lg:text-4xl text-center font-extrabold text-foreground leading-tight mb-5">
         Proof of Residency
       </h1>
 
-      <p className="hidden lg:flex font-medium lg:text-center text-center text-sm text-muted-foreground mb-15">
+      <p className="hidden lg:flex font-medium text-center text-sm text-muted-foreground mb-15">
         We are required to verify your identity before you can use the
         application. Your information will be encrypted and stored securely.
       </p>
@@ -76,7 +76,7 @@ export function ProofResidencyComponent() {
                           variant="outline"
                           role="combobox"
                           className={cn(
-                            "w-full justify-between font-manrope",
+                            "w-full justify-between",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -164,10 +164,10 @@ export function ProofResidencyComponent() {
           </div>
 
           <div>
-            <p className="flex justify-start items-start text-primary font-manrope font-bold mb-2">
+            <p className="flex justify-start items-start text-primary font-bold mb-2">
               Verification Method
             </p>
-            <div className="p-5 bg-quartenary rounded-xl font-manrope">
+            <div className="p-5 bg-quartenary rounded-xl">
               <FormField
                 control={form.control}
                 name="verificationMethod"
@@ -191,10 +191,10 @@ export function ProofResidencyComponent() {
                         <Separator className="bg-highlighted border border-highlighted lg:hidden" />
                         <Separator
                           orientation="vertical"
-                          className="!h-6 border border-highlighted hidden lg:flex"
+                          className="border border-highlighted hidden lg:flex"
                         />
 
-                        <div className="flex items-center space-x-2 ">
+                        <div className="flex items-center space-x-2">
                           <RadioGroupItem
                             value="Passport"
                             id="Passport"
@@ -206,7 +206,7 @@ export function ProofResidencyComponent() {
                         <Separator className="bg-highlighted border border-highlighted lg:hidden" />
                         <Separator
                           orientation="vertical"
-                          className="!h-6 border border-highlighted hidden lg:flex"
+                          className="border border-highlighted hidden lg:flex"
                         />
 
                         <div className="flex items-center space-x-2">

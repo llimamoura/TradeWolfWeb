@@ -3,7 +3,6 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -12,8 +11,9 @@ import {
   FormField,
   FormItem,
   FormMessage,
+  FormLabel,
 } from "@/components/ui/form";
-import {type ImageFormData  ,imageSchema} from "../schema"
+import { type ImageFormData, imageSchema } from "../schema";
 
 export function IdentifyComponent() {
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ export function IdentifyComponent() {
   };
 
   return (
-    <section className="w-full font-manrope lg:mb-0 lg:justify-center">
+    <section className="w-full justify-center">
       <h1 className="flex justify-center lg:mb-10 text-3xl lg:text-4xl lg:text-center text-start font-extrabold text-foreground leading-tight mb-5">
         Photo ID Card
       </h1>
@@ -71,7 +71,7 @@ export function IdentifyComponent() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 flex flex-col lg:ml-0"
+          className="space-y-6 flex flex-col"
         >
           <FormField
             control={form.control}
@@ -79,9 +79,9 @@ export function IdentifyComponent() {
             render={({ field }) => (
               <FormItem className="text-background">
                 <div className="flex flex-col items-center justify-center w-full mb-8 lg:mt-0 mt-20">
-                  <Label
+                  <FormLabel
                     htmlFor="fileUpload"
-                    className="flex flex-col items-center justify-center w-full h-50 border-2 border-dashed border-gray-300 rounded-lg bg-primary-foreground hover:bg-secondary transition lg:mb-0 mb-16"
+                    className="flex flex-col items-center justify-center w-full h-50 border-2 border-dashed border-quartenary rounded-lg bg-primary-foreground hover:bg-secondary transition lg:mb-0 mb-16"
                   >
                     {imagePreview ? (
                       <img
@@ -93,19 +93,19 @@ export function IdentifyComponent() {
                       <div className="flex flex-col items-center justify-center text-center px-4">
                         <Button
                           type="button"
-                          className="mb-5 mt-5 w-80 flex items-center justify-start gap-25 lg:gap-21"
+                          className="my-5 w-80 flex items-center justify-start gap-25 lg:gap-21"
                           onClick={handleButtonClick}
                         >
-                          <PackagePlus className="!w-fit !h-fit" />
+                          <PackagePlus className="size-fit" />
                           Add file
-                          <ChevronDown className="ml-auto !w-fit !h-fit" />
+                          <ChevronDown className="ml-auto size-fit" />
                         </Button>
                         <p className="text-sm text-primary font-semibold">
                           Max file size: 10MB
                         </p>
                       </div>
                     )}
-                  </Label>
+                  </FormLabel>
                   <FormControl>
                     <Input
                       ref={fileInputRef}
@@ -144,7 +144,7 @@ export function IdentifyComponent() {
             ) : (
               <Button
                 type="submit"
-                className="bg-gradient-to-r from--muted-secondary to-border-light opacity-50"
+                className="bg-gradient-to-r from-muted-secondary to-border-light"
                 disabled
               >
                 Sign in
