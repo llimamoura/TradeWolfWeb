@@ -15,7 +15,7 @@ export function ConfirmResidencyComponent() {
       </h1>
       <p className="font-medium lg:text-center text-start text-sm text-muted-foreground mb-16 lg:mb-30">
         We are required to verify your identity before you can use the
-        application. Your information will be encrpyted and stored securely.
+        application. Your information will be encrypted and stored securely.
       </p>
 
       <Button type="submit" onClick={onSubmit}>

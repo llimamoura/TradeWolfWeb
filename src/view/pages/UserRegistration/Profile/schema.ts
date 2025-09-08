@@ -21,7 +21,7 @@ export const ProfileSchema = z.object({
     ),
   fullName: z
     .string({ message: "Fill the field with your complete name" })
-    .min(1, { message: "Your full name is requiered" }),
+    .min(1, { message: "Your full name is required" }),
   cpf: z
     .string({ message: "Fill the field with yout complete CPF" })
     .min(11, { message: "The CPF's must be at least 11 characters long" })
