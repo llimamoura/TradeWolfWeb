@@ -16,8 +16,7 @@ export function VerifyCodeComponent() {
     },
   });
 
-  const onSubmit = async (data: CodeFormData) => {
-    console.log("Código completo:", data.code);
+  const onSubmit = async () => {
     navigate("/forgot-password/reset-password");
   };
 

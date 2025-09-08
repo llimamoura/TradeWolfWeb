@@ -34,7 +34,7 @@ export function LoginForm() {
       <p className="hidden font-medium lg:block text-center text-sm text-muted-foreground mb-8">
         Don't have an account?{" "}
         <Link
-          to="/create-user"
+          to="/sign-up"
           className="text-primary font-bold hover:text-primary hover:underline transition-colors"
         >
           Sign up

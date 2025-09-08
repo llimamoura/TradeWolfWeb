@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PencilLine, UserRound } from "lucide-react";
 import type { ChangeEvent } from "react";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,13 +16,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { type ProfileFormData, ProfileSchema } from "../schema";
 import { toast } from "sonner";
-import { FormatCPF } from "@/utils/FormatCPF";
-import { FormatPhone } from "@/utils/FormatPhone";
-import { FloatingProfileLabelInput } from "@/components/floating-label-input";
+import { formatCPF } from "@/utils/format-cpf";
+import { formatPhone } from "@/utils/format-phone";
+import { FloatingLabelInput } from "@/components/floating-label-input";
 
 export function ProfileComponent() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const navigate = useNavigate()
 
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(ProfileSchema),
@@ -51,27 +53,20 @@ export function ProfileComponent() {
     }
   };
 
-  const onSubmit = async (data: ProfileFormData) => {
-    console.log(
-      "Your Profile:",
-      data.image,
-      data.fullName,
-      data.cpf,
-      data.email,
-      data.phoneNumber
-    );
-    toast.success("Your Profile has been created with success.");
+  const onSubmit = async () => {
+    toast.success("Your Profile has been created successfully.");
+    navigate("/")
   };
 
   const isFormValid = form.formState.isValid;
 
   return (
     <section className="w-full">
-      <h1 className="flex justify-center sm:text-5xl text-3xl font-extrabold text-background leading-tight lg:mb-6 mb-10">
+      <h1 className="flex justify-center sm:text-5xl text-3xl font-extrabold text-foreground leading-tight lg:mb-6 mb-10">
         Fill Your Profile
       </h1>
-      <p className="hidden font-medium lg:block text-center text-sm text-background mb-8">
-        Don´t worry, you can always change it later
+      <p className="hidden font-medium lg:block text-center text-sm text-muted-foreground mb-8">
+        Don't worry, you can always change it later
       </p>
 
       <Form {...form}>
@@ -98,7 +93,7 @@ export function ProfileComponent() {
                     ) : (
                       <>
                         <UserRound className="text-background size-14 justify-self-center mt-4 self-center overflow" />
-                        <PencilLine className="justify-self-end self-end size-6 mr-1 border-2 border-background rounded-full p-1 text-background" />
+                        <PencilLine className="bg-border-light justify-self-end self-end size-6 mr-1 border-2 border-background  rounded-full p-1 text-background" />
                       </>
                     )}
                   </FormLabel>
@@ -122,15 +117,11 @@ export function ProfileComponent() {
             name="fullName"
             render={({ field }) => (
               <FormItem>
-                <FloatingProfileLabelInput label="Full Name">
+                <FloatingLabelInput label="Full Name">
                   <FormControl>
-                    <Input
-                      type="fullName"
-                      className="border-background"
-                      {...field}
-                    />
+                    <Input type="fullName" {...field} />
                   </FormControl>
-                </FloatingProfileLabelInput>
+                </FloatingLabelInput>
                 <FormMessage />
               </FormItem>
             )}
@@ -141,20 +132,19 @@ export function ProfileComponent() {
             name="cpf"
             render={({ field }) => (
               <FormItem>
-                <FloatingProfileLabelInput label="CPF">
+                <FloatingLabelInput label="CPF">
                   <FormControl>
                     <Input
                       type="text"
                       id="cpf"
                       inputMode="numeric"
-                      className="border-background"
                       {...field}
                       onChange={(e) => {
-                        field.onChange(FormatCPF(e.target.value));
+                        field.onChange(formatCPF(e.target.value));
                       }}
                     />
                   </FormControl>
-                </FloatingProfileLabelInput>
+                </FloatingLabelInput>
                 <FormMessage />
               </FormItem>
             )}
@@ -165,15 +155,11 @@ export function ProfileComponent() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FloatingProfileLabelInput label="Email">
+                <FloatingLabelInput label="Email">
                   <FormControl>
-                    <Input
-                      type="email"
-                      className="border-background"
-                      {...field}
-                    />
+                    <Input type="email" {...field} />
                   </FormControl>
-                </FloatingProfileLabelInput>
+                </FloatingLabelInput>
                 <FormMessage />
               </FormItem>
             )}
@@ -184,19 +170,18 @@ export function ProfileComponent() {
             name="phoneNumber"
             render={({ field }) => (
               <FormItem>
-                <FloatingProfileLabelInput label="Phone Number">
+                <FloatingLabelInput label="Phone Number">
                   <FormControl>
                     <Input
                       id="phoneNumber"
                       type="tel"
-                      className="border-background"
                       {...field}
                       onChange={(e) => {
-                        field.onChange(FormatPhone(e.target.value));
+                        field.onChange(formatPhone(e.target.value));
                       }}
                     />
                   </FormControl>
-                </FloatingProfileLabelInput>
+                </FloatingLabelInput>
                 <FormMessage />
               </FormItem>
             )}
