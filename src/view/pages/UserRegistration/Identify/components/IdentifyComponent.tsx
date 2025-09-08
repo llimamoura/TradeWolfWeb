@@ -1,4 +1,5 @@
 import { ChevronDown, PackagePlus } from "lucide-react";
+import type { ChangeEvent } from "react";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -23,21 +24,24 @@ export function IdentifyComponent() {
   const form = useForm<ImageFormData>({
     resolver: zodResolver(imageSchema),
     defaultValues: {
-      image: undefined,
+      image: "",
     },
   });
 
-  const handleImageChange = (file: File | null) => {
+  const handleImageChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    onChange: (file: File | null) => void
+  ) => {
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
       };
       reader.readAsDataURL(file);
-      form.setValue("image", file);
+      onChange(file);
     } else {
-      setImagePreview(null);
-      form.setValue("image", undefined);
+      onChange(null);
     }
   };
 
@@ -112,11 +116,7 @@ export function IdentifyComponent() {
                       id="fileUpload"
                       type="file"
                       accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0] || null;
-                        handleImageChange(file);
-                        field.onChange(file);
-                      }}
+                      onChange={(e) => handleImageChange(e, field.onChange)}
                       className="hidden"
                     />
                   </FormControl>
