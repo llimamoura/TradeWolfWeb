@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FloatingLabelInput } from "@/components/floating-label-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { type LoginFormData, LoginSchema } from "../schema";
 
 export function LoginForm() {
-  const navigate = useNavigate();
   const form = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -25,7 +24,6 @@ export function LoginForm() {
 
   const onSubmit = async (data: LoginFormData) => {
     console.log("Logging in with:", data.email, data.password);
-    navigate("/create-user");
   };
 
   return (
@@ -35,12 +33,12 @@ export function LoginForm() {
       </h1>
       <p className="hidden font-medium lg:block text-center text-sm text-muted-foreground mb-8">
         Don't have an account?{" "}
-        <a
-          href="#"
+        <Link
+          to="/create-user"
           className="text-primary font-bold hover:text-primary hover:underline transition-colors"
         >
           Sign up
-        </a>
+        </Link>
       </p>
 
       <Form {...form}>
