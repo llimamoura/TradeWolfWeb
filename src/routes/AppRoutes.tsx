@@ -3,10 +3,10 @@ import { AuthLayout } from "@/view/layouts/AuthLayout";
 import { ForgotPasswordPage } from "@/view/pages/forgotPassword";
 import { ResetPasswordPage } from "@/view/pages/forgotPassword/ResetPassword";
 import { VerifyCodePage } from "@/view/pages/forgotPassword/VerifyCode";
-import { IdentifyPage } from "@/view/pages/UserRegistration/Identify";
-import { ProfilePage } from "@/view/pages/UserRegistration/Profile";
-import { ConfirmResidencyPage } from "@/view/pages/UserRegistration/Residency";
-import { ProofResidencyPage } from "@/view/pages/UserRegistration/Residency/ProofResidency";
+import { IdentifyPage } from "@/view/pages/signup/Identify";
+import { ProfilePage } from "@/view/pages/signup/Profile";
+import { ConfirmResidencyPage } from "@/view/pages/signup/Residency";
+import { ProofResidencyPage } from "@/view/pages/signup/Residency/ProofResidency";
 import { LoginPage } from "../view/pages/login";
 import { ProfileLayout } from "@/view/layouts/ProfileLayout";
 
