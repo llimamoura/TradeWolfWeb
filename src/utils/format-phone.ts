@@ -1,4 +1,4 @@
-export const FormatPhone = (value: string) => {
+export const formatPhone = (value: string) => {
     const numbers = value.replace(/\D/g, "").slice(0, 11);
     if (numbers.length <= 2) return numbers;
     if (numbers.length <= 7)

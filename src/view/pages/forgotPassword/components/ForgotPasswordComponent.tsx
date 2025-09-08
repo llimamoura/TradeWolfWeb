@@ -23,8 +23,7 @@ export function ForgotPasswordForm() {
     },
   });
 
-  const onSubmit = async (data: EmailFormData) => {
-    console.log("Sending email...", data.email);
+  const onSubmit = async () => {
     navigate("/forgot-password/verification");
   };
 

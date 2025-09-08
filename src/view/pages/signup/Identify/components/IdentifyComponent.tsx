@@ -58,9 +58,8 @@ export function IdentifyComponent() {
     }
   };
 
-  const onSubmit = (data: ImageFormData) => {
-    console.log("Form data:", data);
-    navigate("/create-user/profile");
+  const onSubmit = () => {
+    navigate("/sign-up/profile");
   };
 
   return (
@@ -138,7 +137,7 @@ export function IdentifyComponent() {
                   Try Again
                 </Button>
                 <Button type="submit" className="w-40 lg:w-70">
-                  Sign in
+                  Submit
                 </Button>
               </>
             ) : (
@@ -147,7 +146,7 @@ export function IdentifyComponent() {
                 className="bg-gradient-to-r from-muted-secondary to-border-light"
                 disabled
               >
-                Sign in
+                Submit
               </Button>
             )}
           </div>
