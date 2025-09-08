@@ -1,7 +1,5 @@
-import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PencilLine } from "lucide-react";
+import { PencilLine, UserRound } from "lucide-react";
 import type { ChangeEvent } from "react";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -99,11 +97,7 @@ export function ProfileComponent() {
                       />
                     ) : (
                       <>
-                        <FontAwesomeIcon
-                          icon={faUser}
-                          size="4x"
-                          className="text-background justify-self-center self-center mt-4 overflow"
-                        />
+                        <UserRound className="text-background size-14 justify-self-center mt-4 self-center overflow" />
                         <PencilLine className="justify-self-end self-end size-6 mr-1 border-2 border-background rounded-full p-1 text-background" />
                       </>
                     )}
