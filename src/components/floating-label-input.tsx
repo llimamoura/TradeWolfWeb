@@ -20,16 +20,3 @@ export const FloatingLabelInput = ({
   );
 };
 
-export const FloatingProfileLabelInput = ({
-  label,
-  children,
-}: FloatingLabelInputProps) => {
-  return (
-    <div className="relative">
-      <FormLabel className="absolute -top-3 left-3 bg-primary-light rounded-full px-2 text-background text-sm font-medium z-10">
-        {label}
-      </FormLabel>
-      {children}
-    </div>
-  );
-};
