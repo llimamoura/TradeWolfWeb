@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,22 +29,26 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import countriesData from "@/data/countries-flags.json";
 import { cn } from "@/lib/utils";
-import { type ProofResidencyForm, proofResidencySchema } from "../schema";
+import {
+  type ProofResidencyForm,
+  proofResidencySchema,
+  IdentityVerificationMethod,
+} from "../schema";
 
 export function ProofResidencyComponent() {
   const navigate = useNavigate();
+  const [openNationality, setOpenNationality] = useState<boolean>(false);
 
   const form = useForm<ProofResidencyForm>({
     resolver: zodResolver(proofResidencySchema),
     defaultValues: {
       nationality: "",
-      verificationMethod: "National-identity-card",
+      verificationMethod: IdentityVerificationMethod.ID_CARD,
     },
   });
 
-  const onSubmit = (data: ProofResidencyForm) => {
-    console.log("Form data:", data);
-    navigate("/create-user/identify");
+  const onSubmit = () => {
+    navigate("/sign-up/identify");
   };
 
   return (
@@ -68,8 +73,11 @@ export function ProofResidencyComponent() {
               control={form.control}
               name="nationality"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <Popover>
+                <FormItem className="flex flex-col mt-4">
+                  <Popover
+                    open={openNationality}
+                    onOpenChange={setOpenNationality}
+                  >
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
@@ -129,6 +137,7 @@ export function ProofResidencyComponent() {
                                     country.code.toUpperCase(),
                                     { shouldValidate: true }
                                   );
+                                  setOpenNationality(false);
                                 }}
                               >
                                 <div className="flex items-center gap-2">
@@ -181,7 +190,7 @@ export function ProofResidencyComponent() {
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem
-                            value="National-identity-card"
+                            value={IdentityVerificationMethod.ID_CARD}
                             id="National-identity-card"
                             className="bg-highlighted"
                           />
@@ -196,7 +205,7 @@ export function ProofResidencyComponent() {
 
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem
-                            value="Passport"
+                            value={IdentityVerificationMethod.PASSPORT}
                             id="Passport"
                             className="bg-highlighted"
                           />
@@ -211,7 +220,7 @@ export function ProofResidencyComponent() {
 
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem
-                            value="Driver-license"
+                            value={IdentityVerificationMethod.DRIVER_LICENSE}
                             id="Driver-license"
                             className="bg-highlighted"
                           />
