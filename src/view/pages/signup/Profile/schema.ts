@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
-const ACCEPTED_IMAGE_TYPES = [
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // Maximum file size: 10MB
+export const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
   "image/jpg",
   "image/png",
@@ -10,7 +10,7 @@ const ACCEPTED_IMAGE_TYPES = [
 
 export const ProfileSchema = z.object({
   image: z
-    .any()
+    .instanceof(File)
     .refine(
       (file) => file && file.size <= MAX_FILE_SIZE,
       "Max image size is 10MB."
@@ -23,7 +23,7 @@ export const ProfileSchema = z.object({
     .string({ message: "Fill the field with your complete name" })
     .min(1, { message: "Your full name is required" }),
   cpf: z
-    .string({ message: "Fill the field with yout complete CPF" })
+    .string({ message: "Fill the field with your complete CPF" })
     .min(11, { message: "The CPF's must be at least 11 characters long" })
     .regex(
       /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,

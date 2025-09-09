@@ -26,7 +26,7 @@ export function SocialLoginIcons() {
 
       <p className="block lg:hidden text-xs text-muted-foreground mb-6 mt-4 text-center">
         Don't have an account?{" "}
-        <Link to="/create-user" className="text-primary hover:underline transition-colors">
+        <Link to="/sign-up" className="text-primary hover:underline transition-colors">
           Sign up
         </Link>
       </p>

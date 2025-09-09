@@ -4,10 +4,6 @@ import { Button } from "@/components/ui/button";
 export function ConfirmResidencyComponent() {
   const navigate = useNavigate();
 
-  const onSubmit = () => {
-    navigate("/sign-up/proof-residency");
-  };
-
   return (
     <section className="w-full mb-12 lg:mb-0">
       <h1 className="flex justify-center lg:mb-6 text-3xl lg:text-4xl lg:text-center text-start font-extrabold text-foreground leading-tight mb-5">
@@ -18,7 +14,7 @@ export function ConfirmResidencyComponent() {
         application. Your information will be encrypted and stored securely.
       </p>
 
-      <Button type="submit" onClick={onSubmit}>
+      <Button type="button" onClick={() => navigate("/sign-up/proof-residency")}>
         Verify identity
       </Button>
     </section>
