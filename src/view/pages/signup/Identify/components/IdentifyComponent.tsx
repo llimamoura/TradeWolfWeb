@@ -14,7 +14,11 @@ import {
   FormMessage,
   FormLabel,
 } from "@/components/ui/form";
-import { type ImageFormData, imageSchema } from "../schema";
+import {
+  type ImageFormData,
+  imageSchema,
+  ACCEPTED_IMAGE_TYPES,
+} from "../schema";
 
 export function IdentifyComponent() {
   const navigate = useNavigate();
@@ -24,7 +28,7 @@ export function IdentifyComponent() {
   const form = useForm<ImageFormData>({
     resolver: zodResolver(imageSchema),
     defaultValues: {
-      image: "",
+      image: undefined,
     },
   });
 
@@ -34,6 +38,15 @@ export function IdentifyComponent() {
   ) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+        form.setError("image", {
+          type: "custom",
+          message: "Only .JPG, .JPEG, .PNG and .WebP formats are supported.",
+        });
+        return;
+      }
+      form.clearErrors("image");
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
@@ -51,8 +64,7 @@ export function IdentifyComponent() {
 
   const handleTryAgain = () => {
     setImagePreview(null);
-    form.setValue("image", undefined);
-    form.clearErrors("image");
+    form.resetField("image");
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -114,13 +126,13 @@ export function IdentifyComponent() {
                       ref={fileInputRef}
                       id="fileUpload"
                       type="file"
-                      accept="image/*"
+                      accept={ACCEPTED_IMAGE_TYPES.join(",")}
                       onChange={(e) => handleImageChange(e, field.onChange)}
                       className="hidden"
                     />
                   </FormControl>
                 </div>
-                <FormMessage />
+                <FormMessage className="text-center" />
               </FormItem>
             )}
           />

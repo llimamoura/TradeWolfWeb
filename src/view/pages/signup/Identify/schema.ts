@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // Tamanho máximo do arquivo: 10MB
-const ACCEPTED_IMAGE_TYPES = [
+const MAX_FILE_SI ZE = 10 * 1024 * 1024; // Maximum file size: 10MB
+export const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
   "image/jpg",
   "image/png",
@@ -10,7 +10,7 @@ const ACCEPTED_IMAGE_TYPES = [
 
 export const imageSchema = z.object({
   image: z
-    .any()
+    .instanceof(File)
     .refine(
       (file) => file && file.size <= MAX_FILE_SIZE,
       "Max image size is 10MB."

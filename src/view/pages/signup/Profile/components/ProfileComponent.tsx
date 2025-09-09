@@ -14,21 +14,25 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { type ProfileFormData, ProfileSchema } from "../schema";
+import {
+  type ProfileFormData,
+  ProfileSchema,
+  ACCEPTED_IMAGE_TYPES,
+} from "../schema";
 import { toast } from "sonner";
 import { formatCPF } from "@/utils/format-cpf";
 import { formatPhone } from "@/utils/format-phone";
 import { FloatingLabelInput } from "@/components/floating-label-input";
 
 export function ProfileComponent() {
+  const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const navigate = useNavigate()
 
   const form = useForm<ProfileFormData>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
-      image: "",
+      image: undefined,
       fullName: "",
       cpf: "",
       email: "",
@@ -42,6 +46,15 @@ export function ProfileComponent() {
   ) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+        form.setError("image", {
+          type: "custom",
+          message: "Only .JPG, .JPEG, .PNG and .WebP formats are supported.",
+        });
+        return;
+      }
+      form.clearErrors("image");
+
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
@@ -55,7 +68,7 @@ export function ProfileComponent() {
 
   const onSubmit = async () => {
     toast.success("Your Profile has been created successfully.");
-    navigate("/")
+    navigate("/");
   };
 
   const isFormValid = form.formState.isValid;
@@ -102,13 +115,13 @@ export function ProfileComponent() {
                       ref={fileInputRef}
                       id="fileUpload"
                       type="file"
-                      accept="image/*"
+                      accept={ACCEPTED_IMAGE_TYPES.join(",")}
                       onChange={(e) => handleImageChange(e, field.onChange)}
                       className="hidden"
                     />
                   </FormControl>
                 </div>
-                <FormMessage />
+                <FormMessage className="text-center" />
               </FormItem>
             )}
           />
