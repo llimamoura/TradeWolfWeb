@@ -1,7 +1,7 @@
 import { ChevronDown, PackagePlus } from "lucide-react";
 import type { ChangeEvent } from "react";
 import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,8 +22,18 @@ import {
 
 export function IdentifyComponent() {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const verificationMethod: string | undefined = (location.state as any)?.verificationMethod
+  const identifyTitleMap: Record<string, string> = {
+    id_card: "National identity card",
+    passport: "Passport",
+    driver_license: "Driver license",
+  }
+  const identifyTitleText = identifyTitleMap[verificationMethod ?? ""] 
 
   const form = useForm<ImageFormData>({
     resolver: zodResolver(imageSchema),
@@ -77,7 +87,7 @@ export function IdentifyComponent() {
   return (
     <section className="w-full justify-center">
       <h1 className="flex justify-center lg:mb-10 text-3xl lg:text-4xl lg:text-center text-start font-extrabold text-foreground leading-tight mb-5">
-        Photo ID Card
+        {identifyTitleText}
       </h1>
       <p className="font-medium text-center text-sm text-muted-foreground lg:mb-8">
         Please point the camera at the ID card
