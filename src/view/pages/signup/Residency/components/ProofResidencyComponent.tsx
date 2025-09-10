@@ -48,7 +48,10 @@ export function ProofResidencyComponent() {
   });
 
   const onSubmit = () => {
-    navigate("/sign-up/identify");
+    const selectedMethod = form.getValues("verificationMethod");
+    navigate("/sign-up/identify", {
+      state: { verificationMethod: selectedMethod },
+    });
   };
 
   return (
