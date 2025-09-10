@@ -10,13 +10,13 @@ export const ACCEPTED_IMAGE_TYPES = [
 
 export const ProfileSchema = z.object({
   image: z
-    .instanceof(File)
+    .union([z.instanceof(File), z.null(), z.undefined()])
     .refine(
-      (file) => file && file.size <= MAX_FILE_SIZE,
+      (file) => file == null || file.size <= MAX_FILE_SIZE,
       "Max image size is 10MB."
     )
     .refine(
-      (file) => file && ACCEPTED_IMAGE_TYPES.includes(file.type),
+      (file) => file == null || ACCEPTED_IMAGE_TYPES.includes(file.type),
       "Only .jpg, .jpeg, .png and .webp formats are supported."
     ),
   fullName: z
