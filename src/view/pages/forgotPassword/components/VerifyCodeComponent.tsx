@@ -1,26 +1,10 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { OTPInput } from "@/components/otp-input";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { type CodeFormData, CodeValidationSchema } from "../schema";
+import { useVerifyCodeForm } from "../hooks/useVerifyCodeForm";
 
 export function VerifyCodeComponent() {
-  const navigate = useNavigate();
-
-  const form = useForm<CodeFormData>({
-    resolver: zodResolver(CodeValidationSchema),
-    defaultValues: {
-      code: "",
-    },
-  });
-
-  const onSubmit = async () => {
-    navigate("/forgot-password/reset-password");
-  };
-
-  const hasAnyError = Object.values(form.formState.errors).length > 0;
+  const { form, hasAnyError, onSubmit } = useVerifyCodeForm();
 
   return (
     <section className="w-full">
