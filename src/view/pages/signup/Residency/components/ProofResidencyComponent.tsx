@@ -27,10 +27,11 @@ import countriesData from "@/data/countries-flags.json";
 import { cn } from "@/lib/utils";
 import { IdentityVerificationMethod } from "../schema";
 import { useProofResidencyForm } from "../hooks/useProofResidencyForm";
+import { useState } from "react";
 
 export function ProofResidencyComponent() {
-  const { openNationality, setOpenNationality, form, onSubmit } =
-    useProofResidencyForm();
+  const [openNationality, setOpenNationality] = useState<boolean>(false);
+  const { form, onSubmit } = useProofResidencyForm();
 
   return (
     <section className="w-full mb-12 lg:mb-0">
