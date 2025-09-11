@@ -10,15 +10,16 @@ export const ACCEPTED_IMAGE_TYPES = [
 
 export const ProfileSchema = z.object({
   image: z
-    .union([z.instanceof(File), z.null(), z.undefined()])
-    .refine(
-      (file) => file == null || file.size <= MAX_FILE_SIZE,
-      "Max image size is 10MB."
-    )
-    .refine(
-      (file) => file == null || ACCEPTED_IMAGE_TYPES.includes(file.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
-    ),
+  .instanceof(File)
+  .optional()
+  .refine(
+    (file) => !file || file.size <= MAX_FILE_SIZE,
+    "Max image size is 10MB."
+  )
+  .refine(
+    (file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type),
+    "Only .jpg, .jpeg, .png and .webp formats are supported."
+  ),
   fullName: z
     .string({ message: "Fill the field with your complete name" })
     .min(1, { message: "Your full name is required" }),

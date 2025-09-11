@@ -19,6 +19,11 @@ import {
   imageSchema,
   ACCEPTED_IMAGE_TYPES,
 } from "../schema";
+import { IdentityVerificationMethod } from "../../Residency/schema";
+
+type LocationState = {
+  verificationMethod?: IdentityVerificationMethod;
+};
 
 export function IdentifyComponent() {
   const navigate = useNavigate();
@@ -27,13 +32,15 @@ export function IdentifyComponent() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const verificationMethod: string | undefined = (location.state as any)?.verificationMethod
-  const identifyTitleMap: Record<string, string> = {
-    id_card: "National identity card",
-    passport: "Passport",
-    driver_license: "Driver license",
-  }
-  const identifyTitleText = identifyTitleMap[verificationMethod ?? ""] 
+  const verificationMethod = (location.state as LocationState)
+    ?.verificationMethod;
+  const identifyTitleMap: Record<IdentityVerificationMethod, string> = {
+    [IdentityVerificationMethod.ID_CARD]: "National identity card",
+    [IdentityVerificationMethod.PASSPORT]: "Passport",
+    [IdentityVerificationMethod.DRIVER_LICENSE]: "Driver License",
+  };
+  const identifyTitleText =
+    identifyTitleMap[verificationMethod as IdentityVerificationMethod];
 
   const form = useForm<ImageFormData>({
     resolver: zodResolver(imageSchema),
