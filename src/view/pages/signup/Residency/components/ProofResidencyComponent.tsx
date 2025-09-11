@@ -1,8 +1,4 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -29,30 +25,12 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import countriesData from "@/data/countries-flags.json";
 import { cn } from "@/lib/utils";
-import {
-  type ProofResidencyForm,
-  proofResidencySchema,
-  IdentityVerificationMethod,
-} from "../schema";
+import { IdentityVerificationMethod } from "../schema";
+import { useProofResidencyForm } from "../hooks/useProofResidencyForm";
 
 export function ProofResidencyComponent() {
-  const navigate = useNavigate();
-  const [openNationality, setOpenNationality] = useState<boolean>(false);
-
-  const form = useForm<ProofResidencyForm>({
-    resolver: zodResolver(proofResidencySchema),
-    defaultValues: {
-      nationality: "",
-      verificationMethod: IdentityVerificationMethod.ID_CARD,
-    },
-  });
-
-  const onSubmit = () => {
-    const selectedMethod = form.getValues("verificationMethod");
-    navigate("/sign-up/identify", {
-      state: { verificationMethod: selectedMethod },
-    });
-  };
+  const { openNationality, setOpenNationality, form, onSubmit } =
+    useProofResidencyForm();
 
   return (
     <section className="w-full mb-12 lg:mb-0">
