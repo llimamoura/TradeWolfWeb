@@ -1,6 +1,3 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { FloatingLabelInput } from "@/components/floating-label-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,23 +8,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { type EmailFormData, EmailValidationSchema } from "../schema";
+import { useForgotPasswordForm } from "../hooks/useForgotPasswordForm";
 
 export function ForgotPasswordForm() {
-  const navigate = useNavigate();
-
-  const form = useForm<EmailFormData>({
-    resolver: zodResolver(EmailValidationSchema),
-    defaultValues: {
-      email: "",
-    },
-  });
-
-  const onSubmit = async (data: EmailFormData) => {
-    console.log("Sending email...", data.email);
-    navigate("/forgot-password/verification");
-  };
-
+  const {
+    form,
+    onSubmit,
+  } = useForgotPasswordForm()
   return (
     <section className="w-full">
       <h1 className="flex justify-center lg:mb-6 text-3xl lg:text-4xl lg:text-center text-center font-extrabold text-foreground leading-tight mb-8">

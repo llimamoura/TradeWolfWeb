@@ -1,5 +1,3 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FloatingLabelInput } from "@/components/floating-label-input";
 import { Button } from "@/components/ui/button";
@@ -11,20 +9,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { type LoginFormData, LoginSchema } from "../schema";
+import { useLoginForm } from "../hooks/useLoginForm";
 
 export function LoginForm() {
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const onSubmit = async (data: LoginFormData) => {
-    console.log("Logging in with:", data.email, data.password);
-  };
+  const { form, onSubmit } = useLoginForm();
 
   return (
     <section className="w-full lg:mt-20">
@@ -33,12 +21,12 @@ export function LoginForm() {
       </h1>
       <p className="hidden font-medium lg:block text-center text-sm text-muted-foreground mb-8">
         Don't have an account?{" "}
-        <a
-          href="#"
+        <Link
+          to="/sign-up"
           className="text-primary font-bold hover:text-primary hover:underline transition-colors"
         >
           Sign up
-        </a>
+        </Link>
       </p>
 
       <Form {...form}>
