@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   type ProofResidencyForm,
@@ -10,7 +9,6 @@ import {
 
 export function useProofResidencyForm() {
   const navigate = useNavigate();
-  const [openNationality, setOpenNationality] = useState<boolean>(false);
 
   const form = useForm<ProofResidencyForm>({
     resolver: zodResolver(proofResidencySchema),
@@ -28,9 +26,7 @@ export function useProofResidencyForm() {
   };
 
   return {
-    openNationality,
     form,
-    setOpenNationality,
     onSubmit,
   };
 }
