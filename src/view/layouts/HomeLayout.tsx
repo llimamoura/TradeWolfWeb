@@ -9,7 +9,6 @@ import { Plus } from "lucide-react";
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-
 export function HomeLayout() {
   return (
     <div className="flex h-185 mt-5 overflow-hidden">
@@ -46,10 +45,8 @@ export function HomeLayout() {
           <LogOut className="size-8" />
         </Button>
       </div>
-      <div className="">
-        <div className="">
+      <div>
           <Outlet />
-        </div>
       </div>
     </div>
   );
