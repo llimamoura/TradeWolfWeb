@@ -43,7 +43,7 @@ export function HomeComponent() {
 
       <div className="w-full mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4 lg:gap-6 place-items-stretch ">
-          <Card className="bg-card min-h-50 lg:min-h-85 xl:min-h-60 w-full">
+          <Card className="bg-card min-h-50 lg:min-h-85 justify-center flex xl:min-h-60 w-full">
             <CardHeader className="p-4 lg:p-6">
               <CardTitle className="font-extrabold text-xl lg:text-2xl mb-4">
                 My Balance
@@ -52,7 +52,7 @@ export function HomeComponent() {
                 <CardDescription className="text-3xl lg:text-4xl text-primary font-bold">
                   $25,901.41
                 </CardDescription>
-                <CardContent className="p-2 px-3 bg-success text-background rounded-lg text-sm font-semibold flex justify-start text-start place-items-start items-start">
+                <CardContent className="p-2 px-3 bg-success text-background rounded-lg text-sm font-semibold">
                   +810%
                 </CardContent>
               </div>
