@@ -36,7 +36,7 @@ export function HomeLayout() {
         </div>
       </div>
 
-      <div className="hidden lg:flex bg-gradient-to-b from-primary to-tertiary text-primary-foreground rounded-2xl items-center flex-col m-3 ml-6 xl:ml-15 w-20 lg:w-24 xl:w-30 min-h-6 py-6">
+      <div className="hidden lg:flex bg-gradient-to-b from-primary to-tertiary text-primary-foreground rounded-2xl items-center flex-col m-3 xl:m-5 ml-6 xl:ml-15 w-20 xl:max-w-xl lg:w-24 min-h-6 py-6">
         <img
           src={TradeWolfLogo}
           alt="TradeWolf logo"
@@ -44,7 +44,7 @@ export function HomeLayout() {
           className="size-14 lg:size-16 xl:size-25 mb-6"
         />
 
-        <Separator className="!w-12 xl:!w-20 border mb-10" />
+        <Separator className="border mb-10" />
 
         <Button variant="ghost" className="rounded-full mb-6 xl:mb-10">
           <House className="size-6 lg:size-8 xl:size-10" />

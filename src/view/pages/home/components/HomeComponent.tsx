@@ -48,11 +48,11 @@ export function HomeComponent() {
               <CardTitle className="font-extrabold text-xl lg:text-2xl mb-4">
                 My Balance
               </CardTitle>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
+              <div className="flex flex-col sm:flex-row xl:flex-row items-start sm:items-center gap-5 space-y-2 sm:space-y-0">
                 <CardDescription className="text-3xl lg:text-4xl text-primary font-bold">
                   $25,901.41
                 </CardDescription>
-                <CardContent className="p-2 px-3 bg-green-500 text-background rounded-lg text-sm font-semibold">
+                <CardContent className="p-2 px-3 bg-success text-background rounded-lg text-sm font-semibold flex justify-start text-start place-items-start items-start">
                   +810%
                 </CardContent>
               </div>
