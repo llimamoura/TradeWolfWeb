@@ -10,8 +10,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useCoins } from "@/hooks/useCoinsQuery";
+
 
 export function HomeComponent() {
+
+  const {data, isLoading, isError} = useCoins()
+  if (isLoading) return <p>Loading your coins...</p>
+  if (isError) return <p>Error loading coins</p>
+
   return (
     <div className="p-4 lg:p-6 xl:p-8">
       <div className="flex flex-col lg:flex-row xl:flex-row justify-between lg:items-center space-y-4 lg:space-y-0 my-0 lg:my-8">
@@ -61,12 +68,32 @@ export function HomeComponent() {
 
           <Card className="bg-card h-auto min-h-50 lg:min-h-85 xl:min-h-60 w-full">
             <CardHeader className="p-4 lg:p-6">
-              <CardTitle className="text-xl lg:text-2xl font-bold mb-2">
-                Mock
+              <CardTitle className="text-xl lg:text-2xl font-bold mb-4">
+                Assets
               </CardTitle>
-              <CardDescription className="text-2xl lg:text-3xl text-primary font-semibold">
-                $25,901.41
-              </CardDescription>
+              <div className="space-y-3 max-h-60 overflow-y-auto">
+                {data?.slice(0, 10).map((coin: any) => (
+                  <div key={coin.id} className="flex justify-between items-center p-2 bg-background/50 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <img 
+                        src={coin.icon} 
+                        alt={coin.name}
+                        className="w-6 h-6 rounded-full"
+                      />
+                      <div>
+                        <p className="font-semibold text-sm">{coin.name}</p>
+                        <p className="text-xs text-muted-foreground">{coin.symbol}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-semibold text-sm">${coin.price?.toFixed(2)}</p>
+                      <p className={`text-xs ${coin.priceChange1d >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                        {coin.priceChange1d >= 0 ? '+' : ''}{coin.priceChange1d?.toFixed(2)}%
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </CardHeader>
           </Card>
 
