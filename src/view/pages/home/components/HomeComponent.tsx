@@ -19,6 +19,7 @@ import {
   ChartLegendContent,
 } from "@/components/ui/chart";
 import type { ChartConfig } from "@/components/ui/chart";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 export function HomeComponent() {
   const { data, isLoading, isError } = useCoins();
@@ -31,19 +32,28 @@ export function HomeComponent() {
   if (isLoading) return <p>Loading your coins...</p>;
   if (isError) return <p>Error loading coins</p>;
 
-  const pieChartData = chartData
-    ?.slice(0, 5)
-    .map((coin: any, index: number) => ({
+  const pieChartData = (chartData?.slice(0, 5) || []).map(
+    (coin: any, index: number) => ({
       coinSybol: coin.symbol,
       coin: coin.coinId,
-      price: coin.chart?.length,
+      price: coin.chart?.length ?? 0,
       fill: `var(--chart-${index + 1})`,
-    }));
+    })
+  );
+
+  const lineChartData = (chartData?.[0]?.chart?.slice(0, 10) || []).map(
+    (point: any, index: number) => ({
+      time: `Day ${index + 1}`,
+      price: point.price || 0,
+    })
+  );
+
+  console.log("Chart data:", chartData);
+  console.log("Chart data result:", chartData?.result);
+  console.log("Line chart data:", lineChartData);
 
   const chartConfig = {
-    portifolio: {
-      label: "Portifólio",
-    },
+    portifolio: { label: "Portifólio" },
     ...pieChartData.reduce((config: any, item: any, index: number) => {
       config[item.coin.toLowerCase()] = {
         label: item.coin.toUpperCase(),
@@ -51,6 +61,13 @@ export function HomeComponent() {
       };
       return config;
     }, {}),
+  } satisfies ChartConfig;
+
+  const linechartConfig = {
+    price: {
+      label: "Price",
+      color: "var(--chart-1)",
+    },
   } satisfies ChartConfig;
 
   return (
@@ -83,8 +100,8 @@ export function HomeComponent() {
       </div>
 
       <div className="w-full mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4 lg:gap-6 place-items-stretch ">
-          <Card className="bg-card min-h-50 lg:min-h-85 justify-center flex xl:min-h-60 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 place-items-stretch">
+          <Card className="bg-card min-h-50 lg:min-h-60 justify-center flex xl:min-h-30 w-full">
             <CardHeader>
               <CardTitle className="font-extrabold text-xl lg:text-2xl mb-4 text-primary">
                 My Balance
@@ -100,12 +117,12 @@ export function HomeComponent() {
             </CardHeader>
           </Card>
 
-          <Card className="bg-card h-auto min-h-50 lg:min-h-85 xl:min-h-60 w-full">
+          <Card className="bg-card h-auto min-h-50 lg:min-h-85 xl:min-h-50 w-full">
             <CardHeader>
               <CardTitle className="text-xl lg:text-2xl font-bold mb-4 text-primary">
                 Your Assets
               </CardTitle>
-              <div className="space-y-3 max-h-60 overflow-y-auto">
+              <div className="space-y-3 max-h-60 xl:max-h-30 overflow-y-auto">
                 {data.result.slice(0, 10).map((coin: any) => (
                   <div
                     key={coin.id}
@@ -145,7 +162,7 @@ export function HomeComponent() {
             </CardHeader>
           </Card>
 
-          <Card className="bg-card h-auto min-h-98 xl:min-w-10">
+          <Card className="bg-card h-auto min-h-98 xl:max-h-20">
             <CardHeader className="items-center">
               <CardTitle className="text-xl lg:text-2xl font-bold mb-2 text-primary">
                 Portfolio distribution
@@ -169,7 +186,7 @@ export function HomeComponent() {
                     <Pie data={pieChartData} dataKey="price" />
                     <ChartLegend
                       content={<ChartLegendContent nameKey="coin" />}
-                      className="flex flex-col text-start items-start gap-2"
+                      className="flex flex-col max-h-30 text-start items-start gap-2"
                     />
                   </PieChart>
                 </ChartContainer>
@@ -177,15 +194,49 @@ export function HomeComponent() {
             </CardContent>
           </Card>
 
-          <Card className="bg-card h-auto min-h-98 xl:min-h-120 xl:min-w-10">
+          <Card className="bg-card h-auto min-h-98 xl:max-h-20">
             <CardHeader>
-              <CardTitle className="text-xl lg:text-2xl font-bold mb-2">
-                Mock
+              <CardTitle className="text-xl lg:text-2xl font-bold mb-2 text-primary">
+                Market Summary
               </CardTitle>
-              <CardDescription className="text-2xl lg:text-3xl text-primary font-semibold">
-                $25,901.41
-              </CardDescription>
             </CardHeader>
+            <CardContent>
+              {isChartLoading ? (
+                <p className="text-center">Loading chart...</p>
+              ) : isChartError ? (
+                <p className="text-center text-error">Error loading chart</p>
+              ) : !lineChartData || lineChartData.length === 0 ? (
+                <p className="text-center text-muted-foreground">
+                  No chart data available
+                </p>
+              ) : (
+                <ChartContainer config={linechartConfig}>
+                  <AreaChart
+                    accessibilityLayer
+                    data={lineChartData}
+                    margin={{
+                      left: 12,
+                      right: 12,
+                    }}
+                  >
+                    <CartesianGrid vertical={false} />
+                    <XAxis
+                      dataKey="time"
+                      tickLine={false}
+                      axisLine={false}
+                      tickMargin={8}
+                    />
+                    <Area
+                      dataKey="price"
+                      type="linear"
+                      fill="var(--color-primary)"
+                      fillOpacity={0.4}
+                      stroke="var(--color-primary)"
+                    />
+                  </AreaChart>
+                </ChartContainer>
+              )}
+            </CardContent>
           </Card>
         </div>
       </div>
