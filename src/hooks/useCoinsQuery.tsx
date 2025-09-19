@@ -1,28 +1,21 @@
-import { useQuery } from "@tanstack/react-query"
-
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 async function fetchCoins() {
-    const API_KEY = process.env.COINSTATS_API_KEY;
-    const url = 'https://openapiv1.coinstats.app/coins';
-    const options = {
-        method: 'GET', 
-        headers: {'X-API-KEY': API_KEY}, 
-        body: undefined
-    };
+  const API_KEY = import.meta.env.VITE_COINSTATS_API_KEY;
+  const API_URL = import.meta.env.VITE_COINSTATS_API_URL;
 
-    try {
-        const response = await fetch(url, options);
-        const data = await response.json();
-        return data.coins;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
+  const response = await axios.get(API_URL, {
+    headers: {
+      "X-API-KEY": API_KEY,
+    },
+  });
+  return response.data;
 }
 
 export function useCoins() {
-    return useQuery({
-        queryKey:['coins'],
-        queryFn: fetchCoins
-    })
+  return useQuery({
+    queryKey: ["coins"],
+    queryFn: fetchCoins,
+  });
 }
