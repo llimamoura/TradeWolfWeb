@@ -10,12 +10,48 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useCoins } from "@/hooks/useCoinsQuery";
+import { useCoins } from "@/view/pages/home/hooks/useCoinsQuery";
+import { useCoinsChart } from "@/view/pages/home/hooks/useCoinsChartQuery";
+import { Pie, PieChart } from "recharts";
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+} from "@/components/ui/chart";
+import type { ChartConfig } from "@/components/ui/chart";
 
 export function HomeComponent() {
   const { data, isLoading, isError } = useCoins();
+  const {
+    data: chartData,
+    isLoading: isChartLoading,
+    isError: isChartError,
+  } = useCoinsChart();
+
   if (isLoading) return <p>Loading your coins...</p>;
   if (isError) return <p>Error loading coins</p>;
+
+  const pieChartData = chartData
+    ?.slice(0, 5)
+    .map((coin: any, index: number) => ({
+      coinSybol: coin.symbol,
+      coin: coin.coinId,
+      price: coin.chart?.length,
+      fill: `var(--chart-${index + 1})`,
+    }));
+
+  const chartConfig = {
+    portifolio: {
+      label: "Portifólio",
+    },
+    ...pieChartData.reduce((config: any, item: any, index: number) => {
+      config[item.coin.toLowerCase()] = {
+        label: item.coin.toUpperCase(),
+        color: `var(--chart-${index + 1})`,
+      };
+      return config;
+    }, {}),
+  } satisfies ChartConfig;
 
   return (
     <div className="p-4 lg:p-6 xl:p-8">
@@ -49,8 +85,8 @@ export function HomeComponent() {
       <div className="w-full mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4 lg:gap-6 place-items-stretch ">
           <Card className="bg-card min-h-50 lg:min-h-85 justify-center flex xl:min-h-60 w-full">
-            <CardHeader className="p-4 lg:p-6">
-              <CardTitle className="font-extrabold text-xl lg:text-2xl mb-4">
+            <CardHeader>
+              <CardTitle className="font-extrabold text-xl lg:text-2xl mb-4 text-primary">
                 My Balance
               </CardTitle>
               <div className="flex flex-col sm:flex-row xl:flex-row items-start sm:items-center gap-5 space-y-2 sm:space-y-0">
@@ -65,7 +101,7 @@ export function HomeComponent() {
           </Card>
 
           <Card className="bg-card h-auto min-h-50 lg:min-h-85 xl:min-h-60 w-full">
-            <CardHeader className="p-4 lg:p-6">
+            <CardHeader>
               <CardTitle className="text-xl lg:text-2xl font-bold mb-4 text-primary">
                 Your Assets
               </CardTitle>
@@ -110,18 +146,39 @@ export function HomeComponent() {
           </Card>
 
           <Card className="bg-card h-auto min-h-98 xl:min-w-10">
-            <CardHeader className="p-4 lg:p-6">
-              <CardTitle className="text-xl lg:text-2xl font-bold mb-2">
-                Mock
+            <CardHeader className="items-center">
+              <CardTitle className="text-xl lg:text-2xl font-bold mb-2 text-primary">
+                Portfolio distribution
               </CardTitle>
-              <CardDescription className="text-2xl lg:text-3xl text-primary font-semibold">
-                $25,901.41
-              </CardDescription>
             </CardHeader>
+            <CardContent className="flex-1 items-center text-center">
+              {isChartLoading ? (
+                <p className="text-center">Loading chart...</p>
+              ) : isChartError ? (
+                <p className="text-center text-error">Error loading chart</p>
+              ) : !chartData || pieChartData.length === 0 ? (
+                <p className="text-center text-muted-foreground">
+                  No chart data available
+                </p>
+              ) : (
+                <ChartContainer
+                  config={chartConfig}
+                  className="mx-auto max-h-full text-center items-center"
+                >
+                  <PieChart>
+                    <Pie data={pieChartData} dataKey="price" />
+                    <ChartLegend
+                      content={<ChartLegendContent nameKey="coin" />}
+                      className="flex flex-col text-start items-start gap-2"
+                    />
+                  </PieChart>
+                </ChartContainer>
+              )}
+            </CardContent>
           </Card>
 
           <Card className="bg-card h-auto min-h-98 xl:min-h-120 xl:min-w-10">
-            <CardHeader className="p-4 lg:p-6">
+            <CardHeader>
               <CardTitle className="text-xl lg:text-2xl font-bold mb-2">
                 Mock
               </CardTitle>

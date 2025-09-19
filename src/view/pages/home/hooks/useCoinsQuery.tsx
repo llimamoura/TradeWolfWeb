@@ -11,11 +11,15 @@ async function fetchCoins() {
     },
   });
   return response.data;
+  
 }
 
 export function useCoins() {
   return useQuery({
     queryKey: ["coins"],
     queryFn: fetchCoins,
+    
   });
+  
 }
+
