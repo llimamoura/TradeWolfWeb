@@ -15,7 +15,6 @@ import { useCoinsChart } from "@/view/pages/home/hooks/useCoinsChartQuery";
 import { Pie, PieChart } from "recharts";
 import {
   ChartContainer,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
