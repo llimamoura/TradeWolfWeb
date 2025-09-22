@@ -15,8 +15,9 @@ import { useCoinsChart } from "@/view/pages/home/hooks/useCoinsChartQuery";
 import { Pie, PieChart } from "recharts";
 import {
   ChartContainer,
-  ChartLegend,
   ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart";
 import type { ChartConfig } from "@/components/ui/chart";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
@@ -32,14 +33,12 @@ export function HomeComponent() {
   if (isLoading) return <p>Loading your coins...</p>;
   if (isError) return <p>Error loading coins</p>;
 
-  const pieChartData = (chartData?.slice(0, 5) || []).map(
-    (coin: any, index: number) => ({
-      coinSybol: coin.symbol,
-      coin: coin.coinId,
-      price: coin.chart?.length ?? 0,
-      fill: `var(--chart-${index + 1})`,
-    })
-  );
+  const pieChartData = (chartData || []).map((coin: any, index: number) => ({
+    coinSybol: coin.symbol,
+    coin: coin.coinId,
+    price: coin.chart?.length ?? 0,
+    fill: `var(--chart-${index + 1})`,
+  }));
 
   const lineChartData = (chartData?.[0]?.chart?.slice(0, 10) || []).map(
     (point: any, index: number) => ({
@@ -183,10 +182,15 @@ export function HomeComponent() {
                   className="mx-auto max-h-full text-center items-center"
                 >
                   <PieChart>
-                    <Pie data={pieChartData} dataKey="price" />
-                    <ChartLegend
-                      content={<ChartLegendContent nameKey="coin" />}
-                      className="flex flex-col max-h-30 text-start items-start gap-2"
+                    <Pie
+                      data={pieChartData}
+                      dataKey="price"
+                      innerRadius="60%"
+                      outerRadius="90%"
+                    />
+                    <ChartTooltip
+                      content={<ChartTooltipContent hideLabel nameKey="coin" />}
+                      cursor={false}
                     />
                   </PieChart>
                 </ChartContainer>
