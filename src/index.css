@@ -1,2 +1,6 @@
 @import "tailwindcss";
 
+:root {
+  --primary-blue: #001838;
+  --primary-blue-hover: #000e21;
+}

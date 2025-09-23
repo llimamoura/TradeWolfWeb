@@ -1,11 +1,8 @@
-import './App.css'
+import "./App.css";
+import { AppRoutes } from "./routes/AppRoutes";
 
-const App: React.FC = () => {
-  return(
-    <div>
-      <h1>hello world</h1>
-    </div>
-  )
+export function App() {
+  return <AppRoutes />;
 }
 
 export default App;
