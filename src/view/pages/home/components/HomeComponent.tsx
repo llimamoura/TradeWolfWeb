@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { Bell } from "lucide-react";
+import { Bell, ChevronsUpDown, Check } from "lucide-react";
 import { CircleUser } from "lucide-react";
 import { SearchInput } from "@/components/search-input";
 import {
@@ -10,6 +10,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import { useCoins } from "@/view/pages/home/hooks/useCoinsQuery";
 import { useCoinsChart } from "@/view/pages/home/hooks/useCoinsChartQuery";
 import { Pie, PieChart } from "recharts";
@@ -19,7 +32,9 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import type { ChartConfig } from "@/components/ui/chart";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export function HomeComponent() {
   const { data, isLoading, isError } = useCoins();
@@ -28,6 +43,9 @@ export function HomeComponent() {
     isLoading: isChartLoading,
     isError: isChartError,
   } = useCoinsChart();
+
+  const [selectedCoin, setSelectedCoin] = useState<string>("");
+  const [open, setOpen] = useState(false);
 
   if (isLoading) return <p>Loading your coins...</p>;
   if (isError) return <p>Error loading coins</p>;
@@ -39,19 +57,26 @@ export function HomeComponent() {
     fill: `var(--chart-${index + 1})`,
   }));
 
-  const lineChartData = (chartData?.[0]?.chart?.slice(0, 10) || []).map(
-    (point: any, index: number) => ({
-      time: `Day ${index + 1}`,
-      price: point.price || 0,
-    })
-  );
+  const lineChartData =
+    (chartData || [])[0]?.chart.map((point: [number, number]) => {
+      const [timestamp, price] = point;
+      return {
+        time: new Date(timestamp).toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }),
+        price,
+      };
+    }) ?? [];
 
   console.log("Chart data:", chartData);
-  console.log("Chart data result:", chartData?.result);
+  console.log("Chart data length:", chartData?.length);
   console.log("Line chart data:", lineChartData);
+  console.log("First coin data:", chartData?.[0]);
 
   const chartConfig = {
-    portifolio: { label: "Portifólio" },
+    portifolio: { label: "Portifolio" },
     ...pieChartData.reduce((config: any, item: any, index: number) => {
       config[item.coin.toLowerCase()] = {
         label: item.coin.toUpperCase(),
@@ -184,8 +209,12 @@ export function HomeComponent() {
                     <Pie
                       data={pieChartData}
                       dataKey="price"
-                      innerRadius="60%"
+                      innerRadius="77 %"
                       outerRadius="90%"
+                      cx="50%"
+                      cy="50%"
+                      paddingAngle={4}
+                      cornerRadius={10}
                     />
                     <ChartTooltip
                       content={<ChartTooltipContent hideLabel nameKey="coin" />}
@@ -199,9 +228,82 @@ export function HomeComponent() {
 
           <Card className="bg-card h-auto min-h-98 xl:max-h-20">
             <CardHeader>
-              <CardTitle className="text-xl lg:text-2xl font-bold mb-2 text-primary">
-                Market Summary
-              </CardTitle>
+              <div className="flex items-center justify-between mb-2">
+                <CardTitle className="text-xl lg:text-2xl font-bold text-primary">
+                  Market Summary
+                </CardTitle>
+                <Popover open={open} onOpenChange={setOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={open}
+                      className="!w-50 !h-10 justify-between bg-primary text-border hover:bg-primary"
+                    >
+                      {selectedCoin ? (
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={
+                              data.result.find(
+                                (c: any) => c.id === selectedCoin
+                              )?.icon
+                            }
+                            className="w-4 h-4 rounded-full"
+                          />
+                          {
+                            data.result.find((c: any) => c.id === selectedCoin)
+                              ?.symbol
+                          }{" "}
+                          - {selectedCoin}
+                        </div>
+                      ) : (
+                        "Select coin..."
+                      )}
+                      <ChevronsUpDown className="h-4 w-4 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-full">
+                    <Command>
+                      <CommandInput placeholder="Search coins..." />
+                      <CommandList>
+                        <CommandEmpty>No coin found.</CommandEmpty>
+                        <CommandGroup>
+                          {data.result.slice(0, 10).map((coin: any) => (
+                            <CommandItem
+                              key={coin.id}
+                              value={coin.id}
+                              onSelect={() => {
+                                setSelectedCoin(
+                                  coin.id === selectedCoin ? "" : coin.id
+                                );
+                                setOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  selectedCoin === coin.id
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                              <div className="flex items-center space-x-2">
+                                <img
+                                  src={coin.icon}
+                                  className="w-4 h-4 rounded-full"
+                                />
+                                <span>
+                                  {coin.symbol}
+                                </span>
+                              </div>
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div>
             </CardHeader>
             <CardContent>
               {isChartLoading ? (
@@ -217,10 +319,7 @@ export function HomeComponent() {
                   <AreaChart
                     accessibilityLayer
                     data={lineChartData}
-                    margin={{
-                      left: 12,
-                      right: 12,
-                    }}
+                    margin={{ left: 12, right: 12 }}
                   >
                     <CartesianGrid vertical={false} />
                     <XAxis
@@ -229,12 +328,46 @@ export function HomeComponent() {
                       axisLine={false}
                       tickMargin={8}
                     />
+                    <YAxis
+                      tickLine={false}
+                      axisLine={false}
+                      tickMargin={8}
+                      label={{
+                        angle: -90,
+                        position: "insideLeft",
+                      }}
+                    />
+                    <ChartTooltip
+                      cursor={false}
+                      content={<ChartTooltipContent />}
+                    />
+                    <defs>
+                      <linearGradient
+                        id="fillPrice"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="5%"
+                          stopColor="var(--chart-2)"
+                          stopOpacity={0.8}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="var(--chart-2)"
+                          stopOpacity={0.1}
+                        />
+                      </linearGradient>
+                    </defs>
                     <Area
                       dataKey="price"
-                      type="linear"
-                      fill="var(--color-primary)"
+                      type="natural"
+                      fill="url(#fillPrice)"
                       fillOpacity={0.4}
-                      stroke="var(--color-primary)"
+                      stroke="var(--chart-2)"
+                      stackId="a"
                     />
                   </AreaChart>
                 </ChartContainer>
