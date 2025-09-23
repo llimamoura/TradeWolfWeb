@@ -6,7 +6,10 @@ interface FloatingLabelInputProps {
   children: ReactNode;
 }
 
-export const FloatingLabelInput = ({ label, children }: FloatingLabelInputProps) => {
+export const FloatingLabelInput = ({
+  label,
+  children,
+}: FloatingLabelInputProps) => {
   return (
     <div className="relative">
       <FormLabel className="absolute -top-3 left-3 bg-background px-2 text-primary text-sm font-medium z-10">
@@ -16,3 +19,4 @@ export const FloatingLabelInput = ({ label, children }: FloatingLabelInputProps)
     </div>
   );
 };
+

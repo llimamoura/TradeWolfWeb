@@ -1,7 +1,3 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 import { FloatingLabelInput } from "@/components/floating-label-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,30 +8,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  type ResetPasswordData,
-  ResetPasswordValidationSchema,
-} from "@/validations/auth";
+import { useResetPasswordForm } from "../hooks/useResetPasswordForm";
 
 export function ResetPasswordComponent() {
-  const navigate = useNavigate();
-
-  const form = useForm<ResetPasswordData>({
-    resolver: zodResolver(ResetPasswordValidationSchema),
-    defaultValues: {
-      password: "",
-      confirmPassword: "",
-    },
-  });
-
-  const onSubmit = async () => {
-    toast.success("Password has been reset.");
-    navigate("/");
-  };
-
-  const onError = () => {
-    toast.error("Please correct the highlighted fields.");
-  };
+  const { form, onSubmit, onError } = useResetPasswordForm();
 
   return (
     <section className="w-full">
