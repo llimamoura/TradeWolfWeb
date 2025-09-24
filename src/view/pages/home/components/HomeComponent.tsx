@@ -23,13 +23,15 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { useCoins } from "@/view/pages/home/hooks/useCoinsQuery";
-import { useCoinsChart } from "@/view/pages/home/hooks/useCoinsChartQuery";
+import { useCoinsChart } from "@/services/charts/get-coins-charts";
+import { useCoins } from "@/services/currencies/list-currencies";
 import { Pie, PieChart } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
 } from "@/components/ui/chart";
 import type { ChartConfig } from "@/components/ui/chart";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
@@ -88,7 +90,7 @@ export function HomeComponent() {
 
   const linechartConfig = {
     price: {
-      label: "Price",
+      label: "Price: ",
       color: "var(--chart-1)",
     },
   } satisfies ChartConfig;
@@ -203,13 +205,13 @@ export function HomeComponent() {
               ) : (
                 <ChartContainer
                   config={chartConfig}
-                  className="mx-auto max-h-full text-center items-center"
+                  className="mx-auto max-h-screen text-center items-center"
                 >
                   <PieChart>
                     <Pie
                       data={pieChartData}
                       dataKey="price"
-                      innerRadius="77 %"
+                      innerRadius="77%"
                       outerRadius="90%"
                       cx="50%"
                       cy="50%"
@@ -219,6 +221,13 @@ export function HomeComponent() {
                     <ChartTooltip
                       content={<ChartTooltipContent hideLabel nameKey="coin" />}
                       cursor={false}
+                    />
+                    <ChartLegend
+                      layout="vertical"
+                      align="left"
+                      verticalAlign="middle"
+                      content={<ChartLegendContent nameKey="coin" />}
+                      className="flex gap-5 text-lg font-semibold flex-col items-start"
                     />
                   </PieChart>
                 </ChartContainer>
@@ -236,7 +245,7 @@ export function HomeComponent() {
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
-                      role="combobox"
+                      role="coin's history"
                       aria-expanded={open}
                       className="!w-50 !h-10 justify-between bg-primary text-border hover:bg-primary"
                     >
@@ -292,9 +301,7 @@ export function HomeComponent() {
                                   src={coin.icon}
                                   className="w-4 h-4 rounded-full"
                                 />
-                                <span>
-                                  {coin.symbol}
-                                </span>
+                                <span>{coin.symbol}</span>
                               </div>
                             </CommandItem>
                           ))}
@@ -365,7 +372,7 @@ export function HomeComponent() {
                       dataKey="price"
                       type="natural"
                       fill="url(#fillPrice)"
-                      fillOpacity={0.4}
+                      fillOpacity={1}
                       stroke="var(--chart-2)"
                       stackId="a"
                     />
