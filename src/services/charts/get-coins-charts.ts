@@ -7,7 +7,7 @@ export async function getCoinsChart(params?: {
 }) {
   const { data } = await httpClient.get("/coins/charts", {
     params: {
-      period: params?.period ?? "1y",
+      period: params?.period ?? "1m",
       coinIds: params?.coinsIds ?? "bitcoin,ethereum,ripple,solana,dogecoin",
     },
   });

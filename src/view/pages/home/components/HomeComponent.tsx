@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { Bell, ChevronsUpDown, Check } from "lucide-react";
+import { Bell, ChevronDown, Check } from "lucide-react";
 import { CircleUser } from "lucide-react";
 import { SearchInput } from "@/components/search-input";
 import {
@@ -39,15 +39,17 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 export function HomeComponent() {
+  const [selectedCoin, setSelectedCoin] = useState<string>("");
+  const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const { data, isLoading, isError } = useCoins();
   const {
     data: chartData,
     isLoading: isChartLoading,
     isError: isChartError,
   } = useCoinsChart();
-
-  const [selectedCoin, setSelectedCoin] = useState<string>("");
-  const [open, setOpen] = useState(false);
 
   if (isLoading) return <p>Loading your coins...</p>;
   if (isError) return <p>Error loading coins</p>;
@@ -95,6 +97,12 @@ export function HomeComponent() {
     },
   } satisfies ChartConfig;
 
+  const filteredCoins = data.result.filter(
+    (coin: any) =>
+      coin.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      coin.symbol.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="p-4 lg:p-6 xl:p-8">
       <div className="flex flex-col lg:flex-row xl:flex-row justify-between lg:items-center space-y-4 lg:space-y-0 my-0 lg:my-8">
@@ -109,10 +117,54 @@ export function HomeComponent() {
         </div>
 
         <div className="flex items-center space-x-3 lg:space-x-5 xl:space-x-5">
-          <SearchInput
-            className="hidden lg:flex w-80 lg:w-100 xl:w-120 h-10 bg-background border-tertiary"
-            placeholder="Search"
-          />
+          <div className="relative hidden lg:flex w-80 lg:w-100 xl:w-120 h-10 bg-background border-tertiary">
+            <SearchInput
+              placeholder="Search"
+              value={searchTerm}
+              onChange={(value) => {
+                setSearchTerm(value);
+                setIsDropdownOpen(!!value);
+              }}
+              className="w-full"
+            />
+
+            {isDropdownOpen && (
+              <div className="absolute top-full left-0 w-full mt-2 bg-card border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto z-50">
+                {filteredCoins.length > 0 ? (
+                  filteredCoins.slice().map((coin: any) => (
+                    <div
+                      key={coin.id}
+                      className="flex items-center bg-search-dropdown justify-between p-2"
+                      onClick={() => {
+                        setSearchTerm(`${coin.symbol}`);
+                        setSelectedCoin(coin.id);
+                        setIsDropdownOpen(false);
+                      }}
+                    >
+                      <div className="flex items-center text-background gap-2">
+                        <img
+                          src={coin.icon}
+                          alt={coin.name}
+                          className="size-5 rounded-full"
+                        />
+                        <span className="font-bold text-sm">
+                          {coin.name} ({coin.symbol})
+                        </span>
+                      </div>
+                      <span className="font-bold text-sm text-background">
+                        ${coin.price?.toFixed(2)}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="p-2 text-sm text-muted-foreground">
+                    No results found
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+
           <div className="hidden lg:flex items-center space-x-3">
             <Button variant="ghost">
               <Bell className="size-6 lg:size-7 xl:size-7 text-primary hover:text-primary" />
@@ -244,10 +296,10 @@ export function HomeComponent() {
                 <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>
                     <Button
-                      variant="outline"
+                      variant="link"
                       role="coin's history"
                       aria-expanded={open}
-                      className="!w-50 !h-10 justify-between bg-primary text-border hover:bg-primary"
+                      className="!w-50 !h-10 justify-between bg-primary text-border hover:no-underline"
                     >
                       {selectedCoin ? (
                         <div className="flex items-center gap-2">
@@ -257,7 +309,7 @@ export function HomeComponent() {
                                 (c: any) => c.id === selectedCoin
                               )?.icon
                             }
-                            className="w-4 h-4 rounded-full"
+                            className="size-4 rounded-full"
                           />
                           {
                             data.result.find((c: any) => c.id === selectedCoin)
@@ -268,7 +320,7 @@ export function HomeComponent() {
                       ) : (
                         "Select coin..."
                       )}
-                      <ChevronsUpDown className="h-4 w-4 opacity-50" />
+                      <ChevronDown className="size-4 opacity-50" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-full">
@@ -290,7 +342,7 @@ export function HomeComponent() {
                             >
                               <Check
                                 className={cn(
-                                  "mr-2 h-4 w-4",
+                                  "mr-2 size-4",
                                   selectedCoin === coin.id
                                     ? "opacity-100"
                                     : "opacity-0"
@@ -299,7 +351,7 @@ export function HomeComponent() {
                               <div className="flex items-center space-x-2">
                                 <img
                                   src={coin.icon}
-                                  className="w-4 h-4 rounded-full"
+                                  className="size-4 rounded-full"
                                 />
                                 <span>{coin.symbol}</span>
                               </div>
