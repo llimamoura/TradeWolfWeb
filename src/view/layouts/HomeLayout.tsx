@@ -2,17 +2,8 @@ import { Outlet } from "react-router-dom";
 import TradeWolfLogo from "../../assets/img/LogoBG.png";
 import TradeWolfBlueLogo from "../../assets/img/TradeWolfBlueLogo.jpg";
 import { Separator } from "@/components/ui/separator";
-import { House } from "lucide-react";
-import { ChartLine } from "lucide-react";
-import { Crown } from "lucide-react";
-import { Wallet } from "lucide-react";
-import { Plus } from "lucide-react";
-import { LogOut } from "lucide-react";
-import { Search } from "lucide-react";
-import { Bell } from "lucide-react";
-import { CircleUser } from "lucide-react";
+import { House, ChartLine, CirclePlus, LogOut, Search, Bell, CircleUser, Settings, Hourglass } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Settings } from 'lucide-react';
 
 export function HomeLayout() {
   return (
@@ -36,7 +27,7 @@ export function HomeLayout() {
         </div>
       </div>
 
-      <div className="hidden lg:flex bg-gradient-to-b from-primary to-tertiary text-primary-foreground rounded-2xl items-center flex-col m-3 xl:m-5 ml-6 xl:ml-15 w-20 xl:max-w-xl lg:w-24 min-h-6 py-6">
+      <div className="hidden lg:flex bg-gradient-to-b from-primary to-tertiary text-primary-foreground rounded-2xl items-center flex-col m-3 xl:m-5 ml-6 xl:ml-15 w-20 xl:max-w-xl lg:w-28 min-h-6 py-6">
         <img
           src={TradeWolfLogo}
           alt="TradeWolf logo"
@@ -46,24 +37,24 @@ export function HomeLayout() {
 
         <Separator className="border mb-10" />
 
-        <Button variant="ghost" className="rounded-full mb-6 xl:mb-10">
+        <Button variant="ghost" className="rounded-full mb-6 xl:mb-15">
           <House className="size-6 lg:size-8 xl:size-10" />
         </Button>
 
-        <Button variant="ghost" className="rounded-full mb-6 xl:mb-10">
+        <Button variant="ghost" className="rounded-full mb-6 xl:mb-15">
           <ChartLine className="size-6 lg:size-8 xl:size-10" />
         </Button>
 
-        <Button variant="ghost" className="rounded-full mb-6 xl:mb-10">
-          <Crown className="size-6 lg:size-8 xl:size-10" />
+        <Button variant="ghost" className="rounded-full mb-6 xl:mb-15">
+          <Hourglass className="size-6 lg:size-8 xl:size-10" />
         </Button>
 
-        <Button variant="ghost" className="rounded-full mb-6 xl:mb-10">
-          <Wallet className="size-6 lg:size-8 xl:size-10" />
+        <Button variant="ghost" className="rounded-full mb-6 xl:mb-15">
+          <Settings className="size-6 lg:size-8 xl:size-10" />
         </Button>
 
-        <Button variant="ghost" className="rounded-full mb-20 xl:mb-10">
-          <Plus className="size-6 lg:size-8 xl:size-10 bg-primary-light rounded-xl" />
+        <Button variant="ghost" className="rounded-full mb-20 xl:mb-15">
+          <CirclePlus className="size-6 lg:size-8 xl:size-10 rounded-xl" />
         </Button>
 
         <Button variant="ghost" className="mt-auto rounded-full">
@@ -84,7 +75,7 @@ export function HomeLayout() {
             <ChartLine className="size-7 sm:size-10 text-primary" />
           </Button>
           <Button variant="ghost" className="flex-col space-y-1 h-auto p-2">
-            <Plus className="size-12 sm:size-15 rounded-full text-primary border-4 border-primary-light" />
+            <CirclePlus className="size-12 sm:size-15 rounded-full text-primary" />
           </Button>
           <Button variant="ghost" className="flex-col space-y-1 h-auto p-2">
             <CircleUser className="size-7 sm:size-10 text-primary" />

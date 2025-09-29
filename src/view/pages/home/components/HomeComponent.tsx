@@ -1,6 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { Bell, ChevronDown, Check } from "lucide-react";
-import { CircleUser } from "lucide-react";
+import { Bell, ChevronDown, Check, CircleUser } from "lucide-react";
 import { SearchInput } from "@/components/search-input";
 import {
   Card,
@@ -50,6 +49,11 @@ export function HomeComponent() {
     isLoading: isChartLoading,
     isError: isChartError,
   } = useCoinsChart();
+  const {
+    data: marketChartData,
+    isLoading: isMarketChartLoading,
+    isError: isMarketChartError,
+  } = useCoinsChart({ coinsIds: selectedCoin || undefined });
 
   if (isLoading) return <p>Loading your coins...</p>;
   if (isError) return <p>Error loading coins</p>;
@@ -60,9 +64,13 @@ export function HomeComponent() {
     price: coin.chart?.length ?? 0,
     fill: `var(--chart-${index + 1})`,
   }));
+  
+  const selectedCoinChart =
+    (marketChartData || [])?.find((c: any) => c.coinId === selectedCoin) ||
+    (marketChartData || [])[0];
 
   const lineChartData =
-    (chartData || [])[0]?.chart.map((point: [number, number]) => {
+    selectedCoinChart?.chart?.map((point: [number, number]) => {
       const [timestamp, price] = point;
       return {
         time: new Date(timestamp).toLocaleTimeString("en-US", {
@@ -299,7 +307,7 @@ export function HomeComponent() {
                       variant="link"
                       role="coin's history"
                       aria-expanded={open}
-                      className="!w-50 !h-10 justify-between bg-primary text-border hover:no-underline"
+                      className="!w-25 !h-8 justify-between bg-primary text-border hover:no-underline mx-3"
                     >
                       {selectedCoin ? (
                         <div className="flex items-center gap-2">
@@ -314,15 +322,32 @@ export function HomeComponent() {
                           {
                             data.result.find((c: any) => c.id === selectedCoin)
                               ?.symbol
-                          }{" "}
-                          - {selectedCoin}
+                          }
                         </div>
                       ) : (
-                        "Select coin..."
+                        "Coin..."
                       )}
-                      <ChevronDown className="size-4 opacity-50" />
+                      <ChevronDown className="size-4 text-background opacity-50" />
                     </Button>
                   </PopoverTrigger>
+                  <Button
+                    className="!h-6 !w-5 bg-blue-gray font-bold text-background rounded-xl"
+                    variant="ghost"
+                  >
+                    1D
+                  </Button>
+                  <Button
+                    className="!h-6 !w-5 bg-blue-gray font-bold text-background rounded-xl"
+                    variant="ghost"
+                  >
+                    5D
+                  </Button>
+                  <Button
+                    className="!h-6 !w-5 bg-blue-gray font-bold text-background rounded-xl"
+                    variant="ghost"
+                  >
+                    1M
+                  </Button>
                   <PopoverContent className="w-full">
                     <Command>
                       <CommandInput placeholder="Search coins..." />
@@ -365,9 +390,9 @@ export function HomeComponent() {
               </div>
             </CardHeader>
             <CardContent>
-              {isChartLoading ? (
+              {isMarketChartLoading ? (
                 <p className="text-center">Loading chart...</p>
-              ) : isChartError ? (
+              ) : isMarketChartError ? (
                 <p className="text-center text-error">Error loading chart</p>
               ) : !lineChartData || lineChartData.length === 0 ? (
                 <p className="text-center text-muted-foreground">

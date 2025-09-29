@@ -57,6 +57,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-success: var(--success);
   --color-search-dropdown: var(--search-dropdown);
+  --color-blue-gray: var(--blue-gray);
 }
 
 :root {
@@ -106,6 +107,7 @@
   --sidebar-ring: oklch(0.708 0 0);
   --success: oklch(0.7536 0.1901 144.76);
   --search-dropdown: oklch(0.5214 0.0551 255.27);
+  --blue-gray: oklch(0.6782 0.0355 256.79 / 89.8%);
 }
 
 .dark {
