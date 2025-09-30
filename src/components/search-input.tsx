@@ -15,7 +15,7 @@ export function SearchInput({
   onChange,
 }: SearchInputProps) {
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative bg-home-layout ${className}`}>
       <Input
         className="pr-10 pl-2 w-full h-10 text-primary text-sm font-medium"
         placeholder={placeholder}

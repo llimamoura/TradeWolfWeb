@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 export function HomeLayout() {
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-background">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-home-layout">
       <div className="lg:hidden flex items-center justify-between px-4 py-2 bg-background text-primary-foreground">
         <img
           src={TradeWolfBlueLogo}

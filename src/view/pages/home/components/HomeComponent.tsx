@@ -43,11 +43,15 @@ export function HomeComponent() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const { data, isLoading, isError } = useCoins();
   const {
-    data: chartData,
-    isLoading: isChartLoading,
-    isError: isChartError,
+    data: coinsData,
+    isLoading: isCoinsLoading,
+    isError: isCoinsError,
+  } = useCoins();
+  const {
+    data: portfolioChartData,
+    isLoading: isPortfolioChartLoading,
+    isError: isPortfolioChartError,
   } = useCoinsChart();
   const {
     data: marketChartData,
@@ -55,16 +59,18 @@ export function HomeComponent() {
     isError: isMarketChartError,
   } = useCoinsChart({ coinsIds: selectedCoin || undefined });
 
-  if (isLoading) return <p>Loading your coins...</p>;
-  if (isError) return <p>Error loading coins</p>;
+  if (isCoinsLoading) return <p>Loading your coins...</p>;
+  if (isCoinsError) return <p>Error loading coins</p>;
 
-  const pieChartData = (chartData || []).map((coin: any, index: number) => ({
-    coinSybol: coin.symbol,
-    coin: coin.coinId,
-    price: coin.chart?.length ?? 0,
-    fill: `var(--chart-${index + 1})`,
-  }));
-  
+  const pieChartData = (portfolioChartData || []).map(
+    (coin: any, index: number) => ({
+      coinSybol: coin.symbol,
+      coin: coin.coinId,
+      price: coin.chart?.length ?? 0,
+      fill: `var(--chart-${index + 1})`,
+    })
+  );
+
   const selectedCoinChart =
     (marketChartData || [])?.find((c: any) => c.coinId === selectedCoin) ||
     (marketChartData || [])[0];
@@ -82,10 +88,10 @@ export function HomeComponent() {
       };
     }) ?? [];
 
-  console.log("Chart data:", chartData);
-  console.log("Chart data length:", chartData?.length);
+  console.log("Chart data:", portfolioChartData);
+  console.log("Chart data length:", portfolioChartData?.length);
   console.log("Line chart data:", lineChartData);
-  console.log("First coin data:", chartData?.[0]);
+  console.log("First coin data:", portfolioChartData?.[0]);
 
   const chartConfig = {
     portifolio: { label: "Portifolio" },
@@ -105,7 +111,7 @@ export function HomeComponent() {
     },
   } satisfies ChartConfig;
 
-  const filteredCoins = data.result.filter(
+  const filteredCoins = coinsData.result.filter(
     (coin: any) =>
       coin.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       coin.symbol.toLowerCase().includes(searchTerm.toLowerCase())
@@ -116,7 +122,7 @@ export function HomeComponent() {
       <div className="flex flex-col lg:flex-row xl:flex-row justify-between lg:items-center space-y-4 lg:space-y-0 my-0 lg:my-8">
         <div className="flex items-center space-x-3 lg:space-x-5">
           <Separator
-            className="hidden lg:block ml-0 !mr-2 border-tertiary border-2 rounded-xl h-8"
+            className="hidden lg:block mr-2 border-tertiary border-2 rounded-xl"
             orientation="vertical"
           />
           <h1 className="hidden lg:flex text-xl lg:text-3xl text-primary font-extrabold">
@@ -127,47 +133,43 @@ export function HomeComponent() {
         <div className="flex items-center space-x-3 lg:space-x-5 xl:space-x-5">
           <div className="relative hidden lg:flex w-80 lg:w-100 xl:w-120 h-10 bg-background border-tertiary">
             <SearchInput
-              placeholder="Search"
+              placeholder="Search..."
               value={searchTerm}
               onChange={(value) => {
                 setSearchTerm(value);
                 setIsDropdownOpen(!!value);
               }}
-              className="w-full"
+              className="w-full placeholder:text-extrabold"
             />
 
             {isDropdownOpen && (
-              <div className="absolute top-full left-0 w-full mt-2 bg-card border border-border rounded-lg shadow-lg max-h-60 overflow-y-auto z-50">
+              <div className="absolute top-full left-0 w-full max-h-40 mt-2 overflow-y-auto z-50 bg-card border border-border rounded-lg shadow-lg font-bold text-sm text-background">
                 {filteredCoins.length > 0 ? (
                   filteredCoins.slice().map((coin: any) => (
                     <div
                       key={coin.id}
-                      className="flex items-center bg-search-dropdown justify-between p-2"
+                      className="flex items-center justify-between p-2 bg-search-dropdown"
                       onClick={() => {
                         setSearchTerm(`${coin.symbol}`);
                         setSelectedCoin(coin.id);
                         setIsDropdownOpen(false);
                       }}
                     >
-                      <div className="flex items-center text-background gap-2">
+                      <div className="flex items-center gap-2">
                         <img
                           src={coin.icon}
                           alt={coin.name}
                           className="size-5 rounded-full"
                         />
-                        <span className="font-bold text-sm">
+                        <span>
                           {coin.name} ({coin.symbol})
                         </span>
                       </div>
-                      <span className="font-bold text-sm text-background">
-                        ${coin.price?.toFixed(2)}
-                      </span>
+                      <span>${coin.price?.toFixed(2)}</span>
                     </div>
                   ))
                 ) : (
-                  <p className="p-2 text-sm text-muted-foreground">
-                    No results found
-                  </p>
+                  <p className="bg-search-dropdown p-2">No results found</p>
                 )}
               </div>
             )}
@@ -175,10 +177,10 @@ export function HomeComponent() {
 
           <div className="hidden lg:flex items-center space-x-3">
             <Button variant="ghost">
-              <Bell className="size-6 lg:size-7 xl:size-7 text-primary hover:text-primary" />
+              <Bell className="size-6 lg:size-7 text-primary" />
             </Button>
             <Button variant="ghost">
-              <CircleUser className="size-6 lg:size-7 xl:size-7 text-primary hover:text-primary" />
+              <CircleUser className="size-6 lg:size-7 text-primary" />
             </Button>
           </div>
         </div>
@@ -186,52 +188,54 @@ export function HomeComponent() {
 
       <div className="w-full mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 place-items-stretch">
-          <Card className="bg-card min-h-50 lg:min-h-60 justify-center flex xl:min-h-30 w-full">
+          <Card className="flex justify-center w-full min-h-50 lg:min-h-60 xl:min-h-30 bg-card shadow-lg">
             <CardHeader>
-              <CardTitle className="font-extrabold text-xl lg:text-2xl mb-4 text-primary">
-                My Balance
+              <CardTitle className="font-extrabold text-search-dropdown text-xl lg:text-3xl mb-8">
+                My balance
               </CardTitle>
-              <div className="flex flex-col sm:flex-row xl:flex-row items-start sm:items-center gap-5 space-y-2 sm:space-y-0">
-                <CardDescription className="text-3xl lg:text-4xl text-primary font-bold">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 gap-5">
+                <CardDescription className="font-extrabold text-3xl lg:text-4xl text-blue-muted">
                   $25,901.41
                 </CardDescription>
-                <CardContent className="p-2 px-3 bg-success text-background rounded-lg text-sm font-semibold">
-                  +810%
+                <CardContent className="p-2 text-sm text-background font-semibold bg-success rounded-lg">
+                  810%
                 </CardContent>
               </div>
             </CardHeader>
           </Card>
 
-          <Card className="bg-card h-auto min-h-50 lg:min-h-85 xl:min-h-50 w-full">
+          <Card className="bg-card w-full h-auto min-h-50 lg:min-h-85 xl:min-h-50 shadow-lg">
             <CardHeader>
-              <CardTitle className="text-xl lg:text-2xl font-bold mb-4 text-primary">
+              <CardTitle className="font-extrabold text-primary text-xl lg:text-2xl mb-4">
                 Your Assets
               </CardTitle>
-              <div className="space-y-3 max-h-60 xl:max-h-30 overflow-y-auto">
-                {data.result.slice(0, 10).map((coin: any) => (
+              <div className="max-h-60 xl:max-h-30 space-y-3 overflow-y-auto">
+                {coinsData.result.slice(0, 10).map((coin: any) => (
                   <div
                     key={coin.id}
-                    className="flex justify-between items-center p-2 bg-background/50 rounded-lg"
+                    className="flex justify-between items-center py-2 bg-background"
                   >
                     <div className="flex items-center space-x-3">
                       <img
                         src={coin.icon}
                         alt={coin.name}
-                        className="w-6 h-6 rounded-full"
+                        className="size-6 rounded-full"
                       />
                       <div>
-                        <p className="font-semibold text-sm">{coin.name}</p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="font-bold text-sm text-blue-muted">
+                          {coin.name}
+                        </p>
+                        <p className="text-xs font-extrabold w-fit bg-quartenary rounded-md p-1 text-primary">
                           {coin.symbol}
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold text-sm">
+                      <p className="font-bold text-sm text-blue-muted">
                         ${coin.price?.toFixed(2)}
                       </p>
                       <p
-                        className={`text-xs ${
+                        className={`text-xs font-semibold ${
                           coin.priceChange1d >= 0
                             ? "text-success"
                             : "text-error"
@@ -247,18 +251,18 @@ export function HomeComponent() {
             </CardHeader>
           </Card>
 
-          <Card className="bg-card h-auto min-h-98 xl:max-h-20">
+          <Card className="bg-card h-auto min-h-98 xl:max-h-20 shadow-lg">
             <CardHeader className="items-center">
-              <CardTitle className="text-xl lg:text-2xl font-bold mb-2 text-primary">
+              <CardTitle className="text-xl lg:text-2xl font-extrabold mb-2 text-primary">
                 Portfolio distribution
               </CardTitle>
             </CardHeader>
             <CardContent className="flex-1 items-center text-center">
-              {isChartLoading ? (
+              {isPortfolioChartLoading ? (
                 <p className="text-center">Loading chart...</p>
-              ) : isChartError ? (
+              ) : isPortfolioChartError ? (
                 <p className="text-center text-error">Error loading chart</p>
-              ) : !chartData || pieChartData.length === 0 ? (
+              ) : !portfolioChartData || pieChartData.length === 0 ? (
                 <p className="text-center text-muted-foreground">
                   No chart data available
                 </p>
@@ -295,11 +299,11 @@ export function HomeComponent() {
             </CardContent>
           </Card>
 
-          <Card className="bg-card h-auto min-h-98 xl:max-h-20">
+          <Card className="bg-card h-auto min-h-98 xl:max-h-20 shadow-lg">
             <CardHeader>
               <div className="flex items-center justify-between mb-2">
-                <CardTitle className="text-xl lg:text-2xl font-bold text-primary">
-                  Market Summary
+                <CardTitle className="text-xl lg:text-2xl font-extrabold text-primary">
+                  Market summary
                 </CardTitle>
                 <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>
@@ -313,15 +317,16 @@ export function HomeComponent() {
                         <div className="flex items-center gap-2">
                           <img
                             src={
-                              data.result.find(
+                              coinsData.result.find(
                                 (c: any) => c.id === selectedCoin
                               )?.icon
                             }
                             className="size-4 rounded-full"
                           />
                           {
-                            data.result.find((c: any) => c.id === selectedCoin)
-                              ?.symbol
+                            coinsData.result.find(
+                              (c: any) => c.id === selectedCoin
+                            )?.symbol
                           }
                         </div>
                       ) : (
@@ -354,7 +359,7 @@ export function HomeComponent() {
                       <CommandList>
                         <CommandEmpty>No coin found.</CommandEmpty>
                         <CommandGroup>
-                          {data.result.slice(0, 10).map((coin: any) => (
+                          {coinsData.result.slice(0, 10).map((coin: any) => (
                             <CommandItem
                               key={coin.id}
                               value={coin.id}
