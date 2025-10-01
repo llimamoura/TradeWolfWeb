@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import TradeWolfLogo from "../../assets/img/LogoBG.png";
-import TradeWolfBlueLogo from "../../assets/img/TradeWolfBlueLogo.jpg";
+import TradeWolfBlueLogo from "../../assets/img/TradeWolfBlueLogo.png";
 import { Separator } from "@/components/ui/separator";
 import { House, ChartLine, CirclePlus, LogOut, Search, Bell, CircleUser, Settings, Hourglass } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 export function HomeLayout() {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-home-layout">
-      <div className="lg:hidden flex items-center justify-between px-4 py-2 bg-background text-primary-foreground">
+      <div className="lg:hidden flex items-center justify-between px-4 py-2 bg-home-layout text-primary-foreground">
         <img
           src={TradeWolfBlueLogo}
           alt="TradeWolf Blue logo"

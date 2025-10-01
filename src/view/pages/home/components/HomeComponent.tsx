@@ -235,7 +235,7 @@ export function HomeComponent() {
                         ${coin.price?.toFixed(2)}
                       </p>
                       <p
-                        className={`text-xs font-semibold ${
+                        className={`text-xs font-bold ${
                           coin.priceChange1d >= 0
                             ? "text-success"
                             : "text-error"
@@ -251,9 +251,9 @@ export function HomeComponent() {
             </CardHeader>
           </Card>
 
-          <Card className="bg-card h-auto min-h-98 xl:max-h-20 shadow-lg">
+          <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg">
             <CardHeader className="items-center">
-              <CardTitle className="text-xl lg:text-2xl font-extrabold mb-2 text-primary">
+              <CardTitle className="text-xl lg:text-2xl font-extrabold text-primary mb-2">
                 Portfolio distribution
               </CardTitle>
             </CardHeader>
@@ -269,7 +269,7 @@ export function HomeComponent() {
               ) : (
                 <ChartContainer
                   config={chartConfig}
-                  className="mx-auto max-h-screen text-center items-center"
+                  className="mx-auto max-h-full xl:h-75 items-center text-center"
                 >
                   <PieChart>
                     <Pie
@@ -291,7 +291,7 @@ export function HomeComponent() {
                       align="left"
                       verticalAlign="middle"
                       content={<ChartLegendContent nameKey="coin" />}
-                      className="flex gap-5 text-lg font-semibold flex-col items-start"
+                      className="flex gap-8 flex-col items-start sm:mt-0 mt-5 text-xl text-blue-muted font-bold"
                     />
                   </PieChart>
                 </ChartContainer>
@@ -299,7 +299,7 @@ export function HomeComponent() {
             </CardContent>
           </Card>
 
-          <Card className="bg-card h-auto min-h-98 xl:max-h-20 shadow-lg">
+          <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg">
             <CardHeader>
               <div className="flex items-center justify-between mb-2">
                 <CardTitle className="text-xl lg:text-2xl font-extrabold text-primary">
@@ -311,7 +311,7 @@ export function HomeComponent() {
                       variant="link"
                       role="coin's history"
                       aria-expanded={open}
-                      className="!w-25 !h-8 justify-between bg-primary text-border hover:no-underline mx-3"
+                      className="w-25 h-8 font-bold justify-between bg-primary text-border hover:no-underline sm:gap-3 gap-2"
                     >
                       {selectedCoin ? (
                         <div className="flex items-center gap-2">
@@ -335,27 +335,32 @@ export function HomeComponent() {
                       <ChevronDown className="size-4 text-background opacity-50" />
                     </Button>
                   </PopoverTrigger>
-                  <Button
-                    className="!h-6 !w-5 bg-blue-gray font-bold text-background rounded-xl"
-                    variant="ghost"
-                  >
-                    1D
-                  </Button>
-                  <Button
-                    className="!h-6 !w-5 bg-blue-gray font-bold text-background rounded-xl"
-                    variant="ghost"
-                  >
-                    5D
-                  </Button>
-                  <Button
-                    className="!h-6 !w-5 bg-blue-gray font-bold text-background rounded-xl"
-                    variant="ghost"
-                  >
-                    1M
-                  </Button>
-                  <PopoverContent className="w-full">
+                  <div className="flex gap-2 sm:gap-3 ml-2 sm:ml-0">
+                    <Button
+                      className="size-6 bg-blue-gray rounded-xl font-bold text-background"
+                      variant="ghost"
+                    >
+                      1D
+                    </Button>
+                    <Button
+                      className="size-6 bg-blue-gray rounded-xl font-bold text-background"
+                      variant="ghost"
+                    >
+                      5D
+                    </Button>
+                    <Button
+                      className="size-6 bg-blue-gray rounded-xl font-bold text-background"
+                      variant="ghost"
+                    >
+                      1M
+                    </Button>
+                  </div>
+                  <PopoverContent className="w-fit text-start">
                     <Command>
-                      <CommandInput placeholder="Search coins..." />
+                      <CommandInput
+                        placeholder="Search coins..."
+                        className="placeholder:font-extrabold"
+                      />
                       <CommandList>
                         <CommandEmpty>No coin found.</CommandEmpty>
                         <CommandGroup>
@@ -372,13 +377,13 @@ export function HomeComponent() {
                             >
                               <Check
                                 className={cn(
-                                  "mr-2 size-4",
+                                  "mr-2 size-4 flex items-start text-start",
                                   selectedCoin === coin.id
                                     ? "opacity-100"
                                     : "opacity-0"
                                 )}
                               />
-                              <div className="flex items-center space-x-2">
+                              <div className="flex items-start text-start space-x-2 font-extrabold text-primary">
                                 <img
                                   src={coin.icon}
                                   className="size-4 rounded-full"
@@ -394,7 +399,7 @@ export function HomeComponent() {
                 </Popover>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 p-1">
               {isMarketChartLoading ? (
                 <p className="text-center">Loading chart...</p>
               ) : isMarketChartError ? (
@@ -404,11 +409,14 @@ export function HomeComponent() {
                   No chart data available
                 </p>
               ) : (
-                <ChartContainer config={linechartConfig}>
+                <ChartContainer
+                  config={linechartConfig}
+                  className="h-full w-full"
+                >
                   <AreaChart
                     accessibilityLayer
                     data={lineChartData}
-                    margin={{ left: 12, right: 12 }}
+                    margin={{ left: 12, right: 12, top: 12, bottom: 12 }}
                   >
                     <CartesianGrid vertical={false} />
                     <XAxis
