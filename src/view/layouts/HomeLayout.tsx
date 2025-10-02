@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import TradeWolfLogo from "../../assets/img/LogoBG.png";
-import TradeWolfBlueLogo from "../../assets/img/TradeWolfBlueLogo.png";
+import Logo from "../../assets/img/logo.png";
 import { Separator } from "@/components/ui/separator";
 import {
   House,
@@ -20,7 +20,7 @@ export function HomeLayout() {
     <div className="flex flex-col lg:flex-row min-h-screen bg-home-layout">
       <div className="lg:hidden flex items-center justify-between px-4 py-1 bg-home-layout text-primary-foreground">
         <img
-          src={TradeWolfBlueLogo}
+          src={Logo}
           alt="TradeWolf Blue logo"
           className="size-20"
         />
