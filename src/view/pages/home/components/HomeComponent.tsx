@@ -1,6 +1,5 @@
 import { Separator } from "@/components/ui/separator";
 import { Bell, ChevronDown, Check, CircleUser } from "lucide-react";
-import { SearchInput } from "@/components/search-input";
 import {
   Card,
   CardContent,
@@ -88,11 +87,6 @@ export function HomeComponent() {
       };
     }) ?? [];
 
-  console.log("Chart data:", portfolioChartData);
-  console.log("Chart data length:", portfolioChartData?.length);
-  console.log("Line chart data:", lineChartData);
-  console.log("First coin data:", portfolioChartData?.[0]);
-
   const chartConfig = {
     portifolio: { label: "Portifolio" },
     ...pieChartData.reduce((config: any, item: any, index: number) => {
@@ -119,7 +113,7 @@ export function HomeComponent() {
 
   return (
     <div className="p-4 lg:p-6 xl:p-8">
-      <div className="flex flex-col lg:flex-row xl:flex-row justify-between lg:items-center space-y-4 lg:space-y-0 my-0 lg:my-8">
+      <header className="flex flex-col lg:flex-row justify-between lg:items-center space-y-4 lg:space-y-0 my-0 lg:my-8">
         <div className="flex items-center space-x-3 lg:space-x-5">
           <Separator
             className="hidden lg:block mr-2 border-tertiary border-2 rounded-xl"
@@ -130,71 +124,74 @@ export function HomeComponent() {
           </h1>
         </div>
 
-        <div className="flex items-center space-x-3 lg:space-x-5 xl:space-x-5">
-          <div className="relative hidden lg:flex w-80 lg:w-100 xl:w-120 h-10 bg-background border-tertiary">
-            <SearchInput
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(value) => {
-                setSearchTerm(value);
-                setIsDropdownOpen(!!value);
-              }}
-              className="w-full placeholder:text-extrabold"
-            />
-
-            {isDropdownOpen && (
-              <div className="absolute top-full left-0 w-full max-h-40 mt-2 overflow-y-auto z-50 bg-card border border-border rounded-lg shadow-lg font-bold text-sm text-background">
-                {filteredCoins.length > 0 ? (
-                  filteredCoins.slice().map((coin: any) => (
-                    <div
-                      key={coin.id}
-                      className="flex items-center justify-between p-2 bg-search-dropdown"
-                      onClick={() => {
-                        setSearchTerm(`${coin.symbol}`);
-                        setSelectedCoin(coin.id);
-                        setIsDropdownOpen(false);
-                      }}
-                    >
-                      <div className="flex items-center gap-2">
-                        <img
-                          src={coin.icon}
-                          alt={coin.name}
-                          className="size-5 rounded-full"
-                        />
-                        <span>
-                          {coin.name} ({coin.symbol})
+        <div className="flex items-center space-x-3 lg:space-x-5">
+          <div className="relative hidden lg:flex w-80 lg:w-100 xl:w-120 bg-background border-tertiary rounded-lg">
+            <Command className="w-full text-primary border border-primary rounded-xl">
+              <CommandInput
+                placeholder="Search coins..."
+                value={searchTerm}
+                onValueChange={(value) => {
+                  setSearchTerm(value);
+                  setIsDropdownOpen(!!value);
+                }}
+                className="placeholder:text-extrabold"
+              />
+              {isDropdownOpen && (
+                <CommandList className="absolute top-full left-0 w-full max-h-40 mt-1 overflow-y-auto z-50 bg-card border border-border rounded-lg shadow-lg">
+                  <CommandEmpty>No coins found.</CommandEmpty>
+                  <CommandGroup>
+                    {filteredCoins.slice().map((coin: any) => (
+                      <CommandItem
+                        key={coin.id}
+                        value={coin.id}
+                        className="flex items-center justify-between p-2"
+                        onSelect={() => {
+                          setSearchTerm(`${coin.symbol}`);
+                          setSelectedCoin(coin.id);
+                          setIsDropdownOpen(false);
+                        }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={coin.icon}
+                            alt={coin.name}
+                            className="size-5 rounded-full"
+                          />
+                          <span className="font-bold text-sm">
+                            {coin.name} ({coin.symbol})
+                          </span>
+                        </div>
+                        <span className="font-bold text-sm">
+                          ${coin.price?.toFixed(2)}
                         </span>
-                      </div>
-                      <span>${coin.price?.toFixed(2)}</span>
-                    </div>
-                  ))
-                ) : (
-                  <p className="bg-search-dropdown p-2">No results found</p>
-                )}
-              </div>
-            )}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              )}
+            </Command>
           </div>
 
           <div className="hidden lg:flex items-center space-x-3">
-            <Button variant="ghost">
+            <Button variant="ghost" aria-label="Notifications">
               <Bell className="size-6 lg:size-7 text-primary" />
             </Button>
-            <Button variant="ghost">
+            <Button variant="ghost" aria-label="User Profile">
               <CircleUser className="size-6 lg:size-7 text-primary" />
             </Button>
           </div>
         </div>
-      </div>
+      </header>
 
-      <div className="w-full mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 place-items-stretch">
+      <main className="w-full mx-auto">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 place-items-stretch">
           <Card className="flex justify-center w-full min-h-50 lg:min-h-60 xl:min-h-30 bg-card shadow-lg">
             <CardHeader>
-              <CardTitle className="font-extrabold text-search-dropdown text-xl lg:text-3xl mb-8">
+              <CardTitle className="font-extrabold text-search-dropdown text-xl md:text-3xl mb-6">
                 My balance
               </CardTitle>
               <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 gap-5">
-                <CardDescription className="font-extrabold text-3xl lg:text-4xl text-blue-muted">
+                <CardDescription className="font-extrabold text-3xl md:text-4xl text-blue-muted">
                   $25,901.41
                 </CardDescription>
                 <CardContent className="p-2 text-sm text-background font-semibold bg-success rounded-lg">
@@ -253,7 +250,7 @@ export function HomeComponent() {
 
           <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg">
             <CardHeader className="items-center">
-              <CardTitle className="text-xl lg:text-2xl font-extrabold text-primary mb-2">
+              <CardTitle className="text-xl lg:text-2xl mb-2 md:mb-3 lg:mb-2 font-extrabold text-primary">
                 Portfolio distribution
               </CardTitle>
             </CardHeader>
@@ -311,7 +308,7 @@ export function HomeComponent() {
                       variant="link"
                       role="coin's history"
                       aria-expanded={open}
-                      className="w-25 h-8 font-bold justify-between bg-primary text-border hover:no-underline sm:gap-3 gap-2"
+                      className="w-25 h-8 md:w-25 md:h-8 lg:w-30 xl:w-25 xl:h-8 md:mr-4 lg:mr-4 xl:mr-0 sm:mr-0 mr-0 font-bold justify-between bg-primary text-border hover:no-underline sm:gap-3 gap-2"
                     >
                       {selectedCoin ? (
                         <div className="flex items-center gap-2">
@@ -471,8 +468,8 @@ export function HomeComponent() {
               )}
             </CardContent>
           </Card>
-        </div>
-      </div>
+        </section>
+      </main>
     </div>
   );
 }
