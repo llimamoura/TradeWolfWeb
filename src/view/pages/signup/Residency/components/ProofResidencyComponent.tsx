@@ -100,7 +100,7 @@ export function ProofResidencyComponent() {
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent  className="w-full lg:w-145 p-0">
+                    <PopoverContent className="w-full lg:w-145 p-0">
                       <Command>
                         <CommandInput
                           placeholder="Search nationality..."

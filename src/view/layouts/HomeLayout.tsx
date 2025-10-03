@@ -15,25 +15,96 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const topNavItems = [
+  {
+    route: "/",
+    label: "Search",
+    icon: Search,
+  },
+  {
+    route: "/",
+    label: "Notifications",
+    icon: Bell,
+  },
+  {
+    route: "/",
+    label: "User Profile",
+    icon: CircleUser,
+  },
+];
+
+const sideNavItems = [
+  {
+    route: "/",
+    label: "Home",
+    icon: House,
+  },
+  {
+    route: "/",
+    label: "Charts",
+    icon: ChartLine,
+  },
+  {
+    route: "/",
+    label: "History",
+    icon: Hourglass,
+  },
+  {
+    route: "/",
+    label: "Settings",
+    icon: Settings,
+  },
+  {
+    route: "/",
+    label: "Add Assets",
+    icon: CirclePlus,
+  },
+  {
+    route: "/",
+    label: "Settings",
+    icon: Settings,
+  },
+];
+
+const bottomNavItems = [
+  {
+    route: "/",
+    label: "Home",
+    icon: House,
+  },
+  {
+    route: "/",
+    label: "Charts",
+    icon: ChartLine,
+  },
+  {
+    route: "/",
+    label: "Add Assets",
+    icon: CirclePlus,
+  },
+  {
+    route: "/",
+    label: "User Profile",
+    icon: CircleUser,
+  },
+  {
+    route: "/",
+    label: "Settings",
+    icon: Settings,
+  },
+];
+
 export function HomeLayout() {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-home-layout">
       <div className="lg:hidden flex items-center justify-between px-4 py-1 bg-home-layout text-primary-foreground">
-        <img
-          src={Logo}
-          alt="TradeWolf Blue logo"
-          className="size-20"
-        />
-        <nav className="flex items-center space-x-3">
-          <Button variant="ghost" aria-label="Search">
-            <Search className="size-6 text-primary" />
-          </Button>
-          <Button variant="ghost" aria-label="Notifications">
-            <Bell className="size-6 text-primary" />
-          </Button>
-          <Button variant="ghost" aria-label="User Profile">
-            <CircleUser className="size-6 text-primary" />
-          </Button>
+        <img src={Logo} alt="TradeWolf Blue logo" className="size-20" />
+        <nav className="flex items-center space-between">
+          {topNavItems.map(({ label, icon: Icon }) => (
+            <Button key={label} aria-label={label} variant="ghost">
+              <Icon className="size-6 text-primary" />
+            </Button>
+          ))}
         </nav>
       </div>
 
@@ -45,48 +116,19 @@ export function HomeLayout() {
           className="size-14 lg:size-23 xl:size-25 mb-6"
         />
 
-        <Separator className="border mb-13" />
+        <Separator className="border mb-13 w-15" />
 
-        <nav className="flex flex-col items-center space-y-5">
-          <Button
-            variant="link"
-            className="rounded-full mb-6 lg:mb-16 xl:mb-16 text-background"
-            aria-label="Dashboard"
-          >
-            <House className="size-6 lg:size-12 xl:size-10" />
-          </Button>
-
-          <Button
-            variant="link"
-            className="rounded-full mb-6 lg:mb-16 xl:mb-16 text-background"
-            aria-label="Charts"
-          >
-            <ChartLine className="size-6 lg:size-12 xl:size-10" />
-          </Button>
-
-          <Button
-            variant="link"
-            className="rounded-full mb-6 lg:mb-16 xl:mb-16 text-background"
-            aria-label="History"
-          >
-            <Hourglass className="size-6 lg:size-12 xl:size-10" />
-          </Button>
-
-          <Button
-            variant="link"
-            className="rounded-full mb-6 lg:mb-16 xl:mb-16 text-background"
-            aria-label="Settings"
-          >
-            <Settings className="size-6 lg:size-12 xl:size-10" />
-          </Button>
-
-          <Button
-            variant="link"
-            className="rounded-full mb-20 lg:mb-16 xl:mb-10 text-background"
-            aria-label="Add Asset"
-          >
-            <CirclePlus className="size-6 lg:size-15 xl:size-13 rounded-xl" />
-          </Button>
+        <nav className="flex flex-col items-center space-between gap-10">
+          {sideNavItems.map(({ label, icon: Icon }) => (
+            <Button
+              key={label}
+              aria-label={label}
+              variant="link"
+              className="text-background"
+            >
+              <Icon className="size-6 lg:size-12 xl:size-10" />
+            </Button>
+          ))}
         </nav>
 
         <Button
@@ -100,41 +142,16 @@ export function HomeLayout() {
 
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-background text-center justify-center rounded-t-3xl text-primary-foreground border-t z-50">
         <div className="flex items-center justify-around p-3">
-          <Button
-            variant="ghost"
-            className="flex flex-col space-y-1 h-auto p-2"
-            aria-label="Dashboard"
-          >
-            <House className="size-7 sm:size-10 text-primary" />
-          </Button>
-          <Button
-            variant="ghost"
-            className="flex flex-col space-y-1 h-auto p-2"
-            aria-label="Charts"
-          >
-            <ChartLine className="size-7 sm:size-10 text-primary" />
-          </Button>
-          <Button
-            variant="ghost"
-            className="flex flex-col space-y-1 h-auto p-2"
-            aria-label="Add Asset"
-          >
-            <CirclePlus className="size-12 sm:size-15 rounded-full text-primary" />
-          </Button>
-          <Button
-            variant="ghost"
-            className="flex flex-col space-y-1 h-auto p-2"
-            aria-label="User Profile"
-          >
-            <CircleUser className="size-7 sm:size-10 text-primary" />
-          </Button>
-          <Button
-            variant="ghost"
-            className="flex flex-col space-y-1 h-auto p-2"
-            aria-label="Settings"
-          >
-            <Settings className="size-7 sm:size-10 text-primary" />
-          </Button>
+          {bottomNavItems.map(({ label, icon: Icon }) => (
+            <Button
+              key={label}
+              aria-label={label}
+              variant="ghost"
+              className="flex flex-col space-between h-auto p-2"
+            >
+              <Icon className="size-7 sm:size-10 text-primary" />
+            </Button>
+          ))}
         </div>
       </nav>
 

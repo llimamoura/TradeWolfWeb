@@ -21,8 +21,9 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { useCoinsChart } from "@/services/charts/get-coins-charts";
-import { useCoins } from "@/services/currencies/list-currencies";
+import { getCoins } from "@/services/currencies/list-currencies";
+import { getCoinsChart } from "@/services/charts/get-coins-charts";
+import { useQuery } from "@tanstack/react-query";
 import { Pie, PieChart } from "recharts";
 import {
   ChartContainer,
@@ -42,6 +43,20 @@ export function HomeComponent() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  function useCoinsChart(params?: { period?: string; coinsIds?: string[] }) {
+    return useQuery({
+      queryKey: ["coinschart", params],
+      queryFn: () => getCoinsChart(params),
+    });
+  }
+  
+  function useCoins() {
+    return useQuery({
+      queryKey: ["coins"],
+      queryFn: getCoins,
+    });
+  }
+
   const {
     data: coinsData,
     isLoading: isCoinsLoading,
@@ -56,7 +71,7 @@ export function HomeComponent() {
     data: marketChartData,
     isLoading: isMarketChartLoading,
     isError: isMarketChartError,
-  } = useCoinsChart({ coinsIds: selectedCoin || undefined });
+  } = useCoinsChart({ coinsIds: selectedCoin ? [selectedCoin] : undefined,});
 
   if (isCoinsLoading) return <p>Loading your coins...</p>;
   if (isCoinsError) return <p>Error loading coins</p>;
