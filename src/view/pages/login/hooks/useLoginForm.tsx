@@ -13,8 +13,7 @@ export function useLoginForm() {
     },
   });
 
-  const onSubmit = async (data: LoginFormData) => {
-    console.log("Logging in with:", data.email, data.password);
+  const onSubmit = async () => {
     navigate("/home")
   };
 

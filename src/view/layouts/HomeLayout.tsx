@@ -17,17 +17,17 @@ import { Button } from "@/components/ui/button";
 
 const topNavItems = [
   {
-    route: "/",
+    route: "/search",
     label: "Search",
     icon: Search,
   },
   {
-    route: "/",
+    route: "/notifications",
     label: "Notifications",
     icon: Bell,
   },
   {
-    route: "/",
+    route: "/user-profile",
     label: "User Profile",
     icon: CircleUser,
   },
@@ -35,60 +35,55 @@ const topNavItems = [
 
 const sideNavItems = [
   {
-    route: "/",
+    route: "/home",
     label: "Home",
     icon: House,
   },
   {
-    route: "/",
+    route: "/charts",
     label: "Charts",
     icon: ChartLine,
   },
   {
-    route: "/",
-    label: "History",
+    route: "/historical",
+    label: "Historical",
     icon: Hourglass,
   },
   {
-    route: "/",
+    route: "/settings",
     label: "Settings",
     icon: Settings,
   },
   {
-    route: "/",
+    route: "/add-assets",
     label: "Add Assets",
     icon: CirclePlus,
-  },
-  {
-    route: "/",
-    label: "Settings",
-    icon: Settings,
   },
 ];
 
 const bottomNavItems = [
   {
-    route: "/",
+    route: "/home",
     label: "Home",
     icon: House,
   },
   {
-    route: "/",
+    route: "/charts",
     label: "Charts",
     icon: ChartLine,
   },
   {
-    route: "/",
+    route: "/add-assets",
     label: "Add Assets",
     icon: CirclePlus,
   },
   {
-    route: "/",
+    route: "/user-profile",
     label: "User Profile",
     icon: CircleUser,
   },
   {
-    route: "/",
+    route: "/settings",
     label: "Settings",
     icon: Settings,
   },
@@ -116,7 +111,7 @@ export function HomeLayout() {
           className="size-14 lg:size-23 xl:size-25 mb-6"
         />
 
-        <Separator className="border mb-13 w-15" />
+        <Separator className="border mb-13 data-[orientation=horizontal]:w-15" />
 
         <nav className="flex flex-col items-center space-between gap-10">
           {sideNavItems.map(({ label, icon: Icon }) => (
