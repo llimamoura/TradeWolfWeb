@@ -1,18 +1,12 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { getCoins } from "@/services/currencies/list-currencies";
-import { useQuery } from "@tanstack/react-query";
 
-export function AssetsCard() {
-  function useCoins() {
-    return useQuery({
-      queryKey: ["coins"],
-      queryFn: getCoins,
-    });
-  }
-  const { data: coinsData, isLoading: isLoadingCoins, isError: isErrorCoins } = useCoins();
-  if (isLoadingCoins) return <p>Loading your coins...</p>;
-  if (isErrorCoins) return <p>Error loading coins</p>;
+interface CoinsDataProps {
+  coinsData: any;
+  isLoading: boolean;
+  isError: boolean;
+}
 
+export function AssetsCard({ coinsData }: CoinsDataProps) {
   return (
     <Card className="bg-card w-full h-auto min-h-50 lg:min-h-85 xl:min-h-50 shadow-lg">
       <CardHeader>

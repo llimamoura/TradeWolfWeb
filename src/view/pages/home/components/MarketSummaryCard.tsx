@@ -1,12 +1,8 @@
-import { getCoinsChart } from "@/services/charts/get-coins-charts";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-  ChartLegend,
-  ChartLegendContent,
 } from "@/components/ui/chart";
 import type { ChartConfig } from "@/components/ui/chart";
 import {
@@ -22,43 +18,29 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ChevronDown, Check } from "lucide-react";
-import { useState } from "react";
-import { getCoins } from "@/services/currencies/list-currencies";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
-export function MarketSummaryCard() {
-  const [selectedCoin, setSelectedCoin] = useState<string>("");
+interface MarketSummaryCardProps {
+  marketChartData: any;
+  coinsData: any;
+  selectedCoin: string;
+  setSelectedCoin: (coin: string) => any;
+  isLoading: boolean;
+  isError: boolean;
+}
+
+
+export function MarketSummaryCard({
+  marketChartData,
+  coinsData,
+  selectedCoin,
+  setSelectedCoin,
+}: MarketSummaryCardProps) {
   const [open, setOpen] = useState(false);
-
-  function useCoinsChart(params?: { period?: string; coinsIds?: string[] }) {
-    return useQuery({
-      queryKey: ["coinschart", params],
-      queryFn: () => getCoinsChart(params),
-    });
-  }
-
-  function useCoins() {
-    return useQuery({
-      queryKey: ["coins"],
-      queryFn: getCoins,
-    });
-  }
-  const { data: coinsData } = useCoins();
-
-  const {
-    data: marketChartData,
-    isLoading: isMarketChartLoading,
-    isError: isMarketChartError,
-  } = useCoinsChart({ coinsIds: selectedCoin ? [selectedCoin] : undefined });
 
   const selectedCoinChart =
     (marketChartData || [])?.find((c: any) => c.coinId === selectedCoin) ||
@@ -83,6 +65,7 @@ export function MarketSummaryCard() {
       color: "var(--chart-1)",
     },
   } satisfies ChartConfig;
+
   return (
     <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg">
       <CardHeader>
@@ -118,6 +101,7 @@ export function MarketSummaryCard() {
                 <ChevronDown className="size-4 text-background opacity-50" />
               </Button>
             </PopoverTrigger>
+
             <div className="flex gap-2 sm:gap-3 ml-2 sm:ml-0">
               <Button
                 className="size-6 bg-blue-gray rounded-xl font-bold text-background"
@@ -138,6 +122,7 @@ export function MarketSummaryCard() {
                 1M
               </Button>
             </div>
+
             <PopoverContent className="w-fit text-start">
               <Command>
                 <CommandInput
@@ -183,11 +168,7 @@ export function MarketSummaryCard() {
         </div>
       </CardHeader>
       <CardContent className="flex-1 p-1">
-        {isMarketChartLoading ? (
-          <p className="text-center">Loading chart...</p>
-        ) : isMarketChartError ? (
-          <p className="text-center text-error">Error loading chart</p>
-        ) : !lineChartData || lineChartData.length === 0 ? (
+        {!lineChartData || lineChartData.length === 0 ? (
           <p className="text-center text-muted-foreground">
             No chart data available
           </p>

@@ -9,22 +9,20 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Bell, CircleUser } from "lucide-react";
-import { getCoins } from "@/services/currencies/list-currencies";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-export function HomeHeader() {
-  const [selectedCoin, setSelectedCoin] = useState<string>("");
+interface HomeHeaderProps {
+  coinsData: any;
+  selectedCoin: string;
+  setSelectedCoin: (coin: string) => any;
+}
+
+export function HomeHeader({
+  coinsData,
+  setSelectedCoin,
+}: HomeHeaderProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  function useCoins() {
-    return useQuery({
-      queryKey: ["coins"],
-      queryFn: getCoins,
-    });
-  }
-  const { data: coinsData } = useCoins();
 
   const filteredCoins = coinsData.result.filter(
     (coin: any) =>
@@ -91,7 +89,6 @@ export function HomeHeader() {
             )}
           </Command>
         </div>
-
         <div className="hidden lg:flex items-center space-x-3">
           <Button variant="ghost" aria-label="Notifications">
             <Bell className="size-6 lg:size-7 text-primary" />

@@ -1,6 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getCoinsChart } from "@/services/charts/get-coins-charts";
-import { useQuery } from "@tanstack/react-query";
 import type { ChartConfig } from "@/components/ui/chart";
 import { Pie, PieChart } from "recharts";
 import {
@@ -11,20 +9,13 @@ import {
   ChartLegendContent,
 } from "@/components/ui/chart";
 
-export function PortfolioCard() {
-  function useCoinsChart(params?: { period?: string; coinsIds?: string[] }) {
-    return useQuery({
-      queryKey: ["coinschart", params],
-      queryFn: () => getCoinsChart(params),
-    });
-  }
-  
-  const {
-    data: portfolioChartData,
-    isLoading: isPortfolioChartLoading,
-    isError: isPortfolioChartError,
-  } = useCoinsChart();
+interface PortfolioCardProps {
+  portfolioChartData: any;
+  isLoading: boolean;
+  isError: boolean;
+}
 
+export function PortfolioCard({ portfolioChartData }: PortfolioCardProps) {
   const pieChartData = (portfolioChartData || []).map(
     (coin: any, index: number) => ({
       coinSybol: coin.symbol,
@@ -35,7 +26,7 @@ export function PortfolioCard() {
   );
 
   const chartConfig = {
-    portifolio: { label: "Portifolio" },
+    portfolio: { label: "Portfolio" },
     ...pieChartData.reduce((config: any, item: any, index: number) => {
       config[item.coin.toLowerCase()] = {
         label: item.coin.toUpperCase(),
@@ -53,11 +44,7 @@ export function PortfolioCard() {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex-1 items-center text-center">
-        {isPortfolioChartLoading ? (
-          <p className="text-center">Loading chart...</p>
-        ) : isPortfolioChartError ? (
-          <p className="text-center text-error">Error loading chart</p>
-        ) : !portfolioChartData || pieChartData.length === 0 ? (
+        {!portfolioChartData || pieChartData.length === 0 ? (
           <p className="text-center text-muted-foreground">
             No chart data available
           </p>
