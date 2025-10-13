@@ -55,14 +55,14 @@ export function HomeHeader({
               className="placeholder:text-extrabold"
             />
             {isDropdownOpen && (
-              <CommandList className="absolute top-full left-0 w-full max-h-40 mt-1 overflow-y-auto z-50 bg-card border border-border rounded-lg shadow-lg">
+              <CommandList className="absolute top-full left-0 w-full max-h-40 mt-1 overflow-y-auto z-50 border border-border rounded-lg shadow-lg bg-search-dropdown">
                 <CommandEmpty>No coins found.</CommandEmpty>
                 <CommandGroup>
                   {filteredCoins.slice().map((coin: any) => (
                     <CommandItem
                       key={coin.id}
                       value={coin.id}
-                      className="flex items-center justify-between p-2"
+                      className="flex items-center justify-between p-2 text-card"
                       onSelect={() => {
                         setSearchTerm(`${coin.symbol}`);
                         setSelectedCoin(coin.id);
