@@ -8,12 +8,14 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart";
+import type { CoinResponse } from "@/entities/coin";
 
 interface PortfolioCardProps {
   portfolioChartData: any;
   isLoading: boolean;
   isError: boolean;
 }
+
 
 export function PortfolioCard({ portfolioChartData }: PortfolioCardProps) {
   const pieChartData = (portfolioChartData || []).map(

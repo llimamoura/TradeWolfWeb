@@ -23,28 +23,29 @@ import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ChevronDown, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import type { CoinResponse } from "@/entities/coin";
 
 interface MarketSummaryCardProps {
   marketChartData: any;
-  coinsData: any;
+  coinsData: CoinResponse;
   selectedCoin: string;
-  setSelectedCoin: (coin: string) => any;
+  onSelectedCoinChange: (coin: string) => any;
   isLoading: boolean;
   isError: boolean;
 }
-
 
 export function MarketSummaryCard({
   marketChartData,
   coinsData,
   selectedCoin,
-  setSelectedCoin,
+  onSelectedCoinChange,
 }: MarketSummaryCardProps) {
   const [open, setOpen] = useState(false);
 
   const selectedCoinChart =
-    (marketChartData || [])?.find((c: any) => c.coinId === selectedCoin) ||
-    (marketChartData || [])[0];
+    (marketChartData || [])?.find(
+      (coin: any) => coin.coinId === selectedCoin
+    ) || (marketChartData || [])[0];
 
   const lineChartData =
     selectedCoinChart?.chart?.map((point: [number, number]) => {
@@ -59,12 +60,14 @@ export function MarketSummaryCard({
       };
     }) ?? [];
 
-  const linechartConfig = {
+  const lineChartConfig = {
     price: {
       label: "Price: ",
       color: "var(--chart-1)",
     },
   } satisfies ChartConfig;
+
+  const lineChartHasData = !!lineChartData.length;
 
   return (
     <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg">
@@ -85,14 +88,16 @@ export function MarketSummaryCard({
                   <div className="flex items-center gap-2">
                     <img
                       src={
-                        coinsData.result.find((c: any) => c.id === selectedCoin)
-                          ?.icon
+                        coinsData.result.find(
+                          (coin: any) => coin.id === selectedCoin
+                        )?.icon
                       }
                       className="size-4 rounded-full"
                     />
                     {
-                      coinsData.result.find((c: any) => c.id === selectedCoin)
-                        ?.symbol
+                      coinsData.result.find(
+                        (coin: any) => coin.id === selectedCoin
+                      )?.symbol
                     }
                   </div>
                 ) : (
@@ -137,7 +142,7 @@ export function MarketSummaryCard({
                         key={coin.id}
                         value={coin.id}
                         onSelect={() => {
-                          setSelectedCoin(
+                          onSelectedCoinChange(
                             coin.id === selectedCoin ? "" : coin.id
                           );
                           setOpen(false);
@@ -168,12 +173,13 @@ export function MarketSummaryCard({
         </div>
       </CardHeader>
       <CardContent className="flex-1 p-1">
-        {!lineChartData || lineChartData.length === 0 ? (
+        {!lineChartHasData && (
           <p className="text-center text-muted-foreground">
             No chart data available
           </p>
-        ) : (
-          <ChartContainer config={linechartConfig} className="h-full w-full">
+        )}
+        {lineChartHasData && (
+          <ChartContainer config={lineChartConfig} className="h-full w-full">
             <AreaChart
               accessibilityLayer
               data={lineChartData}

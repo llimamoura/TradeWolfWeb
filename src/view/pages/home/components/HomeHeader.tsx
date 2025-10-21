@@ -10,16 +10,17 @@ import {
 } from "@/components/ui/command";
 import { Bell, CircleUser } from "lucide-react";
 import { useState } from "react";
+import type { CoinResponse } from "@/entities/coin";
 
 interface HomeHeaderProps {
-  coinsData: any;
+  coinsData: CoinResponse;
   selectedCoin: string;
-  setSelectedCoin: (coin: string) => any;
+  onSelectedCoinChange: (coin: string) => any;
 }
 
 export function HomeHeader({
   coinsData,
-  setSelectedCoin,
+  onSelectedCoinChange,
 }: HomeHeaderProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -44,7 +45,7 @@ export function HomeHeader({
 
       <div className="flex items-center space-x-3 lg:space-x-5">
         <div className="relative hidden lg:flex w-80 lg:w-100 xl:w-120 bg-background border-tertiary rounded-lg">
-          <Command className="w-full text-primary border border-primary rounded-xl">
+          <Command className="w-full text-primary border border-primary rounded-xl hover:bg-">
             <CommandInput
               placeholder="Search coins..."
               value={searchTerm}
@@ -58,14 +59,14 @@ export function HomeHeader({
               <CommandList className="absolute top-full left-0 w-full max-h-40 mt-1 overflow-y-auto z-50 border border-border rounded-lg shadow-lg bg-search-dropdown">
                 <CommandEmpty>No coins found.</CommandEmpty>
                 <CommandGroup>
-                  {filteredCoins.slice().map((coin: any) => (
+                  {filteredCoins.map((coin: any) => (
                     <CommandItem
                       key={coin.id}
                       value={coin.id}
                       className="flex items-center justify-between p-2 text-card"
                       onSelect={() => {
-                        setSearchTerm(`${coin.symbol}`);
-                        setSelectedCoin(coin.id);
+                        setSearchTerm(coin.symbol);
+                        onSelectedCoinChange(coin.id);
                         setIsDropdownOpen(false);
                       }}
                     >

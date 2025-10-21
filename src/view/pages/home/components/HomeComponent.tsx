@@ -18,28 +18,29 @@ export function HomeComponent() {
     });
   }
 
-  function useCoins() {
-    return useQuery({
-      queryKey: ["coins"],
-      queryFn: getCoins,
-    });
-  }
-
   const {
     data: coinsData,
     isLoading: isCoinsLoading,
     isError: isCoinsError,
-  } = useCoins();
+  } = useQuery({
+    queryKey: ["coins"],
+    queryFn: getCoins,
+  });
+
   const {
     data: portfolioChartData,
     isLoading: isPortfolioChartLoading,
     isError: isPortfolioChartError,
   } = useCoinsChart();
   const {
+
     data: marketChartData,
     isLoading: isMarketChartLoading,
     isError: isMarketChartError,
-  } = useCoinsChart({ coinsIds: selectedCoin ? [selectedCoin] : undefined });
+  } = useQuery({
+    queryKey: ["marketChart", selectedCoin],
+    queryFn: () => getCoinsChart({ coinsIds: selectedCoin ? [selectedCoin] : undefined }),
+  });
 
   if (isCoinsLoading) return <p>Loading your coins...</p>;
   if (isCoinsError) return <p>Error loading coins</p>;
@@ -49,12 +50,12 @@ export function HomeComponent() {
       <HomeHeader
         coinsData={coinsData}
         selectedCoin={selectedCoin}
-        setSelectedCoin={setSelectedCoin}
+        onSelectedCoinChange={setSelectedCoin}
       />
       <main className="w-full mx-auto">
         <section className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 place-items-stretch">
           <BalanceCard />
-          
+
           <AssetsCard
             coinsData={coinsData}
             isLoading={isCoinsLoading}
@@ -69,7 +70,7 @@ export function HomeComponent() {
             coinsData={coinsData}
             marketChartData={marketChartData}
             selectedCoin={selectedCoin}
-            setSelectedCoin={setSelectedCoin}
+            onSelectedCoinChange={setSelectedCoin}
             isLoading={isMarketChartLoading}
             isError={isMarketChartError}
           />

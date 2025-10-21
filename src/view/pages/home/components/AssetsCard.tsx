@@ -1,7 +1,8 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import type { CoinResponse } from "@/entities/coin";
 
 interface CoinsDataProps {
-  coinsData: any;
+  coinsData: CoinResponse,
   isLoading: boolean;
   isError: boolean;
 }

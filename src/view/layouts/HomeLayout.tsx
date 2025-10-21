@@ -3,91 +3,12 @@ import TradeWolfLogo from "../../assets/img/LogoBG.png";
 import Logo from "../../assets/img/logo.png";
 import { Separator } from "@/components/ui/separator";
 import {
-  House,
-  ChartLine,
-  CirclePlus,
-  LogOut,
-  Search,
-  Bell,
-  CircleUser,
-  Settings,
-  Hourglass,
+  LogOut
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const topNavItems = [
-  {
-    route: "/search",
-    label: "Search",
-    icon: Search,
-  },
-  {
-    route: "/notifications",
-    label: "Notifications",
-    icon: Bell,
-  },
-  {
-    route: "/user-profile",
-    label: "User Profile",
-    icon: CircleUser,
-  },
-];
-
-const sideNavItems = [
-  {
-    route: "/home",
-    label: "Home",
-    icon: House,
-  },
-  {
-    route: "/charts",
-    label: "Charts",
-    icon: ChartLine,
-  },
-  {
-    route: "/historical",
-    label: "Historical",
-    icon: Hourglass,
-  },
-  {
-    route: "/settings",
-    label: "Settings",
-    icon: Settings,
-  },
-  {
-    route: "/add-assets",
-    label: "Add Assets",
-    icon: CirclePlus,
-  },
-];
-
-const bottomNavItems = [
-  {
-    route: "/home",
-    label: "Home",
-    icon: House,
-  },
-  {
-    route: "/charts",
-    label: "Charts",
-    icon: ChartLine,
-  },
-  {
-    route: "/add-assets",
-    label: "Add Assets",
-    icon: CirclePlus,
-  },
-  {
-    route: "/user-profile",
-    label: "User Profile",
-    icon: CircleUser,
-  },
-  {
-    route: "/settings",
-    label: "Settings",
-    icon: Settings,
-  },
-];
+import { topNavItems } from "./constants";
+import { sideNavItems } from "./constants";
+import { bottomNavItems } from "./constants";
 
 export function HomeLayout() {
   return (
