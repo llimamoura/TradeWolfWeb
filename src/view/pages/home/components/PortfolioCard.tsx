@@ -8,7 +8,6 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart";
-import type { CoinResponse } from "@/entities/coin";
 
 interface PortfolioCardProps {
   portfolioChartData: any;
