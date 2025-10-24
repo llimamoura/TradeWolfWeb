@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/command";
 import { Bell, CircleUser } from "lucide-react";
 import { useState } from "react";
-import type { CoinResponse } from "@/entities/coin";
+import type { Coin, CoinResponse } from "@/entities/coin";
 
 interface HomeHeaderProps {
   coinsData: CoinResponse;
@@ -26,7 +26,7 @@ export function HomeHeader({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const filteredCoins = coinsData.result.filter(
-    (coin: any) =>
+    (coin: Coin) =>
       coin.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       coin.symbol.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -59,7 +59,7 @@ export function HomeHeader({
               <CommandList className="absolute top-full left-0 w-full max-h-40 mt-1 overflow-y-auto z-50 border border-border rounded-lg shadow-lg bg-search-dropdown">
                 <CommandEmpty>No coins found.</CommandEmpty>
                 <CommandGroup>
-                  {filteredCoins.map((coin: any) => (
+                  {filteredCoins.map((coin: Coin) => (
                     <CommandItem
                       key={coin.id}
                       value={coin.id}

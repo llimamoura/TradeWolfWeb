@@ -8,17 +8,19 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart";
+import type { Coin } from "@/entities/coin";
 
 interface PortfolioCardProps {
-  portfolioChartData: any;
+  portfolioChartData: Coin[];
   isLoading: boolean;
   isError: boolean;
 }
 
+type ChartConfigMap = Record<string, { label: string; color: string }>;
 
 export function PortfolioCard({ portfolioChartData }: PortfolioCardProps) {
   const pieChartData = (portfolioChartData || []).map(
-    (coin: any, index: number) => ({
+    (coin: Coin, index: number) => ({
       coinSybol: coin.symbol,
       coin: coin.coinId,
       price: coin.chart?.length ?? 0,
@@ -28,11 +30,13 @@ export function PortfolioCard({ portfolioChartData }: PortfolioCardProps) {
 
   const chartConfig = {
     portfolio: { label: "Portfolio" },
-    ...pieChartData.reduce((config: any, item: any, index: number) => {
-      config[item.coin.toLowerCase()] = {
-        label: item.coin.toUpperCase(),
-        color: `var(--chart-${index + 1})`,
-      };
+    ...pieChartData.reduce<ChartConfigMap>((config, item, index) => {
+      if (item.coin) {
+        config[item.coin.toLowerCase()] = {
+          label: item.coin.toUpperCase(),
+          color: `var(--chart-${index + 1})`,
+        };
+      }
       return config;
     }, {}),
   } satisfies ChartConfig;
