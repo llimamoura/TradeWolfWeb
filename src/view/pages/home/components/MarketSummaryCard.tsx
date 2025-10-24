@@ -1,51 +1,42 @@
-import { Button } from "@/components/ui/button";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import type { ChartConfig } from "@/components/ui/chart";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { ChevronDown, Check } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
-import type { CoinResponse } from "@/entities/coin";
+import type { Coin, CoinResponse } from "@/entities/coin";
+import { CoinSelector } from "@/components/coin-selector.tsx";
+import { getCoinsChart } from "@/services/charts/get-coins-charts";
+import { useQuery } from "@tanstack/react-query";
 
 interface MarketSummaryCardProps {
-  marketChartData: any;
   coinsData: CoinResponse;
   selectedCoin: string;
-  onSelectedCoinChange: (coin: string) => any;
-  isLoading: boolean;
-  isError: boolean;
+  onSelectedCoinChange: (coin: string) => void;
 }
 
 export function MarketSummaryCard({
-  marketChartData,
   coinsData,
   selectedCoin,
   onSelectedCoinChange,
 }: MarketSummaryCardProps) {
-  const [open, setOpen] = useState(false);
+  const {
+    data: marketChartData = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["marketChart", selectedCoin],
+    queryFn: () =>
+      selectedCoin
+        ? getCoinsChart({ coinsIds: [selectedCoin] })
+        : getCoinsChart(),
+  });
 
   const selectedCoinChart =
-    (marketChartData || [])?.find(
-      (coin: any) => coin.coinId === selectedCoin
-    ) || (marketChartData || [])[0];
+    marketChartData.find((coin: Coin) => coin.coinId === selectedCoin) ||
+    marketChartData[0];
 
   const lineChartData =
     selectedCoinChart?.chart?.map((point: [number, number]) => {
@@ -69,6 +60,21 @@ export function MarketSummaryCard({
 
   const lineChartHasData = !!lineChartData.length;
 
+
+  if (isLoading)
+    return (
+      <Card className="bg-card h-auto min-h-96 shadow-lg flex items-center justify-center">
+        <p className="text-muted-foreground">Loading market data...</p>
+      </Card>
+    );
+
+  if (isError)
+    return (
+      <Card className="bg-card h-auto min-h-96 shadow-lg flex items-center justify-center">
+        <p className="text-destructive">Error loading market data.</p>
+      </Card>
+    );
+
   return (
     <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg">
       <CardHeader>
@@ -76,100 +82,11 @@ export function MarketSummaryCard({
           <CardTitle className="text-xl lg:text-2xl font-extrabold text-primary">
             Market summary
           </CardTitle>
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="link"
-                role="coin's history"
-                aria-expanded={open}
-                className="w-25 h-8 md:w-25 md:h-8 lg:w-30 xl:w-25 xl:h-8 md:mr-4 lg:mr-4 xl:mr-0 sm:mr-0 mr-0 font-bold justify-between bg-primary text-border hover:no-underline sm:gap-3 gap-2"
-              >
-                {selectedCoin ? (
-                  <div className="flex items-center gap-2">
-                    <img
-                      src={
-                        coinsData.result.find(
-                          (coin: any) => coin.id === selectedCoin
-                        )?.icon
-                      }
-                      className="size-4 rounded-full"
-                    />
-                    {
-                      coinsData.result.find(
-                        (coin: any) => coin.id === selectedCoin
-                      )?.symbol
-                    }
-                  </div>
-                ) : (
-                  "Coin..."
-                )}
-                <ChevronDown className="size-4 text-background opacity-50" />
-              </Button>
-            </PopoverTrigger>
-
-            <div className="flex gap-2 sm:gap-3 ml-2 sm:ml-0">
-              <Button
-                className="size-6 bg-blue-gray rounded-xl font-bold text-background"
-                variant="ghost"
-              >
-                1D
-              </Button>
-              <Button
-                className="size-6 bg-blue-gray rounded-xl font-bold text-background"
-                variant="ghost"
-              >
-                5D
-              </Button>
-              <Button
-                className="size-6 bg-blue-gray rounded-xl font-bold text-background"
-                variant="ghost"
-              >
-                1M
-              </Button>
-            </div>
-
-            <PopoverContent className="w-fit text-start">
-              <Command>
-                <CommandInput
-                  placeholder="Search coins..."
-                  className="placeholder:font-extrabold"
-                />
-                <CommandList>
-                  <CommandEmpty>No coin found.</CommandEmpty>
-                  <CommandGroup>
-                    {coinsData.result.slice(0, 10).map((coin: any) => (
-                      <CommandItem
-                        key={coin.id}
-                        value={coin.id}
-                        onSelect={() => {
-                          onSelectedCoinChange(
-                            coin.id === selectedCoin ? "" : coin.id
-                          );
-                          setOpen(false);
-                        }}
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 size-4 flex items-start text-start",
-                            selectedCoin === coin.id
-                              ? "opacity-100"
-                              : "opacity-0"
-                          )}
-                        />
-                        <div className="flex items-start text-start space-x-2 font-extrabold text-primary">
-                          <img
-                            src={coin.icon}
-                            className="size-4 rounded-full"
-                          />
-                          <span>{coin.symbol}</span>
-                        </div>
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
+          <CoinSelector
+            coinsData={coinsData}
+            selectedCoin={selectedCoin}
+            onSelectedCoinChange={onSelectedCoinChange}
+          />
         </div>
       </CardHeader>
       <CardContent className="flex-1 p-1">
