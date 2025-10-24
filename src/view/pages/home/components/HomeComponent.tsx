@@ -11,13 +11,6 @@ import { MarketSummaryCard } from "./MarketSummaryCard";
 export function HomeComponent() {
   const [selectedCoin, setSelectedCoin] = useState<string>("");
 
-  function useCoinsChart(params?: { period?: string; coinsIds?: string[] }) {
-    return useQuery({
-      queryKey: ["coinschart", params],
-      queryFn: () => getCoinsChart(params),
-    });
-  }
-
   const {
     data: coinsData,
     isLoading: isCoinsLoading,
@@ -31,15 +24,9 @@ export function HomeComponent() {
     data: portfolioChartData,
     isLoading: isPortfolioChartLoading,
     isError: isPortfolioChartError,
-  } = useCoinsChart();
-  const {
-
-    data: marketChartData,
-    isLoading: isMarketChartLoading,
-    isError: isMarketChartError,
   } = useQuery({
-    queryKey: ["marketChart", selectedCoin],
-    queryFn: () => getCoinsChart({ coinsIds: selectedCoin ? [selectedCoin] : undefined }),
+    queryKey: ["portfolioChart"],
+    queryFn: () => getCoinsChart(),
   });
 
   if (isCoinsLoading) return <p>Loading your coins...</p>;
@@ -68,11 +55,8 @@ export function HomeComponent() {
           />
           <MarketSummaryCard
             coinsData={coinsData}
-            marketChartData={marketChartData}
             selectedCoin={selectedCoin}
             onSelectedCoinChange={setSelectedCoin}
-            isLoading={isMarketChartLoading}
-            isError={isMarketChartError}
           />
         </section>
       </main>
