@@ -82,3 +82,18 @@ export const bottomNavItems = [
     icon: Settings,
   },
 ];
+
+export const MarketChartDates = [
+  {
+    label: "1D",
+    value: "24h",
+  },
+  {
+    label: "5D",
+    value: "1w",
+  },
+  {
+    label: "1M",
+    value: "1m",
+  },
+];

@@ -16,23 +16,32 @@ import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import type { Coin, CoinResponse } from "@/entities/coin";
+import { MarketChartDates } from "@/view/layouts/constants";
 
 interface CoinSelectorProps {
   coinsData: CoinResponse;
   selectedCoin: string;
   onSelectedCoinChange: (coin: string) => void;
+  onPeriodChange: (period: string) => void;
 }
 
 export function CoinSelector({
   coinsData,
   selectedCoin,
   onSelectedCoinChange,
+  onPeriodChange,
 }: CoinSelectorProps) {
   const [open, setOpen] = useState(false);
+  const [activePeriod, setActivePeriod] = useState("24h");
 
   const handleCoinChange = (value: string) => {
     onSelectedCoinChange(value === selectedCoin ? "" : value);
     setOpen(false);
+  };
+
+  const handlePeriodClick = (period: string) => {
+    setActivePeriod(period);
+    onPeriodChange(period);
   };
 
   return (
@@ -67,24 +76,19 @@ export function CoinSelector({
       </PopoverTrigger>
 
       <div className="flex gap-2 sm:gap-3 ml-2 sm:ml-0">
-        <Button
-          className="size-6 bg-blue-gray rounded-xl font-bold text-background"
-          variant="ghost"
-        >
-          1D
-        </Button>
-        <Button
-          className="size-6 bg-blue-gray rounded-xl font-bold text-background"
-          variant="ghost"
-        >
-          5D
-        </Button>
-        <Button
-          className="size-6 bg-blue-gray rounded-xl font-bold text-background"
-          variant="ghost"
-        >
-          1M
-        </Button>
+        {MarketChartDates.map(({ label, value }) => (
+          <Button
+            key={value}
+            onClick={() => handlePeriodClick(value)}
+            className={cn(
+              "size-6 rounded-xl font-bold text-background",
+              activePeriod === value ? "bg-primary text-border" : "bg-blue-gray"
+            )}
+            variant="ghost"
+          >
+            {label}
+          </Button>
+        ))}
       </div>
 
       <PopoverContent className="w-fit text-start">

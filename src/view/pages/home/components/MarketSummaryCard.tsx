@@ -10,6 +10,7 @@ import type { Coin, CoinResponse } from "@/entities/coin";
 import { CoinSelector } from "@/components/coin-selector.tsx";
 import { getCoinsChart } from "@/services/charts/get-coins-charts";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 interface MarketSummaryCardProps {
   coinsData: CoinResponse;
@@ -22,16 +23,17 @@ export function MarketSummaryCard({
   selectedCoin,
   onSelectedCoinChange,
 }: MarketSummaryCardProps) {
+  const [period, setPeriod] = useState("24h");
   const {
     data: marketChartData = [],
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["marketChart", selectedCoin],
+    queryKey: ["marketChart", selectedCoin, period],
     queryFn: () =>
       selectedCoin
-        ? getCoinsChart({ coinsIds: [selectedCoin] })
-        : getCoinsChart(),
+        ? getCoinsChart({ coinsIds: [selectedCoin], period })
+        : getCoinsChart({ period }),
   });
 
   const selectedCoinChart =
@@ -40,7 +42,7 @@ export function MarketSummaryCard({
 
   const lineChartData =
     selectedCoinChart?.chart?.map((point: [number, number]) => {
-      const [timestamp, price] = point;
+      const [timestamp, price] = point
       return {
         time: new Date(timestamp).toLocaleTimeString("en-US", {
           hour: "2-digit",
@@ -59,8 +61,6 @@ export function MarketSummaryCard({
   } satisfies ChartConfig;
 
   const lineChartHasData = !!lineChartData.length;
-
-
   if (isLoading)
     return (
       <Card className="bg-card h-auto min-h-96 shadow-lg flex items-center justify-center">
@@ -86,6 +86,7 @@ export function MarketSummaryCard({
             coinsData={coinsData}
             selectedCoin={selectedCoin}
             onSelectedCoinChange={onSelectedCoinChange}
+            onPeriodChange={setPeriod}
           />
         </div>
       </CardHeader>
