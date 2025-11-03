@@ -57,7 +57,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-success: var(--success);
   --color-search-dropdown: var(--search-dropdown);
-  --color-blue-gray: var(--blue-gray);
+  --color-surface-muted: var(--surface-muted);
   --color-blue-muted: var(--blue-muted);
   --color-home-layout: var(--home-layout);
 }
@@ -109,7 +109,7 @@
   --sidebar-ring: oklch(0.708 0 0);
   --success: oklch(0.7536 0.1901 144.76);
   --search-dropdown: oklch(0.5214 0.0551 255.27);
-  --blue-gray: oklch(0.6782 0.0355 256.79 / 89.8%);
+  --surface-muted: oklch(0.6782 0.0355 256.79 / 89.8%);
   --blue-muted: oklch(0.4193 0.0689 255.94);
   --home-layout: oklch(0.9329 0.0063 255.48);
 }
