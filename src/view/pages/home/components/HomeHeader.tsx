@@ -9,7 +9,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Bell, CircleUser } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Coin, CoinResponse } from "@/entities/coin";
 
 interface HomeHeaderProps {
@@ -25,12 +25,15 @@ export function HomeHeader({
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const filteredCoins = coinsData.result.filter(
-    (coin: Coin) =>
-      coin.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      coin.symbol.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCoins = useMemo(
+    () =>
+      coinsData.result.filter(
+        (coin: Coin) =>
+          coin.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          coin.symbol.toLowerCase().includes(searchTerm.toLowerCase())
+      ),
+    [coinsData.result, searchTerm]
   );
-
   return (
     <header className="flex flex-col lg:flex-row justify-between lg:items-center space-y-4 lg:space-y-0 my-0 lg:my-8">
       <div className="flex items-center space-x-3 lg:space-x-5">
@@ -91,10 +94,10 @@ export function HomeHeader({
           </Command>
         </div>
         <div className="hidden lg:flex items-center space-x-3">
-          <Button variant="ghost" aria-label="Notifications">
+          <Button variant="ghost" aria-label="Notifications" role="button">
             <Bell className="size-6 lg:size-7 text-primary" />
           </Button>
-          <Button variant="ghost" aria-label="User Profile">
+          <Button variant="ghost" aria-label="User Profile" role="button">
             <CircleUser className="size-6 lg:size-7 text-primary" />
           </Button>
         </div>
