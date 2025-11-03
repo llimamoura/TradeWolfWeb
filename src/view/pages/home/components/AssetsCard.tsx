@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import type { CoinResponse } from "@/entities/coin";
+import type { Coin, CoinResponse } from "@/entities/coin";
 
 interface CoinsDataProps {
-  coinsData: CoinResponse,
+  coinsData: CoinResponse;
   isLoading: boolean;
   isError: boolean;
 }
@@ -15,7 +15,7 @@ export function AssetsCard({ coinsData }: CoinsDataProps) {
           Your Assets
         </CardTitle>
         <div className="max-h-60 xl:max-h-30 space-y-3 overflow-y-auto">
-          {coinsData.result.slice(0, 10).map((coin: any) => (
+          {coinsData.result.map((coin: Coin) => (
             <div
               key={coin.id}
               className="flex justify-between items-center py-2 bg-background"
@@ -44,8 +44,11 @@ export function AssetsCard({ coinsData }: CoinsDataProps) {
                     coin.priceChange1d >= 0 ? "text-success" : "text-error"
                   }`}
                 >
-                  {coin.priceChange1d >= 0 ? "+" : ""}
-                  {coin.priceChange1d?.toFixed(2)}%
+                  {coin.priceChange1d == undefined
+                    ? "No data"
+                    : `${
+                        coin.priceChange1d > 0 ? "+" : ""
+                      }${coin.priceChange1d.toFixed(2)}%`}
                 </p>
               </div>
             </div>
