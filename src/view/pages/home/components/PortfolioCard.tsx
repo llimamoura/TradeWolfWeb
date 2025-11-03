@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useMemo } from "react";
 import type { ChartConfig } from "@/components/ui/chart";
 import { Pie, PieChart } from "recharts";
 import {
@@ -28,18 +29,20 @@ export function PortfolioCard({ portfolioChartData }: PortfolioCardProps) {
     })
   );
 
-  const chartConfig = {
-    portfolio: { label: "Portfolio" },
-    ...pieChartData.reduce<ChartConfigMap>((config, item, index) => {
-      if (item.coin) {
-        config[item.coin.toLowerCase()] = {
-          label: item.coin.toUpperCase(),
-          color: `var(--chart-${index + 1})`,
-        };
-      }
-      return config;
-    }, {}),
-  } satisfies ChartConfig;
+  const chartConfig: ChartConfig = useMemo(() => {
+    return {
+      portfolio: { label: "Portfolio" },
+      ...pieChartData.reduce<ChartConfigMap>((config, item, index) => {
+        if (item.coin) {
+          config[item.coin.toLowerCase()] = {
+            label: item.coin.toUpperCase(),
+            color: `var(--chart-${index + 1})`,
+          };
+        }
+        return config;
+      }, {}),
+    };
+  }, [pieChartData]);
 
   return (
     <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg">
