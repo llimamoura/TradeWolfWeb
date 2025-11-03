@@ -16,7 +16,7 @@ import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import type { Coin, CoinResponse } from "@/entities/coin";
-import { MarketChartDates } from "@/view/layouts/constants";
+import { marketChartDates } from "@/view/layouts/constants";
 
 interface CoinSelectorProps {
   coinsData: CoinResponse;
@@ -34,6 +34,10 @@ export function CoinSelector({
   const [open, setOpen] = useState(false);
   const [activePeriod, setActivePeriod] = useState("24h");
 
+  const selectedCoinData =
+    coinsData.result.find((coin: Coin) => coin.id === selectedCoin) ||
+    coinsData.result[0];
+
   const handleCoinChange = (value: string) => {
     onSelectedCoinChange(value === selectedCoin ? "" : value);
     setOpen(false);
@@ -49,40 +53,29 @@ export function CoinSelector({
       <PopoverTrigger asChild>
         <Button
           variant="link"
-          role="coin's history"
+          role="button"
           aria-expanded={open}
+          aria-label="Coin selector"
           className="w-25 h-8 md:w-25 md:h-8 lg:w-30 xl:w-25 xl:h-8 md:mr-4 lg:mr-4 xl:mr-0 sm:mr-0 mr-0 font-bold justify-between bg-primary text-border hover:no-underline sm:gap-3 gap-2"
         >
-          {selectedCoin ? (
-            <div className="flex items-center gap-2">
-              <img
-                src={
-                  coinsData.result.find(
-                    (coin: Coin) => coin.id === selectedCoin
-                  )?.icon
-                }
-                className="size-4 rounded-full"
-              />
-              {
-                coinsData.result.find((coin: Coin) => coin.id === selectedCoin)
-                  ?.symbol
-              }
-            </div>
-          ) : (
-            "Coin..."
-          )}
+          <div className="flex items-center gap-2">
+            <img src={selectedCoinData.icon} className="size-4 rounded-full" />
+            {selectedCoinData.symbol}
+          </div>
           <ChevronDown className="size-4 text-background opacity-50" />
         </Button>
       </PopoverTrigger>
 
       <div className="flex gap-2 sm:gap-3 ml-2 sm:ml-0">
-        {MarketChartDates.map(({ label, value }) => (
+        {marketChartDates.map(({ label, value }) => (
           <Button
             key={value}
             onClick={() => handlePeriodClick(value)}
+            role="button"
+            aria-label={label}
             className={cn(
               "size-6 rounded-xl font-bold text-background",
-              activePeriod === value ? "bg-primary text-border" : "bg-blue-gray"
+              activePeriod === value ? "bg-primary text-border" : "bg-surface-muted"
             )}
             variant="ghost"
           >
@@ -100,7 +93,7 @@ export function CoinSelector({
           <CommandList>
             <CommandEmpty>No coin found.</CommandEmpty>
             <CommandGroup>
-              {coinsData.result.slice(0, 10).map((coin: Coin) => (
+              {coinsData.result.map((coin: Coin) => (
                 <CommandItem
                   key={coin.id}
                   value={coin.id}
