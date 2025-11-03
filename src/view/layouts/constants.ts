@@ -83,7 +83,7 @@ export const bottomNavItems = [
   },
 ];
 
-export const MarketChartDates = [
+export const marketChartDates = [
   {
     label: "1D",
     value: "24h",
