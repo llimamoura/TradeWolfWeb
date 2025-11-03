@@ -6,7 +6,7 @@ import {
 import type { ChartConfig } from "@/components/ui/chart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import type { Coin, CoinResponse } from "@/entities/coin";
+import type { CoinResponse } from "@/entities/coin";
 import { CoinSelector } from "@/components/coin-selector.tsx";
 import { getCoinsChart } from "@/services/charts/get-coins-charts";
 import { useQuery } from "@tanstack/react-query";
@@ -36,13 +36,11 @@ export function MarketSummaryCard({
         : getCoinsChart({ period }),
   });
 
-  const selectedCoinChart =
-    marketChartData.find((coin: Coin) => coin.coinId === selectedCoin) ||
-    marketChartData[0];
+  const selectedCoinChart = marketChartData[0];
 
   const lineChartData =
     selectedCoinChart?.chart?.map((point: [number, number]) => {
-      const [timestamp, price] = point
+      const [timestamp, price] = point;
       return {
         time: new Date(timestamp).toLocaleTimeString("en-US", {
           hour: "2-digit",
@@ -61,19 +59,22 @@ export function MarketSummaryCard({
   } satisfies ChartConfig;
 
   const lineChartHasData = !!lineChartData.length;
-  if (isLoading)
+
+  if (isLoading) {
     return (
       <Card className="bg-card h-auto min-h-96 shadow-lg flex items-center justify-center">
         <p className="text-muted-foreground">Loading market data...</p>
       </Card>
     );
+  }
 
-  if (isError)
+  if (isError) {
     return (
       <Card className="bg-card h-auto min-h-96 shadow-lg flex items-center justify-center">
         <p className="text-destructive">Error loading market data.</p>
       </Card>
     );
+  }
 
   return (
     <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg">
