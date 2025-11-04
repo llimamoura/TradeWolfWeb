@@ -10,20 +10,22 @@ import type { CoinResponse } from "@/entities/coin";
 import { CoinSelector } from "@/components/coin-selector.tsx";
 import { getCoinsChart } from "@/services/charts/get-coins-charts";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface MarketSummaryCardProps {
   coinsData: CoinResponse;
-  selectedCoin: string;
-  onSelectedCoinChange: (coin: string) => void;
 }
 
-export function MarketSummaryCard({
-  coinsData,
-  selectedCoin,
-  onSelectedCoinChange,
-}: MarketSummaryCardProps) {
+export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
+  const [selectedCoin, setSelectedCoin] = useState<string>("");
   const [period, setPeriod] = useState("24h");
+
+  useEffect(() => {
+    if (coinsData?.result && coinsData.result.length > 0 && !selectedCoin) {
+      setSelectedCoin(coinsData.result[0].id);
+    }
+  }, [coinsData, selectedCoin]);
+
   const {
     data: marketChartData = [],
     isLoading,
@@ -86,7 +88,7 @@ export function MarketSummaryCard({
           <CoinSelector
             coinsData={coinsData}
             selectedCoin={selectedCoin}
-            onSelectedCoinChange={onSelectedCoinChange}
+            onSelectedCoinChange={setSelectedCoin}
             onPeriodChange={setPeriod}
           />
         </div>

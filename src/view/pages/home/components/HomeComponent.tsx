@@ -1,7 +1,7 @@
 import { getCoins } from "@/services/currencies/list-currencies";
 import { getCoinsChart } from "@/services/charts/get-coins-charts";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { HomeHeader } from "./HomeHeader";
 import { BalanceCard } from "./BalanceCard";
 import { AssetsCard } from "./AssetsCard";
@@ -29,11 +29,6 @@ export function HomeComponent() {
     queryFn: () => getCoinsChart(),
   });
 
-  useEffect(() => {
-    if (coinsData?.result && coinsData.result.length > 0 && !selectedCoin) {
-      setSelectedCoin(coinsData.result[0].id);
-    }
-  }, [coinsData, selectedCoin]);
 
   if (isCoinsLoading) return <p>Loading your coins...</p>;
   if (isCoinsError) return <p>Error loading coins</p>;
@@ -59,11 +54,7 @@ export function HomeComponent() {
             isLoading={isPortfolioChartLoading}
             isError={isPortfolioChartError}
           />
-          <MarketSummaryCard
-            coinsData={coinsData}
-            selectedCoin={selectedCoin}
-            onSelectedCoinChange={setSelectedCoin}
-          />
+          <MarketSummaryCard coinsData={coinsData} />
         </section>
       </main>
     </div>
