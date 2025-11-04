@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Coin, CoinResponse } from "@/entities/coin";
+import { cn } from "@/lib/utils";
 
 interface CoinsDataProps {
   coinsData: CoinResponse;
@@ -35,16 +36,19 @@ export function AssetsCard({ coinsData }: CoinsDataProps) {
                   </p>
                 </div>
               </div>
-              <div className="text-right">
+              <div className="text-right px-4">
                 <p className="font-bold text-sm text-blue-muted">
                   ${coin.price?.toFixed(2)}
                 </p>
                 <p
-                  className={`text-xs font-bold ${
-                    coin.priceChange1d >= 0 ? "text-success" : "text-error"
-                  }`}
+                  className={cn(
+                    "text-xs font-bold",
+                    coin.priceChange1d > 0 && "text-success",
+                    coin.priceChange1d < 0 && "text-error",
+                    coin.priceChange1d === 0 && "text-surface-muted"
+                  )}
                 >
-                  {coin.priceChange1d == undefined
+                  {coin.priceChange1d === undefined
                     ? "No data"
                     : `${
                         coin.priceChange1d > 0 ? "+" : ""
