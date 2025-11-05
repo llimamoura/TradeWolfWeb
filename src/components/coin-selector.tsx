@@ -14,7 +14,7 @@ import {
 import { ChevronDown, Check } from "lucide-react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Coin, CoinResponse } from "@/entities/coin";
 import { marketChartDates } from "@/view/layouts/constants";
 
@@ -23,6 +23,7 @@ interface CoinSelectorProps {
   selectedCoin: string;
   onSelectedCoinChange: (coin: string) => void;
   onPeriodChange: (period: string) => void;
+  period: string;
 }
 
 export function CoinSelector({
@@ -30,9 +31,14 @@ export function CoinSelector({
   selectedCoin,
   onSelectedCoinChange,
   onPeriodChange,
+  period,
 }: CoinSelectorProps) {
   const [open, setOpen] = useState(false);
-  const [activePeriod, setActivePeriod] = useState("24h");
+  const [activePeriod, setActivePeriod] = useState(period);
+
+  useEffect(() => {
+    setActivePeriod(period);
+  }, [period]);
 
   const selectedCoinData =
     coinsData.result.find((coin: Coin) => coin.id === selectedCoin) ||
@@ -75,7 +81,9 @@ export function CoinSelector({
             aria-label={label}
             className={cn(
               "size-6 rounded-xl font-bold text-background",
-              activePeriod === value ? "bg-primary text-border" : "bg-surface-muted"
+              activePeriod === value
+                ? "bg-primary text-border"
+                : "bg-surface-muted"
             )}
             variant="ghost"
           >
