@@ -41,14 +41,29 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
   const selectedCoinChart = marketChartData[0];
 
   const lineChartData =
-    selectedCoinChart?.chart?.map((point: [number, number]) => {
+    selectedCoinChart?.chart?.map((point: [number, number, number, number]) => {
       const [timestamp, price] = point;
-      return {
-        time: new Date(timestamp).toLocaleTimeString("en-US", {
+
+      const correctedTimestamp =
+        timestamp < 1e12 ? timestamp * 1000 : timestamp;
+      const date = new Date(correctedTimestamp);
+
+      let timeLabel: string;
+      if (period === "24h" || period === "5d") {
+        timeLabel = date.toLocaleTimeString("en-US", {
           hour: "2-digit",
           minute: "2-digit",
           hour12: false,
-        }),
+        });
+      } else {
+        timeLabel = date.toLocaleDateString("en-US", {
+          day: "2-digit",
+          month: "2-digit",
+        });
+      }
+
+      return {
+        time: timeLabel,
         price,
       };
     }) ?? [];
@@ -90,6 +105,7 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
             selectedCoin={selectedCoin}
             onSelectedCoinChange={setSelectedCoin}
             onPeriodChange={setPeriod}
+            period={period}
           />
         </div>
       </CardHeader>
@@ -100,11 +116,14 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
           </p>
         )}
         {lineChartHasData && (
-          <ChartContainer config={lineChartConfig} className="h-full w-full">
+          <ChartContainer
+            config={lineChartConfig}
+            className="h-full w-full px-3"
+          >
             <AreaChart
               accessibilityLayer
               data={lineChartData}
-              margin={{ left: 12, right: 12, top: 12, bottom: 12 }}
+              margin={{ left: 0, right: 3, top: 0, bottom: 10 }}
             >
               <CartesianGrid vertical={false} />
               <XAxis
