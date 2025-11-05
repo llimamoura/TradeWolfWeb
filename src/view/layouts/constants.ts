@@ -48,11 +48,6 @@ export const sideNavItems = [
     label: "Settings",
     icon: Settings,
   },
-  {
-    route: "/add-assets",
-    label: "Add Assets",
-    icon: CirclePlus,
-  },
 ];
 
 export const bottomNavItems = [

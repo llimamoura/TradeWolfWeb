@@ -2,9 +2,7 @@ import { Outlet } from "react-router-dom";
 import TradeWolfLogo from "../../assets/img/LogoBG.png";
 import Logo from "../../assets/img/logo.png";
 import { Separator } from "@/components/ui/separator";
-import {
-  LogOut
-} from "lucide-react";
+import { LogOut, CirclePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { topNavItems } from "./constants";
 import { sideNavItems } from "./constants";
@@ -24,17 +22,17 @@ export function HomeLayout() {
         </nav>
       </div>
 
-      <div className="hidden lg:flex bg-gradient-to-r from-primary to-tertiary text-primary-foreground rounded-2xl items-center flex-col m-3 xl:m-5 ml-6 xl:ml-15 w-20 xl:max-w-xl lg:w-28 min-h-6 py-6 space-y-5">
+      <div className="hidden lg:flex bg-gradient-to-r from-primary to-tertiary text-primary-foreground rounded-3xl items-center flex-col m-3 xl:m-5 ml-6 xl:ml-15 w-27 xl:max-w-xl lg:w-28 min-h-6 py-6 space-y-5">
         <img
           src={TradeWolfLogo}
           alt="TradeWolf logo"
           aria-label="TradeWolf logo"
-          className="size-14 lg:size-23 xl:size-25 mb-6"
+          className="size-14 lg:size-23 xl:size-25 mb-5"
         />
 
-        <Separator className="border mb-13 data-[orientation=horizontal]:w-15" />
+        <Separator className="border mb-10 data-[orientation=horizontal]:w-10" />
 
-        <nav className="flex flex-col items-center space-between gap-10">
+        <nav className="flex flex-col items-center space-between gap-16">
           {sideNavItems.map(({ label, icon: Icon }) => (
             <Button
               key={label}
@@ -42,17 +40,24 @@ export function HomeLayout() {
               variant="link"
               className="text-background"
             >
-              <Icon className="size-6 lg:size-12 xl:size-10" />
+              <Icon className="size-6 lg:size-12 xl:size-8" />
             </Button>
           ))}
         </nav>
 
         <Button
           variant="link"
+          className="rounded-full text-background"
+          aria-label="Add-Asset"
+        />
+        <CirclePlus className="size-6 lg:size-12 xl:size-12" />
+
+        <Button
+          variant="link"
           className="mt-auto rounded-full text-background"
           aria-label="Logout"
         >
-          <LogOut className="size-6 lg:size-12 xl:size-10" />
+          <LogOut className="size-6 lg:size-12 xl:size-8" />
         </Button>
       </div>
 
