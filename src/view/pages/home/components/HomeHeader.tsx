@@ -47,16 +47,16 @@ export function HomeHeader({
       </div>
 
       <div className="flex items-center space-x-3 lg:space-x-5">
-        <div className="relative hidden lg:flex w-80 lg:w-100 xl:w-120 bg-background border-tertiary rounded-lg">
-          <Command className="w-full text-primary border border-primary rounded-xl hover:bg-">
+        <div className="relative hidden lg:flex w-80 lg:w-100 xl:w-120 border-tertiary rounded-lg">
+          <Command className="w-full text-primary border border-accent-light rounded-full bg-transparent">
             <CommandInput
-              placeholder="Search coins..."
+              placeholder="Search.."
               value={searchTerm}
               onValueChange={(value) => {
                 setSearchTerm(value);
                 setIsDropdownOpen(!!value);
               }}
-              className="placeholder:text-extrabold"
+              className="placeholder:font-extrabold placeholder:text-surface-muted"
             />
             {isDropdownOpen && (
               <CommandList className="absolute top-full left-0 w-full max-h-40 mt-1 overflow-y-auto z-50 border border-border rounded-lg shadow-lg bg-search-dropdown">
