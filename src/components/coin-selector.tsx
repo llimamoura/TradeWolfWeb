@@ -62,7 +62,7 @@ export function CoinSelector({
           role="button"
           aria-expanded={open}
           aria-label="Coin selector"
-          className="w-25 h-8 md:w-25 md:h-8 lg:w-30 xl:w-25 xl:h-8 md:mr-4 lg:mr-4 xl:mr-0 sm:mr-0 mr-0 font-bold justify-between bg-primary text-border hover:no-underline sm:gap-3 gap-2"
+          className="w-25 h-8 md:w-25 md:h-8 lg:w-30 xl:w-25 xl:h-8 md:mr-4 lg:mr-4 xl:mr-0 sm:mr-0 mr-0 font-bold justify-between bg-primary text-border hover:no-underline sm:gap-3 gap-2 rounded-full"
         >
           <div className="flex items-center gap-2">
             <img src={selectedCoinData.icon} className="size-4 rounded-full" />
@@ -91,7 +91,6 @@ export function CoinSelector({
           </Button>
         ))}
       </div>
-
       <PopoverContent className="w-fit text-start">
         <Command>
           <CommandInput
