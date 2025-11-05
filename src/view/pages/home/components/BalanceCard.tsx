@@ -10,7 +10,7 @@ export function BalanceCard() {
   return (
     <Card className="flex justify-center w-full min-h-50 lg:min-h-60 xl:min-h-30 bg-card shadow-lg">
       <CardHeader>
-        <CardTitle className="font-extrabold text-search-dropdown text-xl md:text-3xl mb-6">
+        <CardTitle className="font-extrabold text-search-dropdown text-xl md:text-3xl mb-13">
           My balance
         </CardTitle>
         <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 gap-5">
