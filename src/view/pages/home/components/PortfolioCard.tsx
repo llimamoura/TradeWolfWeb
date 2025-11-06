@@ -19,14 +19,20 @@ interface PortfolioCardProps {
 
 type ChartConfigMap = Record<string, { label: string; color: string }>;
 
-export function PortfolioCard({ portfolioChartData }: PortfolioCardProps) {
-  const pieChartData = (portfolioChartData || []).map(
-    (coin: Coin, index: number) => ({
-      coinSybol: coin.symbol,
-      coin: coin.coinId,
-      price: coin.chart?.length ?? 0,
-      fill: `var(--chart-${index + 1})`,
-    })
+export function PortfolioCard({
+  portfolioChartData,
+  isLoading,
+  isError,
+}: PortfolioCardProps) {
+  const pieChartData = useMemo(
+    () =>
+      (portfolioChartData || []).map((coin: Coin, index: number) => ({
+        coinSymbol: coin.symbol,
+        coin: coin.coinId,
+        price: coin.chart?.length ?? 0,
+        fill: `var(--chart-${index + 1})`,
+      })),
+    [portfolioChartData]
   );
 
   const chartConfig: ChartConfig = useMemo(() => {
@@ -43,6 +49,22 @@ export function PortfolioCard({ portfolioChartData }: PortfolioCardProps) {
       }, {}),
     };
   }, [pieChartData]);
+
+  if (isLoading) {
+    return (
+      <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg flex items-center justify-center">
+        <p className="text-muted-foreground">Loading portfolio data...</p>
+      </Card>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg flex items-center justify-center">
+        <p className="text-destructive">Error loading portfolio data.</p>
+      </Card>
+    );
+  }
 
   return (
     <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg">
