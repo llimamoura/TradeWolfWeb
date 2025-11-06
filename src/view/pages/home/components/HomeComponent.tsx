@@ -29,7 +29,6 @@ export function HomeComponent() {
     queryFn: () => getCoinsChart(),
   });
 
-
   if (isCoinsLoading) return <p>Loading your coins...</p>;
   if (isCoinsError) return <p>Error loading coins</p>;
 

@@ -4,7 +4,7 @@ import { type LoginFormData, LoginSchema } from "../schema";
 import { useNavigate } from "react-router-dom";
 
 export function useLoginForm() {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
   const form = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -14,7 +14,7 @@ export function useLoginForm() {
   });
 
   const onSubmit = async () => {
-    navigate("/home")
+    navigate("/home");
   };
 
   return {
