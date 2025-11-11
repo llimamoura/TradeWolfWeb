@@ -79,7 +79,7 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
 
   if (isLoading) {
     return (
-      <Card className="bg-card h-auto min-h-96 shadow-lg flex items-center justify-center">
+      <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg flex items-center justify-center">
         <p className="text-muted-foreground">Loading market data...</p>
       </Card>
     );
@@ -87,14 +87,14 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
 
   if (isError) {
     return (
-      <Card className="bg-card h-auto min-h-96 shadow-lg flex items-center justify-center">
+      <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg flex items-center justify-center">
         <p className="text-destructive">Error loading market data.</p>
       </Card>
     );
   }
 
   return (
-    <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg">
+    <Card className="bg-card h-auto min-h-96 xl:min-h-119 md:mb-0 mb-15 shadow-lg">
       <CardHeader>
         <div className="flex items-center justify-between mb-2">
           <CardTitle className="text-xl lg:text-2xl font-extrabold text-primary">
