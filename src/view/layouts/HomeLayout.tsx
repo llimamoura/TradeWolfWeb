@@ -22,7 +22,7 @@ export function HomeLayout() {
         </nav>
       </div>
 
-      <div className="hidden lg:flex bg-gradient-to-r from-primary to-tertiary text-primary-foreground rounded-3xl items-center flex-col m-3 xl:m-5 ml-6 xl:ml-15 w-27 xl:max-w-xl lg:w-28 min-h-6 py-6 space-y-5">
+      <div className="hidden lg:flex bg-gradient-to-r from-primary to-tertiary text-primary-foreground rounded-3xl items-center flex-col m-3 xl:m-5 ml-10 xl:ml-15 w-26 lg:max-h-full xl:w-28 space-y-15 py-6">
         <img
           src={TradeWolfLogo}
           alt="TradeWolf logo"
@@ -40,7 +40,7 @@ export function HomeLayout() {
               variant="link"
               className="text-background"
             >
-              <Icon className="size-6 lg:size-12 xl:size-8" />
+              <Icon className="lg:size-7" />
             </Button>
           ))}
         </nav>
@@ -49,15 +49,16 @@ export function HomeLayout() {
           variant="link"
           className="rounded-full text-background"
           aria-label="Add-Asset"
-        />
-        <CirclePlus className="size-6 lg:size-12 xl:size-12" />
+        >
+          <CirclePlus className="lg:size-10" />
+        </Button>
 
         <Button
           variant="link"
           className="mt-auto rounded-full text-background"
           aria-label="Logout"
         >
-          <LogOut className="size-6 lg:size-12 xl:size-8" />
+          <LogOut className="lg:size-7" />
         </Button>
       </div>
 
