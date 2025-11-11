@@ -59,7 +59,7 @@ export function PortfolioCard({ portfolioChartData }: PortfolioCardProps) {
         ) : (
           <ChartContainer
             config={chartConfig}
-            className="mx-auto max-h-full xl:h-75 items-center text-center"
+            className="xl:ml-6 ml-0 max-h-full items-center text-center"
           >
             <PieChart>
               <Pie
@@ -81,7 +81,7 @@ export function PortfolioCard({ portfolioChartData }: PortfolioCardProps) {
                 align="left"
                 verticalAlign="middle"
                 content={<ChartLegendContent nameKey="coin" />}
-                className="flex gap-8 flex-col items-start sm:mt-0 mt-5 text-xl text-blue-muted font-bold"
+                className="flex xl:gap-10 gap-8 flex-col items-start sm:mt-0 mt-5 xl:text-2xl text-xl text-blue-muted font-bold"
               />
             </PieChart>
           </ChartContainer>
