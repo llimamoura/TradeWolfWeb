@@ -59,14 +59,22 @@ function CommandDialog({
 
 function CommandInput({
   className,
+  iconVariant = "left",
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Input>) {
+}: React.ComponentProps<typeof CommandPrimitive.Input> & {
+  iconVariant?: "left" | "right";
+}) {
+  const leftIcon = <SearchIcon className="size-4 shrink-0 opacity-50" />;
+  const rightIcon = (
+    <SearchIcon className="size-fit p-2 text-background bg-gradient-to-b from-primary to-tertiary rounded-4xl" />
+  );
+
   return (
     <div
       data-slot="command-input-wrapper"
-      className="flex h-9 items-center gap-2 border-b px-3"
+      className="flex h-9 items-center gap-2 border-b"
     >
-      <SearchIcon className="size-4 shrink-0 opacity-50" />
+      {iconVariant === "left" && leftIcon}
       <CommandPrimitive.Input
         data-slot="command-input"
         className={cn(
@@ -75,6 +83,7 @@ function CommandInput({
         )}
         {...props}
       />
+      {iconVariant === "right" && rightIcon}
     </div>
   );
 }

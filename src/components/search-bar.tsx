@@ -38,7 +38,8 @@ export function SearchBar({ coinsData, onSelectedCoinChange }: SearchBarProps) {
             setSearchTerm(value);
             setIsDropdownOpen(!!value);
           }}
-          className="placeholder:font-extrabold placeholder:text-surface-muted"
+          className="placeholder:font-extrabold placeholder:text-surface-muted placeholder:p-4"
+          iconVariant="right"
         />
         {isDropdownOpen && (
           <CommandList className="absolute top-full left-0 w-full max-h-60 mt-1 overflow-y-auto z-50 border border-border rounded-lg shadow-lg bg-search-dropdown">
