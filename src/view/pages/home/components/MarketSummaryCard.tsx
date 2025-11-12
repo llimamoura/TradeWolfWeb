@@ -147,7 +147,7 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
                   <stop
                     offset="5%"
                     stopColor="var(--chart-2)"
-                    stopOpacity={0.8}
+                    stopOpacity={0.4}
                   />
                   <stop
                     offset="95%"
