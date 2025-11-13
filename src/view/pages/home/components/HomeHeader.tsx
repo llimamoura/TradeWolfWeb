@@ -18,7 +18,7 @@ export function HomeHeader({
     <header className="flex flex-col lg:flex-row justify-between lg:items-center my-0 lg:my-4 xl:my-8">
       <div className="flex items-center space-x-3 lg:space-x-5">
         <Separator
-          className="hidden lg:block mr-2 border-tertiary border-3 rounded-xl"
+          className="hidden lg:block mr-2 border-tertiary border-4 rounded-xl"
           orientation="vertical"
         />
         <h1 className="hidden lg:flex text-xl lg:text-3xl text-primary font-extrabold">
