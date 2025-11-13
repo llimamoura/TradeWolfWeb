@@ -62,9 +62,16 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
         });
       }
 
+      const priceFormatter = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+      });
+
       return {
         time: timeLabel,
         price,
+        formattedPrice: priceFormatter.format(price),
       };
     }) ?? [];
 
@@ -141,7 +148,17 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
                   position: "insideLeft",
                 }}
               />
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent className="gap-x-10" />}
+                formatter={(value: number) =>
+                  new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    minimumFractionDigits: 2,
+                  }).format(value)
+                }
+              />
               <defs>
                 <linearGradient id="fillPrice" x1="0" y1="0" x2="0" y2="1">
                   <stop
