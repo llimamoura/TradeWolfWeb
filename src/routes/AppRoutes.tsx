@@ -8,6 +8,8 @@ import { ProfilePage } from "@/view/pages/signup/Profile";
 import { ConfirmResidencyPage } from "@/view/pages/signup/Residency";
 import { ProofResidencyPage } from "@/view/pages/signup/Residency/ProofResidency";
 import { LoginPage } from "../view/pages/login";
+import { HomeLayout } from "@/view/layouts/HomeLayout";
+import { HomePage } from "@/view/pages/home";
 
 export function AppRoutes() {
   return (
@@ -26,6 +28,10 @@ export function AppRoutes() {
           <Route path="identify" element={<IdentifyPage />} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>
+      </Route>
+
+      <Route path="home" element={<HomeLayout />}>
+        <Route index element={<HomePage />} />
       </Route>
     </Routes>
   );
