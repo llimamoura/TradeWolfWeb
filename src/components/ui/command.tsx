@@ -1,5 +1,4 @@
 import { Command as CommandPrimitive } from "cmdk";
-import { SearchIcon } from "lucide-react";
 import type * as React from "react";
 import {
   Dialog,
@@ -9,6 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import { SearchIcon } from "lucide-react";
 
 function Command({
   className,
@@ -59,22 +59,23 @@ function CommandDialog({
 
 function CommandInput({
   className,
-  iconVariant = "left",
+  leading,
+  trailing,
   ...props
 }: React.ComponentProps<typeof CommandPrimitive.Input> & {
-  iconVariant?: "left" | "right";
+  leading?: React.ReactNode;
+  trailing?: React.ReactNode;
 }) {
-  const leftIcon = <SearchIcon className="size-4 shrink-0 opacity-50" />;
-  const rightIcon = (
-    <SearchIcon className="size-fit p-2 text-background bg-gradient-to-b from-primary to-tertiary rounded-4xl" />
-  );
-
   return (
     <div
       data-slot="command-input-wrapper"
       className="flex h-9 items-center gap-2 border-b"
     >
-      {iconVariant === "left" && leftIcon}
+      {leading !== undefined ? (
+        leading
+      ) : (
+        <SearchIcon className="size-4 shrink-0 opacity-50" />
+      )}
       <CommandPrimitive.Input
         data-slot="command-input"
         className={cn(
@@ -83,7 +84,7 @@ function CommandInput({
         )}
         {...props}
       />
-      {iconVariant === "right" && rightIcon}
+      {trailing}
     </div>
   );
 }
