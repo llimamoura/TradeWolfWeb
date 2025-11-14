@@ -45,9 +45,9 @@ export function PortfolioCard({ portfolioChartData }: PortfolioCardProps) {
   }, [pieChartData]);
 
   return (
-    <Card className="bg-card h-auto min-h-[20dvh] xl:min-h-[25dvh] shadow-lg">
+    <Card className="bg-card h-auto min-h-[40dvh] xl:min-h-[50dvh] shadow-lg">
       <CardHeader className="items-center">
-        <CardTitle className="text-xl lg:text-2xl mb-2 md:mb-3 lg:mb-2 font-extrabold text-primary">
+        <CardTitle className="text-xl lg:text-2xl mb-4 md:mb-3 lg:mb-1 font-extrabold text-primary">
           Portfolio distribution
         </CardTitle>
       </CardHeader>
@@ -81,7 +81,7 @@ export function PortfolioCard({ portfolioChartData }: PortfolioCardProps) {
                 align="left"
                 verticalAlign="middle"
                 content={<ChartLegendContent nameKey="coin" />}
-                className="flex xl:gap-10 gap-8 flex-col items-start sm:mt-0 mt-5 xl:text-2xl text-xl text-blue-muted font-bold"
+                className="flex xl:gap-10 gap-8 flex-col items-start xl:text-2xl text-xl text-blue-muted font-bold"
               />
             </PieChart>
           </ChartContainer>
