@@ -10,11 +10,17 @@ import type { CoinResponse } from "@/entities/coin";
 import { CoinSelector } from "@/components/coin-selector.tsx";
 import { getCoinsChart } from "@/services/charts/get-coins-charts";
 import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 interface MarketSummaryCardProps {
   coinsData: CoinResponse;
 }
+
+const priceFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 2,
+});
 
 export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
   const [selectedCoin, setSelectedCoin] = useState<string>("");
@@ -40,40 +46,38 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
 
   const selectedCoinChart = marketChartData[0];
 
-  const lineChartData =
-    selectedCoinChart?.chart?.map((point: [number, number, number, number]) => {
-      const [timestamp, price] = point;
+  const lineChartData = useMemo(
+    () =>
+      selectedCoinChart?.chart?.map(
+        (point: [number, number, number, number]) => {
+          const [timestamp, price] = point;
 
-      const correctedTimestamp =
-        timestamp < 1e12 ? timestamp * 1000 : timestamp;
-      const date = new Date(correctedTimestamp);
+          const correctedTimestamp =
+            timestamp < 1e12 ? timestamp * 1000 : timestamp;
+          const date = new Date(correctedTimestamp);
 
-      let timeLabel: string;
-      if (period === "24h" || period === "5d") {
-        timeLabel = date.toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        });
-      } else {
-        timeLabel = date.toLocaleDateString("en-US", {
-          day: "2-digit",
-          month: "2-digit",
-        });
-      }
+          let timeLabel: string;
+          if (period === "24h" || period === "5d") {
+            timeLabel = date.toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            });
+          } else {
+            timeLabel = date.toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "2-digit",
+            });
+          }
 
-      const priceFormatter = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        minimumFractionDigits: 2,
-      });
-
-      return {
-        time: timeLabel,
-        price,
-        formattedPrice: priceFormatter.format(price),
-      };
-    }) ?? [];
+          return {
+            time: timeLabel,
+            price,
+          };
+        }
+      ) ?? [],
+    [selectedCoinChart, period]
+  );
 
   const lineChartConfig = {
     price: {
@@ -152,11 +156,7 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
                 cursor={false}
                 content={<ChartTooltipContent className="gap-x-10" />}
                 formatter={(value: number) =>
-                  new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                    minimumFractionDigits: 2,
-                  }).format(value)
+                  `Price: ${priceFormatter.format(value)}`
                 }
               />
               <defs>
