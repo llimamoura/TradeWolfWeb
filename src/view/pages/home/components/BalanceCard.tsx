@@ -8,7 +8,7 @@ import {
 
 export function BalanceCard() {
   return (
-    <Card className="flex justify-center w-full min-h-50 lg:min-h-60 xl:min-h-30 bg-card shadow-lg">
+    <Card className="flex justify-center w-full min-h-[20dvh] lg:min-h-[25dvh] xl:min-h-[15dvh] bg-card shadow-lg">
       <CardHeader>
         <div className="xl:px-2 px-0">
           <CardTitle className="font-extrabold text-search-dropdown text-xl md:text-3xl mb-10">

@@ -45,7 +45,7 @@ export function PortfolioCard({ portfolioChartData }: PortfolioCardProps) {
   }, [pieChartData]);
 
   return (
-    <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg">
+    <Card className="bg-card h-auto min-h-[40dvh] xl:min-h-[50dvh] shadow-lg">
       <CardHeader className="items-center">
         <CardTitle className="text-xl lg:text-2xl mb-2 md:mb-3 lg:mb-2 font-extrabold text-primary">
           Portfolio distribution
