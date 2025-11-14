@@ -44,7 +44,10 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
         : getCoinsChart({ period }),
   });
 
-  const selectedCoinChart = marketChartData[0];
+  const selectedCoinChart = useMemo(
+    () => marketChartData[0],
+    [marketChartData]
+  );
 
   const lineChartData = useMemo(
     () =>
