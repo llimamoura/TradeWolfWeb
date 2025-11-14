@@ -37,7 +37,7 @@ export function ComingSoon() {
 
         <div className="flex flex-wrap justify-center gap-6 md:gap-12 mt-12">
           <div className="flex flex-col items-center gap-3 group transform transition-all duration-300 hover:scale-110">
-            <div className="p-5 rounded-full bg-primary/20 backdrop-blur-sm text-background border-2 border-primary/30 group-hover:bg-primary/30 group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-xl">
+            <div className="p-5 rounded-full bg-primary/20 backdrop-blur-sm text-background border-2 border-primary/30 group-hover:bg-background group-hover:text-primary group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-xl">
               <Clock className="size-8 group-hover:rotate-12 transition-transform duration-300" />
             </div>
             <span className="text-sm text-background font-bold transition-colors duration-300">
@@ -46,7 +46,7 @@ export function ComingSoon() {
           </div>
 
           <div className="flex flex-col items-center gap-3 group transform transition-all duration-300 hover:scale-110">
-            <div className="p-5 rounded-full bg-primary/20 backdrop-blur-sm text-background border-2 border-primary/30 group-hover:bg-primary/30 group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-xl">
+            <div className="p-5 rounded-full bg-primary/20 backdrop-blur-sm text-background border-2 border-primary/30 group-hover:bg-background group-hover:text-primary group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-xl">
               <Sparkles className="size-8 group-hover:animate-pulse transition-all duration-300" />
             </div>
             <span className="text-sm text-background font-bold transition-colors duration-300">
@@ -54,8 +54,8 @@ export function ComingSoon() {
             </span>
           </div>
 
-          <div className="flex flex-col items-center gap-3 group cursor-pointer transform transition-all duration-300 hover:scale-110">
-            <div className="p-5 rounded-full bg-primary/20 backdrop-blur-sm text-background border-2 border-primary/30 group-hover:bg-primary/30 group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-xl">
+          <div className="flex flex-col items-center gap-3 group transform transition-all duration-300 hover:scale-110">
+            <div className="p-5 rounded-full bg-primary/20 backdrop-blur-sm text-background border-2 border-primary/30 group-hover:bg-background group-hover:text-primary group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-xl">
               <TrendingUp className="size-8 group-hover:translate-y-[-4px] transition-transform duration-300" />
             </div>
             <span className="text-sm text-background font-bold transition-colors duration-300">
