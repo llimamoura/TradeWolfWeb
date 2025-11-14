@@ -11,7 +11,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { ChevronDown, Check } from "lucide-react";
+import { ChevronDown, Check, SearchIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
@@ -80,6 +80,7 @@ export function CoinSelector({
             <CommandInput
               placeholder="Search coins..."
               className="placeholder:font-extrabold"
+              leading={<SearchIcon className="size-4 shrink-0 opacity-50" />}
             />
             <CommandList>
               <CommandEmpty>No coin found.</CommandEmpty>

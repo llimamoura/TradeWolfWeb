@@ -40,7 +40,6 @@ export function SearchBar({ coinsData, onSelectedCoinChange }: SearchBarProps) {
             setIsDropdownOpen(!!value);
           }}
           className="placeholder:font-extrabold placeholder:text-surface-muted placeholder:p-4"
-          leading={null}
           trailing={
             <SearchIcon className="size-fit p-2 text-background bg-gradient-to-b from-primary to-tertiary rounded-4xl" />
           }
