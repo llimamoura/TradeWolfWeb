@@ -75,12 +75,16 @@ export function CoinSelector({
             <ChevronDown className="size-4 text-background opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-fit text-start">
+        <PopoverContent className="w-fit px-0 text-start">
           <Command>
             <CommandInput
               placeholder="Search coins..."
-              className="placeholder:font-extrabold"
-              leading={<SearchIcon className="size-4 shrink-0 opacity-50" />}
+              className="placeholder:font-extrabold px-0"
+              leading={
+                <div className="flex items-center pl-4">
+                  <SearchIcon className="size-4 shrink-0 opacity-50" />
+                </div>
+              }
             />
             <CommandList>
               <CommandEmpty>No coin found.</CommandEmpty>
@@ -90,17 +94,18 @@ export function CoinSelector({
                     key={coin.id}
                     value={coin.id}
                     onSelect={handleCoinChange}
+                    className="flex items-center justify-between"
                   >
-                    <Check
-                      className={cn(
-                        "mr-2 size-4 flex items-start text-start",
-                        selectedCoin === coin.id ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                    <div className="flex items-start text-start space-x-2 font-extrabold text-primary">
+                    <div className="flex items-start px-2 text-start space-x-2 font-extrabold text-primary">
                       <img src={coin.icon} className="size-4 rounded-full" />
                       <span>{coin.symbol}</span>
                     </div>
+                    <Check
+                      className={cn(
+                        "ml-2 size-4 flex items-start text-start",
+                        selectedCoin === coin.id ? "opacity-100" : "opacity-0"
+                      )}
+                    />
                   </CommandItem>
                 ))}
               </CommandGroup>
