@@ -59,19 +59,19 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
             timestamp < 1e12 ? timestamp * 1000 : timestamp;
           const date = new Date(correctedTimestamp);
 
-          let timeLabel: string;
-          if (period === "24h" || period === "5d") {
-            timeLabel = date.toLocaleTimeString("en-US", {
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: false,
-            });
-          } else {
-            timeLabel = date.toLocaleDateString("en-US", {
-              day: "2-digit",
-              month: "2-digit",
-            });
-          }
+          const dateToolTip = date.toLocaleDateString("en-US", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          });
+
+          const timeToolTip = date.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          });
+
+          const timeLabel = `${dateToolTip} / ${timeToolTip}`;
 
           return {
             time: timeLabel,
@@ -93,7 +93,7 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
 
   if (isLoading) {
     return (
-      <Card className="bg-card h-auto min-h-[20dvh] max-h-[40dvh] xl:min-h-[25dvh] xl:max-h-[50dvh] shadow-lg flex items-center justify-center">
+      <Card className="bg-card h-auto max-h-dvh shadow-lg flex items-center justify-center">
         <p className="text-muted-foreground">Loading market data...</p>
       </Card>
     );
@@ -101,14 +101,14 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
 
   if (isError) {
     return (
-      <Card className="bg-card h-auto min-h-[20dvh] max-h-[40dvh] xl:min-h-[25dvh] xl:max-h-[50dvh] shadow-lg flex items-center justify-center">
+      <Card className="bg-card h-auto max-h-dvh shadow-lg flex items-center justify-center">
         <p className="text-destructive">Error loading market data.</p>
       </Card>
     );
   }
 
   return (
-    <Card className="bg-card h-auto min-h-[20dvh] max-h-[40dvh] xl:min-h-[25dvh] xl:max-h-[50dvh] md:pb-0 pb-15 shadow-lg">
+    <Card className="bg-card h-auto max-h-dvh md:pb-0 pb-15 shadow-lg">
       <CardHeader>
         <div className="flex items-center justify-between mb-2">
           <CardTitle className="text-xl lg:text-2xl font-extrabold text-primary">
@@ -132,7 +132,7 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
         {lineChartHasData && (
           <ChartContainer
             config={lineChartConfig}
-            className="h-full w-full px-3"
+            className="max-h-dvh max-w-dvh px-3"
           >
             <AreaChart
               accessibilityLayer
