@@ -67,9 +67,9 @@ export function PortfolioCard({
   }
 
   return (
-    <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg">
+    <Card className="bg-card h-auto max-h-dvh shadow-lg">
       <CardHeader className="items-center">
-        <CardTitle className="text-xl lg:text-2xl mb-2 md:mb-3 lg:mb-2 font-extrabold text-primary">
+        <CardTitle className="text-xl lg:text-2xl font-extrabold text-primary">
           Portfolio distribution
         </CardTitle>
       </CardHeader>
@@ -81,7 +81,7 @@ export function PortfolioCard({
         ) : (
           <ChartContainer
             config={chartConfig}
-            className="mx-auto max-h-full xl:h-75 items-center text-center"
+            className="xl:ml-6 ml-0 max-h-dvh items-center text-center"
           >
             <PieChart>
               <Pie
@@ -103,7 +103,7 @@ export function PortfolioCard({
                 align="left"
                 verticalAlign="middle"
                 content={<ChartLegendContent nameKey="coin" />}
-                className="flex gap-8 flex-col items-start sm:mt-0 mt-5 text-xl text-blue-muted font-bold"
+                className="flex xl:gap-10 gap-5 flex-col items-start sm:text-lg md:text-xl text-blue-muted font-bold"
               />
             </PieChart>
           </ChartContainer>

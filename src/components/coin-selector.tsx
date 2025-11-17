@@ -11,7 +11,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { ChevronDown, Check } from "lucide-react";
+import { ChevronDown, Check, SearchIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
@@ -55,24 +55,66 @@ export function CoinSelector({
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="link"
-          role="button"
-          aria-expanded={open}
-          aria-label="Coin selector"
-          className="w-25 h-8 md:w-25 md:h-8 lg:w-30 xl:w-25 xl:h-8 md:mr-4 lg:mr-4 xl:mr-0 sm:mr-0 mr-0 font-bold justify-between bg-primary text-border hover:no-underline sm:gap-3 gap-2"
-        >
-          <div className="flex items-center gap-2">
-            <img src={selectedCoinData.icon} className="size-4 rounded-full" />
-            {selectedCoinData.symbol}
-          </div>
-          <ChevronDown className="size-4 text-background opacity-50" />
-        </Button>
-      </PopoverTrigger>
+    <div className="flex items-center gap-2 sm:gap-3">
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            variant="link"
+            role="button"
+            aria-expanded={open}
+            aria-label="Coin selector"
+            className="w-25 h-8 md:w-25 md:h-8 lg:w-30 xl:w-25 xl:h-8 font-bold justify-between bg-primary text-border hover:no-underline sm:gap-3 gap-2 rounded-full"
+          >
+            <div className="flex items-center gap-2">
+              <img
+                src={selectedCoinData.icon}
+                className="size-4 rounded-full"
+              />
+              {selectedCoinData.symbol}
+            </div>
+            <ChevronDown className="size-4 text-background opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-fit px-0 text-start">
+          <Command>
+            <CommandInput
+              placeholder="Search coins..."
+              className="placeholder:font-extrabold px-0"
+              leading={
+                <div className="flex items-center pl-4">
+                  <SearchIcon className="size-4 shrink-0 opacity-50" />
+                </div>
+              }
+            />
+            <CommandList>
+              <CommandEmpty>No coin found.</CommandEmpty>
+              <CommandGroup>
+                {coinsData.result.map((coin: Coin) => (
+                  <CommandItem
+                    key={coin.id}
+                    value={coin.id}
+                    onSelect={handleCoinChange}
+                    className="flex items-center justify-between"
+                  >
+                    <div className="flex items-start px-2 text-start space-x-2 font-extrabold text-primary">
+                      <img src={coin.icon} className="size-4 rounded-full" />
+                      <span>{coin.symbol}</span>
+                    </div>
+                    <Check
+                      className={cn(
+                        "ml-2 size-4 flex items-start text-start",
+                        selectedCoin === coin.id ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
 
-      <div className="flex gap-2 sm:gap-3 ml-2 sm:ml-0">
+      <div className="flex gap-2 sm:gap-3">
         {marketChartDates.map(({ label, value }) => (
           <Button
             key={value}
@@ -91,38 +133,6 @@ export function CoinSelector({
           </Button>
         ))}
       </div>
-
-      <PopoverContent className="w-fit text-start">
-        <Command>
-          <CommandInput
-            placeholder="Search coins..."
-            className="placeholder:font-extrabold"
-          />
-          <CommandList>
-            <CommandEmpty>No coin found.</CommandEmpty>
-            <CommandGroup>
-              {coinsData.result.map((coin: Coin) => (
-                <CommandItem
-                  key={coin.id}
-                  value={coin.id}
-                  onSelect={handleCoinChange}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 size-4 flex items-start text-start",
-                      selectedCoin === coin.id ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  <div className="flex items-start text-start space-x-2 font-extrabold text-primary">
-                    <img src={coin.icon} className="size-4 rounded-full" />
-                    <span>{coin.symbol}</span>
-                  </div>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    </div>
   );
 }

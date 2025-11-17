@@ -33,7 +33,7 @@ export function HomeComponent() {
   if (isCoinsError) return <p>Error loading coins</p>;
 
   return (
-    <div className="p-4 lg:p-6 xl:p-8">
+    <div className="p-4 lg:p-6 xl:p-8 pb-10 lg:pb-6 xl:pb-8">
       <HomeHeader
         coinsData={coinsData}
         selectedCoin={selectedCoin}
