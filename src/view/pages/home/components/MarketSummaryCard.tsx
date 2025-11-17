@@ -71,10 +71,32 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
             hour12: false,
           });
 
-          const timeLabel = `${dateToolTip} / ${timeToolTip}`;
+          let timeLabel: string;
+          if (period === "24h") {
+            timeLabel = date.toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            });
+          } else if (period === "1w") {
+            timeLabel = date.toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            });
+          } else {
+            timeLabel = date.toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            });
+          }
+
+          const tooltipLabel = `${dateToolTip} / ${timeToolTip}`;
 
           return {
             time: timeLabel,
+            tooltipLabel,
             price,
           };
         }
@@ -157,7 +179,17 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
               />
               <ChartTooltip
                 cursor={false}
-                content={<ChartTooltipContent className="gap-x-10" />}
+                content={
+                  <ChartTooltipContent
+                    className="gap-x-10"
+                    labelFormatter={(label, payload) => {
+                      if (payload && payload[0]?.payload?.tooltipLabel) {
+                        return payload[0].payload.tooltipLabel;
+                      }
+                      return label;
+                    }}
+                  />
+                }
                 formatter={(value: number) =>
                   `Price: ${priceFormatter.format(value)}`
                 }
