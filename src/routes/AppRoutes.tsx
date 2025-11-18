@@ -11,6 +11,7 @@ import { LoginPage } from "../view/pages/login";
 import { HomeLayout } from "@/view/layouts/HomeLayout";
 import { HomePage } from "@/view/pages/home";
 import { ComingSoonPage } from "@/view/pages/comingSoon";
+import { CoinDetailsPage } from "@/view/pages/coinDetails";
 
 export function AppRoutes() {
   return (
@@ -36,6 +37,7 @@ export function AppRoutes() {
 
       <Route path="home" element={<HomeLayout />}>
         <Route index element={<HomePage />} />
+        <Route path="coin-details" element={<CoinDetailsPage />}/>
       </Route>
     </Routes>
   );
