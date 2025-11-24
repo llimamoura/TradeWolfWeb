@@ -72,23 +72,17 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
           });
 
           let timeLabel: string;
+
           if (period === "24h") {
             timeLabel = date.toLocaleTimeString("en-US", {
               hour: "2-digit",
               minute: "2-digit",
               hour12: false,
             });
-          } else if (period === "1w") {
-            timeLabel = date.toLocaleTimeString("en-US", {
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: false,
-            });
           } else {
-            timeLabel = date.toLocaleTimeString("en-US", {
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: false,
+            timeLabel = date.toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "2-digit",
             });
           }
 
