@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { getCoinsChart } from "@/services/charts/get-coins-charts";
 import {
   ChartContainer,
@@ -6,13 +6,25 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import type { ChartConfig } from "@/components/ui/chart";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  ReferenceLine,
+} from "recharts";
 import type { CoinResponse } from "@/entities/coin";
-import { CoinSelector } from "@/components/coin-selector.tsx";
 import { useQuery } from "@tanstack/react-query";
 import type { Coin } from "@/entities/coin";
 import { cn } from "@/lib/utils";
+import { CoinDetailsperiods } from "@/view/layouts/constants";
+import { PriceDisplay } from "./PriceDisplay";
+import { ReferencePrices } from "./ReferencesPrices";
+import { getYAxisTicks } from "../../../../services/charts/getYAxisTicks";
+import { getReferencePrices } from "../../../../services/coin-prices/getReferencePrices";
+import { CoinSelectorButton } from "@/components/coin-selector-button";
+import { Button } from "@/components/ui/button";
 
 interface CoinDetailsProps {
   coinsData: CoinResponse;
@@ -20,7 +32,7 @@ interface CoinDetailsProps {
 
 export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
   const [selectedCoin, setSelectedCoin] = useState<string>("");
-  const [period, setPeriod] = useState("24h");
+  const [period, setPeriod] = useState("all");
 
   useEffect(() => {
     if (coinsData?.result && coinsData.result.length > 0 && !selectedCoin) {
@@ -42,7 +54,7 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
 
   const selectedCoinChart = marketChartData[0];
 
-  const lineChartData =
+  const chartData =
     selectedCoinChart?.chart?.map((point: [number, number, number, number]) => {
       const [timestamp, price] = point;
 
@@ -51,7 +63,7 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
       const date = new Date(correctedTimestamp);
 
       let timeLabel: string;
-      if (period === "24h" || period === "5d") {
+      if (period === "24h" || period === "1w") {
         timeLabel = date.toLocaleTimeString("en-US", {
           hour: "2-digit",
           minute: "2-digit",
@@ -67,135 +79,116 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
       return {
         time: timeLabel,
         price,
+        timestamp: correctedTimestamp,
       };
     }) ?? [];
 
   const lineChartConfig = {
     price: {
       label: "Price: ",
-      color: "var(--chart-1)",
+      color: "var(--chart-2)",
     },
   } satisfies ChartConfig;
 
-  const lineChartHasData = !!lineChartData.length;
-  
+  const lineChartHasData = !!chartData.length;
+
   const coin = coinsData.result.find((c: Coin) => c.id === selectedCoin);
+
+  const currentDate = new Date().toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "short",
+  });
+
+  const { openingPrice, previousClosingPrice } = useMemo(
+    () => getReferencePrices(chartData, coin),
+    [chartData, coin]
+  );
+
+  const priceInUSD = coin ? coin.price : 0;
 
   if (isLoading) {
     return (
-      <Card className="bg-home-layout h-auto min-h-96 shadow-lg flex items-center justify-center">
+      <div className="bg-home-layout h-screen min-h-dvh flex items-center justify-center">
         <p className="text-muted-foreground">Loading market data...</p>
-      </Card>
+      </div>
     );
   }
 
   if (isError) {
     return (
-      <Card className="bg-home-layout h-auto min-h-96 shadow-lg flex items-center justify-center">
+      <div className="bg-home-layout h-screen min-h-dvh flex items-center justify-center">
         <p className="text-destructive">Error loading market data.</p>
-      </Card>
+      </div>
     );
   }
 
+  if (!coin) {
+    return (
+      <div className="bg-home-layout h-screen min-h-dvh flex items-center justify-center">
+        <p className="text-muted-foreground">No currency selected.</p>
+      </div>
+    );
+  }
+
+  const { yAxisTicks, yAxisMin, yAxisMax } = getYAxisTicks(chartData, 6);
+  
   return (
-    <div>
-      <main className="bg-home-layout h-screen min-h-dvh shadow-lg">
-        <CardHeader>
-          <div className="flex items-center justify-between mb-2">
-            <CardTitle className="text-xl lg:text-2xl font-extrabold text-primary">
-            {coin && (
-            <div
-              key={coin.id}
-              className="flex justify-around items-stretch px-10 bg-background"
-            >
-              <div className="flex justify-between items-center space-x-3">
-                <img
-                  src={coin.icon}
-                  alt={coin.name}
-                  className="size-6 rounded-full"
-                />
-                <div>
-                  <p className="font-bold text-sm text-blue-muted">
-                    {coin.name}
-                  </p>
-                  <p className="text-xs font-extrabold w-fit bg-quartenary rounded-md p-1 text-primary">
-                    {coin.symbol}
-                  </p>
-                </div>
-              </div>
-              <div className="text-right px-4">
-                <p className="font-bold text-sm text-blue-muted">
-                  ${coin.price?.toFixed(2)}
-                </p>
-                <p
-                  className={cn(
-                    "text-xs font-bold",
-                    coin.priceChange1d > 0 && "text-success",
-                    coin.priceChange1d < 0 && "text-error",
-                    coin.priceChange1d === 0 && "text-surface-muted"
-                  )}
-                >
-                  {coin.priceChange1d === undefined
-                    ? "No data"
-                    : `${
-                        coin.priceChange1d > 0 ? "+" : ""
-                      }${coin.priceChange1d.toFixed(2)}%`}
-                </p>
-              </div>
-            </div>
-          )}
-            </CardTitle>
-            <CoinSelector
+    <div className="bg-home-layout h-screen min-h-dvh w-full">
+      <main className="h-full w-full p-6 lg:p-8 flex flex-col">
+        <div className="mb-8">
+          <div className="flex justify-center">
+            <CoinSelectorButton
               coinsData={coinsData}
               selectedCoin={selectedCoin}
               onSelectedCoinChange={setSelectedCoin}
-              onPeriodChange={setPeriod}
-              period={period}
             />
           </div>
-        </CardHeader>
-        <CardContent className="flex-1 p-1">
+          <div className="flex items-center gap-3 mb-4">
+            <img
+              src={coin.icon}
+              alt={coin.name}
+              className="size-8 rounded-full"
+            />
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-2xl font-bold text-foreground">
+                  {coin.name}
+                </h1>
+                <span className="text-xs font-extrabold bg-primary w-fit px-2 py-1 text-center justify-center flex rounded text-background">
+                  {coin.symbol}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <PriceDisplay
+            price={priceInUSD}
+            priceChange={coin.priceChange1d}
+            date={currentDate}
+          />
+        </div>
+
+        <div className="flex-1 min-h-96 mb-6">
           {!lineChartHasData && (
-            <p className="text-center text-muted-foreground">
-              No chart data available
-            </p>
+            <div className="h-full flex items-center justify-center">
+              <p className="text-center text-muted-foreground">
+                Nenhum dado de gráfico disponível
+              </p>
+            </div>
           )}
           {lineChartHasData && (
-            <ChartContainer
-              config={lineChartConfig}
-              className="h-full w-full px-3"
-            >
+            <ChartContainer config={lineChartConfig} className="h-full w-full">
               <AreaChart
                 accessibilityLayer
-                data={lineChartData}
-                margin={{ left: 0, right: 3, top: 0, bottom: 10 }}
+                data={chartData}
+                margin={{ left: 20, right: 20, top: 10, bottom: 20 }}
               >
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="time"
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={8}
-                />
-                <YAxis
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={8}
-                  label={{
-                    angle: -90,
-                    position: "insideLeft",
-                  }}
-                />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent />}
-                />
                 <defs>
                   <linearGradient id="fillPrice" x1="0" y1="0" x2="0" y2="1">
                     <stop
                       offset="5%"
                       stopColor="var(--chart-2)"
-                      stopOpacity={0.8}
+                      stopOpacity={0.4}
                     />
                     <stop
                       offset="95%"
@@ -204,18 +197,73 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
                     />
                   </linearGradient>
                 </defs>
+                <CartesianGrid
+                  vertical={false}
+                  strokeDasharray="3 3"
+                  stroke="var(--border)"
+                />
+                <XAxis
+                  dataKey="time"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={12}
+                  tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
+                />
+                <YAxis
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                  domain={[yAxisMin, yAxisMax]}
+                  ticks={yAxisTicks}
+                  tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
+                  tickFormatter={(value) => `$${value}`}
+                />
+                <ReferenceLine
+                  stroke="var(--border)"
+                  strokeDasharray="3 3"
+                  strokeWidth={1}
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent />}
+                />
                 <Area
                   dataKey="price"
                   type="natural"
                   fill="url(#fillPrice)"
                   fillOpacity={1}
                   stroke="var(--chart-2)"
-                  stackId="a"
+                  strokeWidth={2}
+                  dot={false}
+                  activeDot={{ r: 4, fill: "var(--chart-2)" }}
                 />
               </AreaChart>
             </ChartContainer>
           )}
-        </CardContent>
+        </div>
+
+        <div className="flex justify-center gap-x-30 mb-6">
+          {CoinDetailsperiods.map(({ label, value }) => (
+            <Button
+            variant="link"
+              key={value}
+              onClick={() => setPeriod(value)}
+              className={cn(
+                "px-4 py-2 rounded-3xl font-bold text-lg transition-colors",
+                period === value
+                  ? "text-background bg-linear-to-b from-primary to-tertiary from-10% to-50%"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {label}
+            </Button>
+          ))}
+        </div>
+
+        <ReferencePrices
+          openingPrice={openingPrice}
+          previousClosingPrice={previousClosingPrice}
+        />
       </main>
     </div>
   );
