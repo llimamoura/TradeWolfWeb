@@ -49,8 +49,8 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
     [marketChartData]
   );
 
-  const lineChartData = useMemo(
-    () =>
+  const lineChartData = useMemo(() => {
+    const data =
       selectedCoinChart?.chart?.map(
         (point: [number, number, number, number]) => {
           const [timestamp, price] = point;
@@ -72,7 +72,6 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
           });
 
           let timeLabel: string;
-
           if (period === "24h") {
             timeLabel = date.toLocaleTimeString("en-US", {
               hour: "2-digit",
@@ -88,15 +87,21 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
 
           const tooltipLabel = `${dateToolTip} / ${timeToolTip}`;
 
-          return {
-            time: timeLabel,
-            tooltipLabel,
-            price,
-          };
+          return { time: timeLabel, tooltipLabel, price };
         }
-      ) ?? [],
-    [selectedCoinChart, period]
-  );
+      ) ?? [];
+
+    const filteredData: typeof data = [];
+    const seen = new Set<string>();
+    for (const item of data) {
+      if (!seen.has(item.time)) {
+        filteredData.push(item);
+        seen.add(item.time);
+      }
+    }
+
+    return filteredData;
+  }, [selectedCoinChart, period]);
 
   const lineChartConfig = {
     price: {
