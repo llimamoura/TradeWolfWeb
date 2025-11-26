@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 import { CoinDetailsperiods } from "@/view/layouts/constants";
 import { PriceDisplay } from "./PriceDisplay";
 import { ReferencePrices } from "./ReferencesPrices";
-import { getYAxisTicks } from "../../../../services/charts/getYAxisTicks";
+import { getYAxisTicks } from "../../../../services/charts/get-YAxisTicks";
 import { getReferencePrices } from "../../../../services/coin-prices/getReferencePrices";
 import { CoinSelectorButton } from "@/components/coin-selector-button";
 import { Button } from "@/components/ui/button";
@@ -57,18 +57,29 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
   const chartData =
     selectedCoinChart?.chart?.map((point: [number, number, number, number]) => {
       const [timestamp, price] = point;
-
       const correctedTimestamp =
         timestamp < 1e12 ? timestamp * 1000 : timestamp;
       const date = new Date(correctedTimestamp);
 
       let timeLabel: string;
-      if (period === "24h" || period === "1w") {
+
+      if (period === "24h") {
         timeLabel = date.toLocaleTimeString("en-US", {
           hour: "2-digit",
           minute: "2-digit",
           hour12: false,
         });
+      } else if (period === "1w") {
+        timeLabel = date.toLocaleDateString("en-US", {
+          day: "2-digit",
+          month: "2-digit",
+        });
+      } else if (period === "1y") {
+        timeLabel = date.toLocaleDateString("en-US", {
+          month: "short",
+        });
+      } else if (period === "all") {
+        timeLabel = date.getFullYear().toString();
       } else {
         timeLabel = date.toLocaleDateString("en-US", {
           day: "2-digit",
@@ -82,6 +93,15 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
         timestamp: correctedTimestamp,
       };
     }) ?? [];
+
+  const filteredChartData: typeof chartData = [];
+  const seen = new Set<string>();
+  for (const item of chartData) {
+    if (!seen.has(item.time)) {
+      filteredChartData.push(item);
+      seen.add(item.time);
+    }
+  }
 
   const lineChartConfig = {
     price: {
@@ -131,7 +151,7 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
   }
 
   const { yAxisTicks, yAxisMin, yAxisMax } = getYAxisTicks(chartData, 6);
-  
+
   return (
     <div className="bg-home-layout h-screen min-h-dvh w-full">
       <main className="h-full w-full p-6 lg:p-8 flex flex-col">
@@ -172,7 +192,7 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
           {!lineChartHasData && (
             <div className="h-full flex items-center justify-center">
               <p className="text-center text-muted-foreground">
-                Nenhum dado de gráfico disponível
+                No chart data available
               </p>
             </div>
           )}
@@ -180,7 +200,7 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
             <ChartContainer config={lineChartConfig} className="h-full w-full">
               <AreaChart
                 accessibilityLayer
-                data={chartData}
+                data={filteredChartData}
                 margin={{ left: 20, right: 20, top: 10, bottom: 20 }}
               >
                 <defs>
@@ -242,10 +262,10 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
           )}
         </div>
 
-        <div className="flex justify-center gap-x-30 mb-6">
+        <div className="flex justify-center gap-x-40 mb-6">
           {CoinDetailsperiods.map(({ label, value }) => (
             <Button
-            variant="link"
+              variant="link"
               key={value}
               onClick={() => setPeriod(value)}
               className={cn(
