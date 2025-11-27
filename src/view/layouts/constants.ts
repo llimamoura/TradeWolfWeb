@@ -67,9 +67,9 @@ export const bottomNavItems = [
     icon: CirclePlus,
   },
   {
-    route: "/user-profile",
-    label: "User Profile",
-    icon: CircleUser,
+    route: "/historical",
+    label: "Historical",
+    icon: Hourglass,
   },
   {
     route: "/settings",

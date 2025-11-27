@@ -10,7 +10,7 @@ import { bottomNavItems } from "./constants";
 
 export function HomeLayout() {
   return (
-    <div className="flex flex-col lg:flex-row h-dvh max-h-dvh bg-home-layout px-4 overflow-hidden">
+    <div className="flex flex-col lg:flex-row h-dvh max-h-dvh bg-background px-4 overflow-hidden">
       <div className="lg:hidden flex items-center justify-between px-4 py-1 bg-home-layout text-primary-foreground">
         <img src={Logo} alt="TradeWolf Blue logo" className="size-20" />
         <nav className="flex items-center space-between">
