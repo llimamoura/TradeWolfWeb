@@ -84,7 +84,7 @@ export const marketChartDates = [
     value: "24h",
   },
   {
-    label: "5D",
+    label: "7D",
     value: "1w",
   },
   {
