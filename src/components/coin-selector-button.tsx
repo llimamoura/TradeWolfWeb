@@ -47,7 +47,7 @@ export function CoinSelectorButton({
           role="button"
           aria-expanded={open}
           aria-label="Coin selector"
-          className="flex justify-between items-center w-70 gap-2 px-4 py-2 text-background font-extrabold bg-linear-to-r from-primary to-tertiary from-20% to-50% rounded-full"
+          className="flex justify-between items-center sm:w-70 w-40 h-10 gap-2 px-4 py-2 text-background font-extrabold bg-linear-to-r from-primary to-tertiary from-20% to-50% rounded-2xl"
         >
           <div className="flex items-center gap-2">
             <img src={selectedCoinData.icon} className="size-4 rounded-full" />
@@ -57,7 +57,7 @@ export function CoinSelectorButton({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-70 text-start">
+      <PopoverContent className="sm:w-70 w-45 text-start">
         <Command>
           <CommandInput placeholder="Search coins..." />
           <CommandList>
