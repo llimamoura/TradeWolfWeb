@@ -128,7 +128,7 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
 
   if (isLoading) {
     return (
-      <div className="bg-home-layout h-screen min-h-dvh flex items-center justify-center">
+      <div className="bg-background h-screen min-h-dvh flex items-center justify-center">
         <p className="text-muted-foreground">Loading market data...</p>
       </div>
     );
@@ -136,7 +136,7 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
 
   if (isError) {
     return (
-      <div className="bg-home-layout h-screen min-h-dvh flex items-center justify-center">
+      <div className="bg-background h-screen min-h-dvh flex items-center justify-center">
         <p className="text-destructive">Error loading market data.</p>
       </div>
     );
@@ -144,7 +144,7 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
 
   if (!coin) {
     return (
-      <div className="bg-home-layout h-screen min-h-dvh flex items-center justify-center">
+      <div className="bg-background h-screen min-h-dvh flex items-center justify-center">
         <p className="text-muted-foreground">No currency selected.</p>
       </div>
     );
@@ -153,10 +153,10 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
   const { yAxisTicks, yAxisMin, yAxisMax } = getYAxisTicks(chartData, 6);
 
   return (
-    <div className="bg-home-layout h-screen min-h-dvh w-full">
-      <main className="h-full w-full p-6 lg:p-8 flex flex-col">
+    <div className="bg-background h-screen min-h-dvh w-full">
+      <main className="h-full w-full p-5 lg:p-8 flex flex-col">
         <div className="mb-8">
-          <div className="flex justify-center">
+          <div className="flex justify-center sm:pb-0 pb-10">
             <CoinSelectorButton
               coinsData={coinsData}
               selectedCoin={selectedCoin}
@@ -200,7 +200,7 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
             <ChartContainer config={lineChartConfig} className="h-full w-full">
               <AreaChart
                 accessibilityLayer
-                data={filteredChartData}
+                data={chartData}
                 margin={{ left: 20, right: 20, top: 10, bottom: 20 }}
               >
                 <defs>
@@ -262,14 +262,14 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
           )}
         </div>
 
-        <div className="flex justify-center gap-x-40 mb-6">
+        <div className="flex justify-center gap-x-30 mb-6">
           {CoinDetailsperiods.map(({ label, value }) => (
             <Button
               variant="link"
               key={value}
               onClick={() => setPeriod(value)}
               className={cn(
-                "px-4 py-2 rounded-3xl font-bold text-lg transition-colors",
+                "px-4 py-2 rounded-3xl font-bold sm:text-lg text-md transition-colors",
                 period === value
                   ? "text-background bg-linear-to-b from-primary to-tertiary from-10% to-50%"
                   : "text-muted-foreground hover:text-foreground"
