@@ -5,7 +5,7 @@ import { formatCurrencyUSD } from "@/utils/format-currency";
 interface PriceDisplayProps {
   price: number;
   priceChange: number;
-  date: string
+  date: string;
 }
 
 export function PriceDisplay({ price, priceChange, date }: PriceDisplayProps) {
@@ -23,7 +23,8 @@ export function PriceDisplay({ price, priceChange, date }: PriceDisplayProps) {
             priceChange === 0 && "text-muted-foreground bg-muted/10"
           )}
         >
-          {priceChange < 0 ? <ArrowDown className="size-3" /> : <ArrowUp className="size-3" />}
+          {priceChange > 0 && <ArrowUp className="size-3" />}
+          {priceChange < 0 && <ArrowDown className="size-3" />}
           {priceChange.toFixed(2)}%
         </span>
       </div>
