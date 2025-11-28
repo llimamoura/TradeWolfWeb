@@ -1,4 +1,8 @@
 export function getYAxisTicks(chartData: { price: number }[], tickCount = 6) {
+  if (!chartData || chartData.length === 0) {
+    return { yAxisTicks: [], yAxisMin: 0, yAxisMax: 0 };
+  }
+
   const prices = chartData.map((c) => c.price);
   const minPrice = Math.min(...prices);
   const maxPrice = Math.max(...prices);
