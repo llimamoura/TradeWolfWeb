@@ -10,7 +10,7 @@ interface CoinsDataProps {
 
 export function AssetsCard({ coinsData }: CoinsDataProps) {
   return (
-    <Card className="bg-card w-full h-auto min-h-50 lg:min-h-85 xl:min-h-50 shadow-lg">
+    <Card className="bg-card w-full h-auto min-h-[20dvh] lg:min-h-[35dvh] xl:min-h-[20dvh] shadow-lg">
       <CardHeader>
         <CardTitle className="font-extrabold text-primary text-xl lg:text-2xl mb-4">
           Your Assets

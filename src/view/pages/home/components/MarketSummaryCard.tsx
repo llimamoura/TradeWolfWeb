@@ -10,11 +10,17 @@ import type { CoinResponse } from "@/entities/coin";
 import { CoinSelector } from "@/components/coin-selector.tsx";
 import { getCoinsChart } from "@/services/charts/get-coins-charts";
 import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 interface MarketSummaryCardProps {
   coinsData: CoinResponse;
 }
+
+const priceFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 2,
+});
 
 export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
   const [selectedCoin, setSelectedCoin] = useState<string>("");
@@ -38,35 +44,64 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
         : getCoinsChart({ period }),
   });
 
-  const selectedCoinChart = marketChartData[0];
+  const selectedCoinChart = useMemo(
+    () => marketChartData[0],
+    [marketChartData]
+  );
 
-  const lineChartData =
-    selectedCoinChart?.chart?.map((point: [number, number, number, number]) => {
-      const [timestamp, price] = point;
+  const lineChartData = useMemo(() => {
+    const data =
+      selectedCoinChart?.chart?.map(
+        (point: [number, number, number, number]) => {
+          const [timestamp, price] = point;
 
-      const correctedTimestamp =
-        timestamp < 1e12 ? timestamp * 1000 : timestamp;
-      const date = new Date(correctedTimestamp);
+          const correctedTimestamp =
+            timestamp < 1e12 ? timestamp * 1000 : timestamp;
+          const date = new Date(correctedTimestamp);
 
-      let timeLabel: string;
-      if (period === "24h" || period === "5d") {
-        timeLabel = date.toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        });
-      } else {
-        timeLabel = date.toLocaleDateString("en-US", {
-          day: "2-digit",
-          month: "2-digit",
-        });
+          const dateToolTip = date.toLocaleDateString("en-US", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+          });
+
+          const timeToolTip = date.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          });
+
+          let timeLabel: string;
+          if (period === "24h") {
+            timeLabel = date.toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            });
+          } else {
+            timeLabel = date.toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "2-digit",
+            });
+          }
+
+          const tooltipLabel = `${dateToolTip} / ${timeToolTip}`;
+
+          return { time: timeLabel, tooltipLabel, price };
+        }
+      ) ?? [];
+
+    const filteredData: typeof data = [];
+    const seen = new Set<string>();
+    for (const item of data) {
+      if (!seen.has(item.time)) {
+        filteredData.push(item);
+        seen.add(item.time);
       }
+    }
 
-      return {
-        time: timeLabel,
-        price,
-      };
-    }) ?? [];
+    return filteredData;
+  }, [selectedCoinChart, period]);
 
   const lineChartConfig = {
     price: {
@@ -79,7 +114,7 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
 
   if (isLoading) {
     return (
-      <Card className="bg-card h-auto min-h-96 shadow-lg flex items-center justify-center">
+      <Card className="bg-card h-auto max-h-dvh shadow-lg flex items-center justify-center">
         <p className="text-muted-foreground">Loading market data...</p>
       </Card>
     );
@@ -87,14 +122,14 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
 
   if (isError) {
     return (
-      <Card className="bg-card h-auto min-h-96 shadow-lg flex items-center justify-center">
+      <Card className="bg-card h-auto max-h-dvh shadow-lg flex items-center justify-center">
         <p className="text-destructive">Error loading market data.</p>
       </Card>
     );
   }
 
   return (
-    <Card className="bg-card h-auto min-h-96 xl:min-h-119 shadow-lg">
+    <Card className="bg-card h-auto max-h-dvh md:pb-0 pb-15 shadow-lg">
       <CardHeader>
         <div className="flex items-center justify-between mb-2">
           <CardTitle className="text-xl lg:text-2xl font-extrabold text-primary">
@@ -118,7 +153,7 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
         {lineChartHasData && (
           <ChartContainer
             config={lineChartConfig}
-            className="h-full w-full px-3"
+            className="max-h-dvh max-w-dvh px-3"
           >
             <AreaChart
               accessibilityLayer
@@ -141,7 +176,23 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
                   position: "insideLeft",
                 }}
               />
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+              <ChartTooltip
+                cursor={false}
+                content={
+                  <ChartTooltipContent
+                    className="gap-x-10"
+                    labelFormatter={(label, payload) => {
+                      if (payload && payload[0]?.payload?.tooltipLabel) {
+                        return payload[0].payload.tooltipLabel;
+                      }
+                      return label;
+                    }}
+                  />
+                }
+                formatter={(value: number) =>
+                  `Price: ${priceFormatter.format(value)}`
+                }
+              />
               <defs>
                 <linearGradient id="fillPrice" x1="0" y1="0" x2="0" y2="1">
                   <stop
