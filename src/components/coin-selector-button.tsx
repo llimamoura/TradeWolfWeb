@@ -35,7 +35,9 @@ export function CoinSelectorButton({
     coinsData.result[0];
 
   const handleCoinChange = (value: string) => {
-    onSelectedCoinChange(value === selectedCoin ? "" : value);
+    if (value !== selectedCoin) {
+      onSelectedCoinChange(value);
+    }
     setOpen(false);
   };
 
@@ -50,7 +52,11 @@ export function CoinSelectorButton({
           className="flex justify-between items-center sm:w-70 w-40 h-10 gap-2 px-4 py-2 text-background font-extrabold bg-linear-to-r from-primary to-tertiary from-20% to-50% rounded-2xl"
         >
           <div className="flex items-center gap-2">
-            <img src={selectedCoinData.icon} className="size-4 rounded-full" />
+            <img
+              src={selectedCoinData.icon}
+              alt={selectedCoinData.name}
+              className="size-4 rounded-full"
+            />
             {selectedCoinData.name}
           </div>
           <ChevronDown className="size-4" />
@@ -76,7 +82,11 @@ export function CoinSelectorButton({
                     )}
                   />
                   <div className="flex items-center gap-2 font-extrabold">
-                    <img src={coin.icon} className="size-4 rounded-full" />
+                    <img
+                      src={coin.icon}
+                      alt={`${coin.name} icon`}
+                      className="size-4 rounded-full"
+                    />
                     <span>{coin.symbol}</span>
                   </div>
                 </CommandItem>
