@@ -18,7 +18,7 @@ import type { CoinResponse } from "@/entities/coin";
 import { useQuery } from "@tanstack/react-query";
 import type { Coin } from "@/entities/coin";
 import { cn } from "@/lib/utils";
-import { CoinDetailsperiods } from "@/view/layouts/constants";
+import { coinDetailsPeriods } from "@/view/layouts/constants";
 import { PriceDisplay } from "./PriceDisplay";
 import { ReferencePrices } from "./ReferencesPrices";
 import { getYAxisTicks } from "../../../../services/charts/get-YAxisTicks";
@@ -200,7 +200,7 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
             <ChartContainer config={lineChartConfig} className="h-full w-full">
               <AreaChart
                 accessibilityLayer
-                data={chartData}
+                data={filteredChartData}
                 margin={{ left: 20, right: 20, top: 10, bottom: 20 }}
               >
                 <defs>
@@ -263,7 +263,7 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
         </div>
 
         <div className="flex justify-center gap-x-30 mb-6">
-          {CoinDetailsperiods.map(({ label, value }) => (
+          {coinDetailsPeriods.map(({ label, value }) => (
             <Button
               variant="link"
               key={value}

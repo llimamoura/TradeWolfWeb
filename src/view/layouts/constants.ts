@@ -93,7 +93,7 @@ export const marketChartDates = [
   },
 ];
 
-export const CoinDetailsperiods = [
+export const coinDetailsPeriods = [
   {
     label: "1D",
     value: "24h",
