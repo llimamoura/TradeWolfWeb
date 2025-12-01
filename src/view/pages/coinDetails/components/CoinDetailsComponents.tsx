@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 import { coinDetailsPeriods } from "../constants";
 import { PriceDisplay } from "./PriceDisplay";
 import { ReferencePrices } from "./ReferencesPrices";
-import { getYAxisTicks } from "../../../../utils/get-YAxisTicks";
+import { getYAxisTicks } from "../../../../utils/format-YAxisTicks";
 import { getReferencePrices } from "../../../../services/coin-prices/getReferencePrices";
 import { CoinSelectorButton } from "@/components/coin-selector-button";
 import { Button } from "@/components/ui/button";
