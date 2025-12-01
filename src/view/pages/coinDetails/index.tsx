@@ -1,8 +1,10 @@
-import { CoinDetailsComponent } from "./components/CoinDetailsComponents";
-import { getCoins } from "@/services/currencies/list-currencies";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { getCoins } from "@/services/currencies/list-currencies";
+import { CoinDetailsComponent } from "./components/CoinDetailsComponent";
 
 export function CoinDetailsPage() {
+  const { coin } = useParams<{ coin: string }>();
   const { data: coinsData } = useQuery({
     queryKey: ["coins"],
     queryFn: getCoins,
@@ -10,9 +12,5 @@ export function CoinDetailsPage() {
 
   if (!coinsData) return <div>Carregando...</div>;
 
-  return (
-    <main>
-      <CoinDetailsComponent coinsData={coinsData} />
-    </main>
-  );
+  return <CoinDetailsComponent coinsData={coinsData} urlCoin={coin} />;
 }

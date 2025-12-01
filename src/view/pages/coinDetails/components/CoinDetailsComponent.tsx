@@ -25,20 +25,26 @@ import { getYAxisTicks } from "../../../../utils/format-YAxisTicks";
 import { getReferencePrices } from "../../../../services/coin-prices/getReferencePrices";
 import { CoinSelectorButton } from "@/components/coin-selector-button";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface CoinDetailsProps {
   coinsData: CoinResponse;
+  urlCoin?: string;
 }
 
-export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
+export function CoinDetailsComponent({ coinsData, urlCoin }: CoinDetailsProps) {
   const [selectedCoin, setSelectedCoin] = useState<string>("");
   const [period, setPeriod] = useState("all");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    if (coinsData?.result && coinsData.result.length > 0 && !selectedCoin) {
+    if (coinsData?.result && urlCoin) {
+      setSelectedCoin(urlCoin);
+    } else if (coinsData?.result && !selectedCoin) {
       setSelectedCoin(coinsData.result[0].id);
     }
-  }, [coinsData, selectedCoin]);
+  }, [coinsData, urlCoin, selectedCoin]);
 
   const {
     data: marketChartData = [],
@@ -55,43 +61,48 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
   const selectedCoinChart = marketChartData[0];
 
   const chartData = useMemo(() => {
-    return selectedCoinChart?.chart?.map((point: [number, number, number, number]) => {
-      const [timestamp, price] = point;
-      const correctedTimestamp = timestamp < 1e12 ? timestamp * 1000 : timestamp;
-      const date = new Date(correctedTimestamp);
-  
-      let timeLabel: string;
-  
-      if (period === "24h") {
-        timeLabel = date.toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        });
-      } else if (period === "1w") {
-        timeLabel = date.toLocaleDateString("en-US", {
-          day: "2-digit",
-          month: "2-digit",
-        });
-      } else if (period === "1y") {
-        timeLabel = date.toLocaleDateString("en-US", {
-          month: "short",
-        });
-      } else if (period === "all") {
-        timeLabel = date.getFullYear().toString();
-      } else {
-        timeLabel = date.toLocaleDateString("en-US", {
-          day: "2-digit",
-          month: "2-digit",
-        });
-      }
+    return (
+      selectedCoinChart?.chart?.map(
+        (point: [number, number, number, number]) => {
+          const [timestamp, price] = point;
+          const correctedTimestamp =
+            timestamp < 1e12 ? timestamp * 1000 : timestamp;
+          const date = new Date(correctedTimestamp);
 
-      return {
-        time: timeLabel,
-        price,
-        timestamp: correctedTimestamp,
-      };
-    }) ?? [];
+          let timeLabel: string;
+
+          if (period === "24h") {
+            timeLabel = date.toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            });
+          } else if (period === "1w") {
+            timeLabel = date.toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "2-digit",
+            });
+          } else if (period === "1y") {
+            timeLabel = date.toLocaleDateString("en-US", {
+              month: "short",
+            });
+          } else if (period === "all") {
+            timeLabel = date.getFullYear().toString();
+          } else {
+            timeLabel = date.toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "2-digit",
+            });
+          }
+
+          return {
+            time: timeLabel,
+            price,
+            timestamp: correctedTimestamp,
+          };
+        }
+      ) ?? []
+    );
   }, [selectedCoinChart, period]);
 
   const filteredChartData: typeof chartData = [];
@@ -160,7 +171,10 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
             <CoinSelectorButton
               coinsData={coinsData}
               selectedCoin={selectedCoin}
-              onSelectedCoinChange={setSelectedCoin}
+              onSelectedCoinChange={(newCoin) => {
+                setSelectedCoin(newCoin);
+                navigate(`/home/${newCoin}/details`);
+              }}
             />
           </div>
           <div className="flex items-center gap-3 mb-4">
@@ -262,7 +276,7 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
           )}
         </div>
 
-        <div className="flex justify-center gap-x-30 mb-6">
+        <div className="flex justify-center gap-x-0 sm:gap-x-10 md:gap-x-15 lg:gap-x-30 mb-6">
           {coinDetailsPeriods.map(({ label, value }) => (
             <Button
               variant="link"
