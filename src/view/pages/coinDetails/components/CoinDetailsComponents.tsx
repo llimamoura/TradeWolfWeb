@@ -18,10 +18,10 @@ import type { CoinResponse } from "@/entities/coin";
 import { useQuery } from "@tanstack/react-query";
 import type { Coin } from "@/entities/coin";
 import { cn } from "@/lib/utils";
-import { coinDetailsPeriods } from "@/view/layouts/constants";
+import { coinDetailsPeriods } from "../constants";
 import { PriceDisplay } from "./PriceDisplay";
 import { ReferencePrices } from "./ReferencesPrices";
-import { getYAxisTicks } from "../../../../services/charts/get-YAxisTicks";
+import { getYAxisTicks } from "../../../../utils/get-YAxisTicks";
 import { getReferencePrices } from "../../../../services/coin-prices/getReferencePrices";
 import { CoinSelectorButton } from "@/components/coin-selector-button";
 import { Button } from "@/components/ui/button";
@@ -54,15 +54,14 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
 
   const selectedCoinChart = marketChartData[0];
 
-  const chartData =
-    selectedCoinChart?.chart?.map((point: [number, number, number, number]) => {
+  const chartData = useMemo(() => {
+    return selectedCoinChart?.chart?.map((point: [number, number, number, number]) => {
       const [timestamp, price] = point;
-      const correctedTimestamp =
-        timestamp < 1e12 ? timestamp * 1000 : timestamp;
+      const correctedTimestamp = timestamp < 1e12 ? timestamp * 1000 : timestamp;
       const date = new Date(correctedTimestamp);
-
+  
       let timeLabel: string;
-
+  
       if (period === "24h") {
         timeLabel = date.toLocaleTimeString("en-US", {
           hour: "2-digit",
@@ -93,6 +92,7 @@ export function CoinDetailsComponent({ coinsData }: CoinDetailsProps) {
         timestamp: correctedTimestamp,
       };
     }) ?? [];
+  }, [selectedCoinChart, period]);
 
   const filteredChartData: typeof chartData = [];
   const seen = new Set<string>();
