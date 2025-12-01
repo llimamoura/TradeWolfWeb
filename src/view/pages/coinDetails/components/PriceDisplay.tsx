@@ -13,7 +13,7 @@ export function PriceDisplay({ price, priceChange, date }: PriceDisplayProps) {
     <div className="mb-4">
       <div className="flex items-baseline gap-2 mb-2">
         <span className="text-4xl lg:text-5xl font-extrabold bg-linear-to-b from-primary to-tertiary from-10% to-50% bg-clip-text text-transparent">
-          ${formatCurrencyUSD(price)}
+          {formatCurrencyUSD(price)}
         </span>
         <span
           className={cn(
