@@ -58,7 +58,7 @@ export function ProfileComponent() {
                     ) : (
                       <>
                         <UserRound className="text-background size-14 justify-self-center mt-4 self-center overflow" />
-                        <PencilLine className="bg-border-light justify-self-end self-end size-6 mr-1 border-2 border-background  rounded-full p-1 text-background" />
+                        <PencilLine className="bg-border-light justify-self-end self-end size-6 mr-1 border-2 border-background rounded-full p-1 text-background" />
                       </>
                     )}
                   </FormLabel>

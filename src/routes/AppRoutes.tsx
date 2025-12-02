@@ -11,6 +11,7 @@ import { LoginPage } from "../view/pages/login";
 import { HomeLayout } from "@/view/layouts/HomeLayout";
 import { HomePage } from "@/view/pages/home";
 import { ComingSoonPage } from "@/view/pages/comingSoon";
+import { ProfileInfoPage } from "@/view/pages/profile";
 
 export function AppRoutes() {
   return (
@@ -36,6 +37,10 @@ export function AppRoutes() {
 
       <Route path="home" element={<HomeLayout />}>
         <Route index element={<HomePage />} />
+      </Route>
+
+      <Route path="profile" element={<HomeLayout />}>
+        <Route index element={<ProfileInfoPage />} />
       </Route>
     </Routes>
   );
