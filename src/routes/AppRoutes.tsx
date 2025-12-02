@@ -37,6 +37,9 @@ export function AppRoutes() {
 
       <Route path="home" element={<HomeLayout />}>
         <Route index element={<HomePage />} />
+      </Route>
+
+      <Route path="/" element={<HomeLayout />}>
         <Route path=":coin/details" element={<CoinDetailsPage />} />
       </Route>
     </Routes>

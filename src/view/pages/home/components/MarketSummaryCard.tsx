@@ -31,7 +31,7 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
 
   const handleChartClick = () => {
     if (selectedCoin) {
-      navigate(`/home/${selectedCoin}/details`);
+      navigate(`/${selectedCoin}/details`);
     }
   };
 
