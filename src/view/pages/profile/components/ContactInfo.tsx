@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 export function ContactInfo() {
   return (
-    <main className="flex flex-col px-8">
+    <main className="flex flex-col sm:px-8 px-4">
       <h1 className="font-bold bg-linear-to-b from-primary to-tertiary from-50% to-80% bg-clip-text text-transparent text-3xl">
         Contact Info
       </h1>
@@ -13,7 +13,7 @@ export function ContactInfo() {
           <p className="text-muted-foreground font-bold">Name</p>
         </div>
 
-        <div className="ml-auto px-10">
+        <div className="ml-auto xl:px-10 px-0">
           <Button
             variant="link"
             className="w-fit h-8 bg-surface-muted text-background font-bold rounded-3xl"
@@ -29,7 +29,7 @@ export function ContactInfo() {
           <p className="text-muted-foreground font-bold">...@gmail.com</p>
         </div>
 
-        <div className="ml-auto px-10">
+        <div className="ml-auto xl:px-10 px-0">
           <Button
             variant="link"
             className="w-fit h-8 bg-surface-muted text-background font-bold rounded-3xl"
@@ -45,7 +45,7 @@ export function ContactInfo() {
           <p className="text-muted-foreground font-bold">000.000.000-00</p>
         </div>
 
-        <div className="ml-auto px-10">
+        <div className="ml-auto xl:px-10 px-0">
           <Button
             variant="link"
             className="w-fit h-8 bg-surface-muted text-background font-bold rounded-3xl"
@@ -61,7 +61,7 @@ export function ContactInfo() {
           <p className="text-muted-foreground font-bold">+0 000 000 0000</p>
         </div>
 
-        <div className="ml-auto px-10">
+        <div className="ml-auto xl:px-10 px-0">
           <Button
             variant="link"
             className="w-fit h-8 bg-surface-muted text-background font-bold rounded-3xl"
