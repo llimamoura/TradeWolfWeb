@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Bell, CircleUser } from "lucide-react";
 import type { CoinResponse } from "@/entities/coin";
 import { SearchBar } from "@/components/search-bar";
+import { Link } from "react-router-dom";
 
 interface HomeHeaderProps {
   coinsData: CoinResponse;
@@ -33,7 +34,9 @@ export function HomeHeader({
         />
         <div className="hidden lg:flex items-center space-x-3">
           <Button variant="ghost" aria-label="Notifications" role="button">
-            <Bell className="size-6 lg:size-7 text-primary" />
+            <Link to="/notifications">
+              <Bell className="size-6 lg:size-7 text-primary" />
+            </Link>
           </Button>
           <Button variant="ghost" aria-label="User Profile" role="button">
             <CircleUser className="size-6 lg:size-7 text-primary" />
