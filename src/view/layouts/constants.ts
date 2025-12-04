@@ -21,7 +21,7 @@ export const topNavItems = [
     icon: Bell,
   },
   {
-    route: "/user-profile",
+    route: "/profile",
     label: "User Profile",
     icon: CircleUser,
   },
@@ -34,7 +34,7 @@ export const sideNavItems = [
     icon: House,
   },
   {
-    route: "/charts",
+    route: "/coin/details",
     label: "Charts",
     icon: ChartLine,
   },
@@ -44,7 +44,7 @@ export const sideNavItems = [
     icon: Hourglass,
   },
   {
-    route: "/settings",
+    route: "/profile",
     label: "Settings",
     icon: Settings,
   },
@@ -57,7 +57,7 @@ export const bottomNavItems = [
     icon: House,
   },
   {
-    route: "/charts",
+    route: "/coin/details",
     label: "Charts",
     icon: ChartLine,
   },
@@ -72,7 +72,7 @@ export const bottomNavItems = [
     icon: Hourglass,
   },
   {
-    route: "/settings",
+    route: "/profile",
     label: "Settings",
     icon: Settings,
   },
