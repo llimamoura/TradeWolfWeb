@@ -44,7 +44,7 @@ export const sideNavItems = [
     icon: Hourglass,
   },
   {
-    route: "/profile",
+    route: "/settings",
     label: "Settings",
     icon: Settings,
   },
@@ -72,7 +72,7 @@ export const bottomNavItems = [
     icon: Hourglass,
   },
   {
-    route: "/profile",
+    route: "/settings",
     label: "Settings",
     icon: Settings,
   },
