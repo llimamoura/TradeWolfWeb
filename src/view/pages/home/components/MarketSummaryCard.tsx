@@ -11,26 +11,29 @@ import { CoinSelector } from "@/components/coin-selector.tsx";
 import { getCoinsChart } from "@/services/charts/get-coins-charts";
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { formatCurrencyUSD } from "@/utils/format-currency";
 
 interface MarketSummaryCardProps {
   coinsData: CoinResponse;
 }
 
-const priceFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  minimumFractionDigits: 2,
-});
-
 export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
   const [selectedCoin, setSelectedCoin] = useState<string>("");
   const [period, setPeriod] = useState("24h");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (coinsData?.result && coinsData.result.length > 0 && !selectedCoin) {
       setSelectedCoin(coinsData.result[0].id);
     }
   }, [coinsData, selectedCoin]);
+
+  const handleChartClick = () => {
+    if (selectedCoin) {
+      navigate(`/${selectedCoin}/details`);
+    }
+  };
 
   const {
     data: marketChartData = [],
@@ -106,7 +109,7 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
   const lineChartConfig = {
     price: {
       label: "Price: ",
-      color: "var(--chart-1)",
+      color: "var(--chart-2)",
     },
   } satisfies ChartConfig;
 
@@ -159,6 +162,7 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
               accessibilityLayer
               data={lineChartData}
               margin={{ left: 0, right: 3, top: 0, bottom: 10 }}
+              onClick={handleChartClick}
             >
               <CartesianGrid vertical={false} />
               <XAxis
@@ -190,7 +194,7 @@ export function MarketSummaryCard({ coinsData }: MarketSummaryCardProps) {
                   />
                 }
                 formatter={(value: number) =>
-                  `Price: ${priceFormatter.format(value)}`
+                  `Price: ${formatCurrencyUSD(value)}`
                 }
               />
               <defs>
