@@ -48,11 +48,6 @@ export const sideNavItems = [
     label: "Settings",
     icon: Settings,
   },
-  {
-    route: "/add-assets",
-    label: "Add Assets",
-    icon: CirclePlus,
-  },
 ];
 
 export const bottomNavItems = [
@@ -72,9 +67,9 @@ export const bottomNavItems = [
     icon: CirclePlus,
   },
   {
-    route: "/user-profile",
-    label: "User Profile",
-    icon: CircleUser,
+    route: "/historical",
+    label: "Historical",
+    icon: Hourglass,
   },
   {
     route: "/settings",
@@ -89,7 +84,7 @@ export const marketChartDates = [
     value: "24h",
   },
   {
-    label: "5D",
+    label: "7D",
     value: "1w",
   },
   {
@@ -97,3 +92,4 @@ export const marketChartDates = [
     value: "1m",
   },
 ];
+
